@@ -1,11 +1,8 @@
 "use strict";
 
 var _express = _interopRequireDefault(require("express"));
+var _userController = require("../controllers/user-controller");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 var router = _express["default"].Router();
-
-/* GET users listing. */
-router.get('/', function (req, res, next) {
-  res.send('respond with a resource');
-});
+router.get('/dashboard', _userController.index);
 module.exports = router;

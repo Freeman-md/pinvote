@@ -11,7 +11,7 @@ var _cookieParser = _interopRequireDefault(require("cookie-parser"));
 var _morgan = _interopRequireDefault(require("morgan"));
 var _index = _interopRequireDefault(require("./routes/index"));
 var _auth = _interopRequireDefault(require("./routes/auth"));
-var _users = _interopRequireDefault(require("./routes/users"));
+var _user = _interopRequireDefault(require("./routes/user"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 var app = (0, _express["default"])();
 
@@ -27,7 +27,7 @@ app.use((0, _cookieParser["default"])());
 app.use(_express["default"]["static"](_path["default"].join(__dirname, '../public')));
 app.use('/', _index["default"]);
 app.use('/auth', _auth["default"]);
-app.use('/users', _users["default"]);
+app.use('/user', _user["default"]);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
