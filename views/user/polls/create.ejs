@@ -1,0 +1,189 @@
+<%- include('../../includes/guest/header.ejs') %>
+
+    <body>
+
+        <%- include('../../includes/guest/navigation.ejs') %>
+
+            <div class="container py-4">
+                <div class="flex space-x-4 items-center">
+                    <img src="https://ui-avatars.com/api/?name=F+M&color=FFFFFF&background=590D82"
+                        alt="Freeman Madudili" class="w-20 h-20 rounded-full">
+
+                    <div>
+                        <h2 class="text-xl font-semibold">Welcome Back, Freeman!</h2>
+                    </div>
+                </div>
+
+                <div class="flex justify-end space-x-4">
+                    <a href="/user/polls/create" class="btn btn-primary">Create Poll</a>
+                    <a href="/polls" class="btn btn-secondary">View Polls</a>
+                </div>
+
+                <div class="space-y-6">
+                    <div class="flex space-x-2 items-center text-xl">
+                        <a href="/user/polls" class="underline">My Polls</a> &nbsp; >
+                        <p class="text-primary font-semibold">Create</p>
+                    </div>
+
+                    <div class="max-w-xl">
+                        <h1 class="text-3xl font-bold text-primary">Create New Poll</h1>
+
+                        <form id="pollForm" action="/user/polls" method="POST" class="w-full mt-6 space-y-4">
+
+                            <div class="form-control">
+                                <label for="question">Question</label>
+                                <input type="question" name="question" id="question" placeholder="Enter the question">
+                                <small class="text-red-500 text-xs mt-1" id="questionError"></small>
+                            </div>
+
+                            <div id="options-container" class="form-control">
+                                <label for="options">Options:</label>
+                                <input type="text" class="option-input" name="options[]" placeholder="Enter Option"
+                                    required>
+                                <input type="text" class="option-input" name="options[]" placeholder="Enter Option"
+                                    required>
+                            </div>
+                            <small class="text-red-500 text-xs mt-1" id="optionsError"></small>
+
+                            <button type="button" class="btn" onclick="addOption()">Add New Option</button>
+
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="form-control">
+                                    <label for="startDate">Start Date:</label>
+                                    <input type="date" id="startDate" name="startDate" required>
+                                </div>
+
+                                <div class="form-control">
+                                    <label for="endDate">End Date:</label>
+                                    <input type="date" id="endDate" name="endDate" required>
+                                </div>
+                            </div>
+                            <small class="text-red-500 text-xs mt-1" id="dateError"></small>
+
+                            <div class="form-control">
+                                <label for="visibility">Visibility:</label>
+                                <select id="visibility" name="visibility" required>
+                                    <option value="public">Public - Results Visible Immediately</option>
+                                    <option value="private">Private - Results Visible After Poll Ends</option>
+                                </select>
+                                <small class="text-red-500 text-xs mt-1" id="visibilityError"></small>
+                            </div>
+
+                            <div class="pt-2">
+                                <button type="button" class="btn btn-primary w-full"
+                                    onclick="validateAndSubmit()">Create
+                                    Poll</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                const showError = (element, message) => {
+                    element.textContent = message;
+                    element.style.display = 'block';
+                };
+
+                const hideError = (element) => {
+                    element.textContent = '';
+                    element.style.display = 'none';
+                };
+
+                const validateDates = () => {
+                    const startDateInput = document.getElementById('startDate');
+                    const endDateInput = document.getElementById('endDate');
+
+                    const startDate = new Date(startDateInput.value);
+                    const endDate = new Date(endDateInput.value);
+
+                    hideError(document.getElementById('dateError'));
+
+                    if (startDate >= endDate) {
+                        showError(document.getElementById('dateError'), 'End date must be after the start date.');
+                        return false;
+                    }
+
+                    return true;
+                };
+
+                const addOption = () => {
+                    const container = document.getElementById('options-container');
+                    const optionCount = container.querySelectorAll('.option-input').length + 1;
+
+                    if (optionCount >= 2) {
+                        const newInput = document.createElement('div');
+                        newInput.className = 'flex space-x-2 items-center option-input-container';
+                        newInput.innerHTML = `
+                          <input type="text" class="option-input" name="options[]" placeholder="Enter Option" required>
+                          <button type="button" class="text-red-500" onclick="removeOption(this)">Remove</button>
+                        `;
+
+                        container.appendChild(newInput);
+                    }
+                };
+
+                const removeOption = (button) => {
+                    const container = document.getElementById('options-container');
+                    const optionInputs = container.querySelectorAll('.option-input');
+
+                    container.removeChild(button.parentNode);
+                };
+
+                const submitForm = () => {
+                    if (validateDates()) {
+                        document.getElementById('pollForm').submit();
+                    }
+                };
+
+                const validateAndSubmit = () => {
+                    const questionInput = document.getElementById('question');
+                    const optionsContainer = document.getElementById('options-container');
+                    const optionInputs = optionsContainer.querySelectorAll('.option-input');
+
+                    // Reset errors
+                    hideError(document.getElementById('questionError'));
+                    hideError(document.getElementById('optionsError'));
+                    hideError(document.getElementById('dateError'));
+                    hideError(document.getElementById('visibilityError'));
+
+                    let hasError = false;
+
+                    // Validate question
+                    if (!questionInput.value.trim()) {
+                        showError(document.getElementById('questionError'), 'Question is required.');
+                        hasError = true;
+                    }
+
+                    // Validate each option one after the other
+                    for (let i = 0; i < optionInputs.length; i++) {
+                        const optionInput = optionInputs[i];
+                        if (!optionInput || !optionInput.value.trim()) {
+                            showError(document.getElementById('optionsError'), `Option ${i + 1} is required.`);
+                            hasError = true;
+                            break; // Stop further validation if one option is invalid
+                        }
+                    }
+
+                    // Validate at least two options
+                    if (!hasError && optionInputs.length < 2) {
+                        showError(document.getElementById('optionsError'), 'At least two options are required.');
+                        hasError = true;
+                    }
+
+                    // Validate dates
+                    if (!validateDates()) {
+                        hasError = true;
+                    }
+
+                    // Submit the form if no error
+                    if (!hasError) {
+                        document.getElementById('pollForm').submit();
+                    }
+                };
+            </script>
+
+    </body>
+
+    <%- include('../../includes/guest/footer.ejs') %>
