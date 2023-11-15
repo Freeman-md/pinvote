@@ -13,9 +13,9 @@
                     </div>
 
                     <div class="max-w-xl">
-                        <h1 class="text-3xl font-bold text-primary">Edit Poll #<%= pollId %></h1>
+                        <h1 class="text-3xl font-bold text-primary">Edit Poll #<%= id %></h1>
 
-                        <form id="pollForm" action="/user/polls/<%= pollId %>/edit" method="PUT" class="w-full mt-6 space-y-4">
+                        <form id="pollForm" action="/user/polls/<%= id %>/edit" method="PUT" class="w-full mt-6 space-y-4">
 
                             <div class="form-control">
                                 <label for="question">Question</label>

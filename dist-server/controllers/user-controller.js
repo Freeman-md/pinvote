@@ -15,9 +15,9 @@ var create = exports.create = function create(req, res, next) {
   });
 };
 var edit = exports.edit = function edit(req, res, next) {
-  var pollId = req.params.id;
+  var id = req.params.id;
   res.render('user/polls/edit', {
     title: 'My Polls • Edit',
-    pollId: pollId
+    id: id
   });
 };
