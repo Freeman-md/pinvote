@@ -1,8 +1,8 @@
-<%- include('./includes/guest/header.ejs') %>
+<%- include('../includes/guest/header.ejs') %>
 
     <body>
 
-        <%- include('./includes/guest/navigation.ejs') %>
+        <%- include('../includes/guest/navigation.ejs') %>
 
             <div class="container py-4 space-y-6">
 
@@ -26,7 +26,7 @@
 
                         <div class="flex flex-col items-end space-y-2">
                             <p>Total Votes: <strong>50</strong></p>
-                                <a href="" class="btn">Voters / Results</a>
+                                <a href="/<%= id %>/voters" class="btn">Voters / Results</a>
                         </div>
                 </div>
 
@@ -65,4 +65,4 @@
 
     </body>
 
-    <%- include('./includes/guest/footer.ejs') %>
+    <%- include('../includes/guest/footer.ejs') %>

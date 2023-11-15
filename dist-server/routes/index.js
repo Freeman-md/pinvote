@@ -8,4 +8,5 @@ var router = _express["default"].Router();
 /* GET home page. */
 router.get('/', _indexController.index);
 router.get('/:id', _indexController.view);
+router.get('/:id/voters', _indexController.viewVoters);
 module.exports = router;

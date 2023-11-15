@@ -3,7 +3,7 @@ import { showCreateAccountPage, showForgotPasswordPage, showLoginPage, showReset
 
 const router = express.Router()
 
-router.get('/register', showCreateAccountPage)
+router.get('/create-account', showCreateAccountPage)
 
 router.get('/login', showLoginPage)
 
