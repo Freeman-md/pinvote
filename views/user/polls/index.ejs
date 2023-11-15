@@ -1,47 +1,43 @@
 <%- include('../../includes/guest/header.ejs') %>
 
-<body>
+    <body>
 
-    <%- include('../../includes/guest/navigation.ejs') %>
+        <%- include('../../includes/guest/navigation.ejs') %>
 
-    <div class="container py-4">
-        <div class="flex space-x-4 items-center">
-            <img src="https://ui-avatars.com/api/?name=F+M&color=FFFFFF&background=590D82" alt="Freeman Madudili" class="w-20 h-20 rounded-full">
+            <%- include('../../includes/user/menu.ejs') %>
 
-            <div>
-                <h2 class="text-xl font-semibold">Welcome Back, Freeman!</h2>
-            </div>
-        </div>
+                <div class="space-y-6">
+                    <h3 class="text-xl font-semibold text-primary">My Polls</h3>
 
-        <div class="flex justify-end space-x-4">
-            <a href="/user/polls/create" class="btn btn-primary">Create Poll</a>
-            <a href="/polls" class="btn btn-secondary">View Polls</a>
-        </div>
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
 
-        <div class="space-y-6">
-            <h3 class="text-xl font-semibold text-primary">My Polls</h3>
+                        <% for (let i=1; i <=10; i++) { %>
 
-            <div class="grid grid-cols-4 gap-6">
-                
-                <% for (let i = 1; i <= 10; i++) { %>
+                            <div class="rounded-xl border border-gray-200">
+                                <div class="w-full h-48 rounded-xl overflow-hidden">
+                                    <img src="/images/poll-image.jpg" alt="Poll Image" class="w-full h-full">
+                                </div>
 
-                    <div class="rounded-xl border border-gray-200">
-                        <div class="w-full h-48 rounded-xl overflow-hidden">
-                            <img src="/images/poll-image.jpg" alt="Poll Image" class="w-full h-full">
-                        </div>
+                                <div class="p-3 space-y-2">
+                                    <p class="text-lg font-semibold">How do you prefer to spend your weekends?</p>
+                                    <p class="text-sm font-light">Created 11 November, 2023</p>
 
-                        <div class="p-3 space-y-2">
-                            <p class="text-lg font-semibold">How do you prefer to spend your weekends?</p>
-                            <p class="text-sm font-light">Created 11 November, 2023</p>
-                        </div>
+                                    <div class="flex space-x-2 justify-end">
+                                        <a href="/user/polls/<%= i %>/edit">
+                                            <img src="/images/pencil-square.svg" alt="Edit" class="w-6 text-secondary">
+                                        </a>
+                                        <button>
+                                            <img src="/images/trash.svg" alt="Delete" class="w-6">
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <% } %>
+
                     </div>
-                <% } %>
-                
-            </div>
-        </div>
-    </div>
+                </div>
+                </div>
 
-</body>
+    </body>
 
-<%- include('../../includes/guest/footer.ejs') %>
-
+    <%- include('../../includes/guest/footer.ejs') %>

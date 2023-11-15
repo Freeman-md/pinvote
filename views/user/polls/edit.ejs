@@ -9,13 +9,13 @@
                 <div class="space-y-6">
                     <div class="flex space-x-2 items-center text-xl">
                         <a href="/user/polls" class="underline">My Polls</a> &nbsp; >
-                        <p class="text-primary font-semibold">Create</p>
+                        <p class="text-primary font-semibold">Edit</p>
                     </div>
 
                     <div class="max-w-xl">
-                        <h1 class="text-3xl font-bold text-primary">Create New Poll</h1>
+                        <h1 class="text-3xl font-bold text-primary">Edit Poll #<%= pollId %></h1>
 
-                        <form id="pollForm" action="/user/polls" method="POST" class="w-full mt-6 space-y-4">
+                        <form id="pollForm" action="/user/polls/<%= pollId %>/edit" method="PUT" class="w-full mt-6 space-y-4">
 
                             <div class="form-control">
                                 <label for="question">Question</label>
@@ -58,8 +58,7 @@
 
                             <div class="pt-2">
                                 <button type="button" class="btn btn-primary w-full"
-                                    onclick="validateAndSubmit()">Create
-                                    Poll</button>
+                                    onclick="validateAndSubmit()">Save</button>
                             </div>
 
                         </form>

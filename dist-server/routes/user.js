@@ -6,4 +6,5 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 var router = _express["default"].Router();
 router.get('/polls', _userController.index);
 router.get('/polls/create', _userController.create);
+router.get('/polls/:id/edit', _userController.edit);
 module.exports = router;
