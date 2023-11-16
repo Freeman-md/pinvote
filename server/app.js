@@ -3,10 +3,13 @@ import express from 'express';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
+import dotenv from 'dotenv'
 
 import indexRouter from './routes/index';
 import authRouter from './routes/auth';
 import userRouter from './routes/user';
+
+dotenv.config()
 
 const app = express();
 

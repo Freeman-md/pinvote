@@ -9,10 +9,12 @@ var _express = _interopRequireDefault(require("express"));
 var _path = _interopRequireDefault(require("path"));
 var _cookieParser = _interopRequireDefault(require("cookie-parser"));
 var _morgan = _interopRequireDefault(require("morgan"));
+var _dotenv = _interopRequireDefault(require("dotenv"));
 var _index = _interopRequireDefault(require("./routes/index"));
 var _auth = _interopRequireDefault(require("./routes/auth"));
 var _user = _interopRequireDefault(require("./routes/user"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+_dotenv["default"].config();
 var app = (0, _express["default"])();
 
 // view engine setup
