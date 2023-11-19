@@ -4,7 +4,7 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.showResetPasswordPage = exports.showLoginPage = exports.showForgotPasswordPage = exports.showCreateAccountPage = exports.login = exports.createAccount = void 0;
+exports.showResetPasswordPage = exports.showLoginPage = exports.showForgotPasswordPage = exports.showCreateAccountPage = exports.logout = exports.login = exports.createAccount = void 0;
 var _expressValidator = require("express-validator");
 var _bcryptjs = _interopRequireDefault(require("bcryptjs"));
 var _helpers = require("../utils/helpers");
@@ -144,5 +144,24 @@ var login = exports.login = /*#__PURE__*/function () {
   }));
   return function login(_x4, _x5, _x6) {
     return _ref2.apply(this, arguments);
+  };
+}();
+var logout = exports.logout = /*#__PURE__*/function () {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(req, res, next) {
+    return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+      while (1) switch (_context3.prev = _context3.next) {
+        case 0:
+          req.session.destroy(function (err) {
+            console.log(err);
+            res.redirect('/auth/login');
+          });
+        case 1:
+        case "end":
+          return _context3.stop();
+      }
+    }, _callee3);
+  }));
+  return function logout(_x7, _x8, _x9) {
+    return _ref3.apply(this, arguments);
   };
 }();

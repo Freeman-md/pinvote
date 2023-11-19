@@ -53,6 +53,8 @@ app.use(function (req, res, next) {
   res.locals.errors = errorObject;
   res.locals.info = info.length > 0 ? info : null;
   res.locals.formData = formData ? formData[0] : null;
+  res.locals.authenticated = req.session.authenticated;
+  res.locals.user = req.session.user;
   next();
 });
 app.use('/', _index["default"]);

@@ -14,5 +14,6 @@ router.get('/login', _authController.showLoginPage);
 router.get('/forgot-password', _authController.showForgotPasswordPage);
 router.get('/reset-password', _authController.showResetPasswordPage);
 router.post('/login', _formValidators.validateLogin, _authController.login);
+router.post('/logout', _authController.logout);
 router.post('/create-account', _formValidators.validateCreateAccount, _authController.createAccount);
 var _default = exports["default"] = router;

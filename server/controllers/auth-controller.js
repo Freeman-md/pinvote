@@ -108,3 +108,10 @@ export const login = async (req, res, next) => {
         console.log(error)
     }
 }
+
+export const logout = async (req, res, next) => {
+    req.session.destroy(err => {
+        console.log(err);
+        res.redirect('/auth/login');
+    });
+}
