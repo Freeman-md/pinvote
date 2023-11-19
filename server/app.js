@@ -11,6 +11,7 @@ import flash from 'connect-flash'
 import indexRouter from './routes/index';
 import authRouter from './routes/auth';
 import userRouter from './routes/user';
+import { isAuth } from './middlewares/auth';
 
 dotenv.config()
 
@@ -59,9 +60,9 @@ app.use((req, res, next) => {
   next()
 })
 
-app.use('/', indexRouter);
 app.use('/auth', authRouter)
-app.use('/user', userRouter);
+app.use('/', isAuth, indexRouter);
+app.use('/user', isAuth, userRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

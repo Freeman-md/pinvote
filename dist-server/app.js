@@ -16,6 +16,7 @@ var _connectFlash = _interopRequireDefault(require("connect-flash"));
 var _index = _interopRequireDefault(require("./routes/index"));
 var _auth = _interopRequireDefault(require("./routes/auth"));
 var _user = _interopRequireDefault(require("./routes/user"));
+var _auth2 = require("./middlewares/auth");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 _dotenv["default"].config();
 var app = (0, _express["default"])();
@@ -57,9 +58,9 @@ app.use(function (req, res, next) {
   res.locals.user = req.session.user;
   next();
 });
-app.use('/', _index["default"]);
 app.use('/auth', _auth["default"]);
-app.use('/user', _user["default"]);
+app.use('/', _auth2.isAuth, _index["default"]);
+app.use('/user', _auth2.isAuth, _user["default"]);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
