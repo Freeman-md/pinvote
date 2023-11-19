@@ -17,21 +17,27 @@
             <div class="w-full md:w-5/6 lg:w-4/5 xl:w-3/5 mx-auto flex flex-col md:justify-center">
                 <h1 class="text-3xl font-bold text-primary">Create an account</h1>
 
-                <form action="" class="w-full mt-6 space-y-4">
+                <% if (errorMessage) { %>
+                    <div class=" mt-2 py-2 px-4 text-sm border-red-400 text-red-500 bg-red-200 rounded-full w-full">
+                        <%= errorMessage %>
+                    </div>
+                <% } %>
+
+                <form method="POST" action="/auth/create-account" class="w-full mt-6 space-y-4">
                     
                     <div class="form-control">
-                        <label for="first_name">First name</label>
-                        <input type="text" name="first_name" id="first_name" placeholder="Enter your first name">
+                        <label for="firstName">First name</label>
+                        <input type="text" name="firstName" id="firstName" placeholder="Enter your first name">
                     </div>
 
                     <div class="form-control">
-                        <label for="last_name">Last name</label>
-                        <input type="text" name="last_name" id="last_name" placeholder="Enter your last name">
+                        <label for="lastName">Last name</label>
+                        <input type="text" name="lastName" id="lastName" placeholder="Enter your last name">
                     </div>
 
                     <div class="form-control">
-                        <label for="email_address">Email address</label>
-                        <input type="email" name="email_address" id="email_address" placeholder="Enter your email address">
+                        <label for="email">Email address</label>
+                        <input type="email" name="email" id="email" placeholder="Enter your email address">
                     </div>
 
                     <div class="form-control">
@@ -40,8 +46,8 @@
                     </div>
 
                     <div class="form-control">
-                        <label for="password_confirmation">Confirm Password</label>
-                        <input type="password" name="password_confirmation" id="password_confirmation" placeholder="Re-enter your password">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Re-enter your password">
                     </div>
 
                     <div class="pt-2">
