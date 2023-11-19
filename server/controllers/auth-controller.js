@@ -29,6 +29,9 @@ export const createAccount = (req, res, next) => {
     const result = validationResult(req)
 
     if (!result.isEmpty()) {
+        req.flash('errors', result.array())
+        req.flash('formData', req.body)
+
         return res.redirect('back')
     }
 

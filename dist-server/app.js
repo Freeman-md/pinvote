@@ -43,13 +43,14 @@ app.use((0, _expressSession["default"])({
 app.use((0, _connectFlash["default"])());
 app.use(function (req, res, next) {
   // setup shared data across pages
-  var errorMessage = req.flash('error');
-  if (errorMessage.length > 0) {
-    errorMessage = errorMessage[0];
-  } else {
-    errorMessage = null;
-  }
-  res.locals.errorMessage = errorMessage;
+  var errors = req.flash('errors');
+  var formData = req.flash('formData');
+  var errorObject = {};
+  errors.forEach(function (item) {
+    errorObject[item.path] = item.msg;
+  });
+  res.locals.errors = errorObject;
+  res.locals.formData = formData ? formData[0] : null;
   next();
 });
 app.use('/', _index["default"]);

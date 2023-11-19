@@ -40,15 +40,17 @@ app.use(flash())
 
 app.use((req, res, next) => {
   // setup shared data across pages
-  let errorMessage = req.flash('error')
+  const errors = req.flash('errors')
+  const formData = req.flash('formData')
 
-  if (errorMessage.length > 0) {
-    errorMessage = errorMessage[0]
-  } else {
-    errorMessage = null
-  }
+  const errorObject = {};
 
-  res.locals.errorMessage = errorMessage
+  errors.forEach(item => {
+    errorObject[item.path] = item.msg;
+  });
+
+  res.locals.errors = errorObject
+  res.locals.formData = formData ? formData[0] : null
 
   next()
 })

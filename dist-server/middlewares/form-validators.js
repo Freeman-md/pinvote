@@ -18,7 +18,7 @@ var validateCreateAccountForm = exports.validateCreateAccountForm = [(0, _expres
 }), (0, _expressValidator.body)('email').trim().notEmpty().isEmail(), (0, _expressValidator.body)('password').trim().notEmpty().isStrongPassword(), (0, _expressValidator.body)('confirmPassword').trim().custom(function (value, _ref) {
   var req = _ref.req;
   return value === req.body.password;
-}), (0, _expressValidator.body)('password').customSanitizer( /*#__PURE__*/function () {
+}).withMessage('Passwords do not match'), (0, _expressValidator.body)('password').customSanitizer( /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(value) {
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {

@@ -12,6 +12,6 @@ export const validateCreateAccountForm = [
     body('password').trim().notEmpty().isStrongPassword(),
     body('confirmPassword').trim().custom((value, { req }) => {
         return value === req.body.password
-    }),
+    }).withMessage('Passwords do not match'),
     body('password').customSanitizer(async value => await bcrypt.hash(value, 12))
 ]
