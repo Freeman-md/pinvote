@@ -1,6 +1,6 @@
 import express from 'express'
-import { createAccount, showCreateAccountPage, showForgotPasswordPage, showLoginPage, showResetPasswordPage } from '../controllers/auth-controller'
-import { validateCreateAccountForm } from '../middlewares/form-validators'
+import { createAccount, login, showCreateAccountPage, showForgotPasswordPage, showLoginPage, showResetPasswordPage } from '../controllers/auth-controller'
+import { validateCreateAccount, validateLogin } from '../middlewares/form-validators'
 
 const router = express.Router()
 
@@ -12,6 +12,8 @@ router.get('/forgot-password', showForgotPasswordPage)
 
 router.get('/reset-password', showResetPasswordPage)
 
-router.post('/create-account', validateCreateAccountForm, createAccount)
+router.post('/login', validateLogin, login)
+
+router.post('/create-account', validateCreateAccount, createAccount)
 
 export default router

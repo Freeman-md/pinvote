@@ -17,16 +17,24 @@
             <div class="w-full md:w-5/6 lg:w-4/5 xl:w-3/5 mx-auto flex flex-col items-stretch md:justify-center">
                 <h1 class="text-3xl font-bold text-primary">Login</h1>
 
-                <form action="" class="w-full mt-6 space-y-4">
+                <% if (errors?.global) { %>
+
+                    <div class="mt-4 px-4 py-2 bg-red-100 rounded-full border-red-500 text-red-700"><%= errors.global %></div>
+
+                <% } %>
+
+                <form action="/auth/login" method="post" class="w-full mt-6 space-y-4">
 
                     <div class="form-control">
-                        <label for="email_address">Email address</label>
-                        <input type="email" name="email_address" id="email_address" placeholder="Enter your email address">
+                        <label for="email">Email address</label>
+                        <input type="email" name="email" id="email" placeholder="Enter your email address" value="<%= formData?.email %>">
+                        <small class="text-red-500"><%= errors?.email %></small>
                     </div>
 
                     <div class="form-control">
                         <label for="password">Password</label>
                         <input type="password" name="password" id="password" placeholder="Enter your password">
+                        <small class="text-red-500"><%= errors?.password %></small>
                     </div>
 
                     <div class="pt-2">

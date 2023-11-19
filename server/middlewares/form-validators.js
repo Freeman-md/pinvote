@@ -1,18 +1,16 @@
 import { body } from "express-validator";
 import bcrypt from 'bcryptjs'
-import User from "../models/user";
+import { UserService } from "../services/user-service";
 
-export const validateCreateAccountForm = [
+export const validateCreateAccount = [
     body('firstName').trim().notEmpty().isLength({
         min: 3
     }),
     body('lastName').trim().notEmpty().isLength({
         min: 3
     }),
-    body('email').trim().normalizeEmail().notEmpty().isEmail().custom(async value => {
-        const user = await User.findOne({
-            email: value,
-        });
+    body('email').trim().notEmpty().isEmail().custom(async value => {
+        const user = await UserService.findUserByEmail(value)
         
         if (user) {
           throw new Error('E-mail already in use');
@@ -23,4 +21,9 @@ export const validateCreateAccountForm = [
         return value === req.body.password
     }).withMessage('Passwords do not match'),
     body('password').customSanitizer(async value => await bcrypt.hash(value, 12))
+]
+
+export const validateLogin = [
+    body('email').trim().notEmpty().isEmail(),
+    body('password').trim().notEmpty(),
 ]
