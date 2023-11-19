@@ -34,28 +34,9 @@ var showResetPasswordPage = exports.showResetPasswordPage = function showResetPa
     title: 'Reset Password'
   });
 };
-var createAccount = exports.createAccount = function createAccount(req, res, next) {
-  var errors = (0, _expressValidator.validationResult)(req);
-  if (!errors.isEmpty()) {
-    return (0, _helpers.flashErrorsAndRedirect)(req, res, {
-      errors: errors.array(),
-      formData: req.body
-    });
-  }
-
-  // get validated data
-  var data = (0, _expressValidator.matchedData)(req);
-
-  // create user
-  _user["default"].create(data).then(function (result) {
-    return res.redirect('/auth/login');
-  })["catch"](function (err) {
-    return console.log(err);
-  });
-};
-var login = exports.login = /*#__PURE__*/function () {
+var createAccount = exports.createAccount = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(req, res, next) {
-    var errors, _matchedData, email, password, user, doesPasswordMatch;
+    var errors, data;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
@@ -70,17 +51,57 @@ var login = exports.login = /*#__PURE__*/function () {
           }));
         case 3:
           // get validated data
-          _matchedData = (0, _expressValidator.matchedData)(req), email = _matchedData.email, password = _matchedData.password;
+          data = (0, _expressValidator.matchedData)(req); // create user
           _context.prev = 4;
           _context.next = 7;
-          return _userService.UserService.findUserByEmail(email);
+          return _user["default"].create(data);
         case 7:
-          user = _context.sent;
-          if (user) {
-            _context.next = 10;
+          req.flash('info', 'Account created successfully');
+          res.redirect('/auth/login');
+          _context.next = 14;
+          break;
+        case 11:
+          _context.prev = 11;
+          _context.t0 = _context["catch"](4);
+          console.log(_context.t0);
+        case 14:
+        case "end":
+          return _context.stop();
+      }
+    }, _callee, null, [[4, 11]]);
+  }));
+  return function createAccount(_x, _x2, _x3) {
+    return _ref.apply(this, arguments);
+  };
+}();
+var login = exports.login = /*#__PURE__*/function () {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(req, res, next) {
+    var errors, _matchedData, email, password, user, doesPasswordMatch;
+    return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+      while (1) switch (_context2.prev = _context2.next) {
+        case 0:
+          errors = (0, _expressValidator.validationResult)(req);
+          if (errors.isEmpty()) {
+            _context2.next = 3;
             break;
           }
-          return _context.abrupt("return", (0, _helpers.flashErrorsAndRedirect)(req, res, {
+          return _context2.abrupt("return", (0, _helpers.flashErrorsAndRedirect)(req, res, {
+            errors: errors.array(),
+            formData: req.body
+          }));
+        case 3:
+          // get validated data
+          _matchedData = (0, _expressValidator.matchedData)(req), email = _matchedData.email, password = _matchedData.password;
+          _context2.prev = 4;
+          _context2.next = 7;
+          return _userService.UserService.findUserByEmail(email);
+        case 7:
+          user = _context2.sent;
+          if (user) {
+            _context2.next = 10;
+            break;
+          }
+          return _context2.abrupt("return", (0, _helpers.flashErrorsAndRedirect)(req, res, {
             errors: [{
               msg: 'User with email address does not exist',
               path: 'global'
@@ -90,15 +111,15 @@ var login = exports.login = /*#__PURE__*/function () {
             }
           }));
         case 10:
-          _context.next = 12;
+          _context2.next = 12;
           return _bcryptjs["default"].compare(password, user.password);
         case 12:
-          doesPasswordMatch = _context.sent;
+          doesPasswordMatch = _context2.sent;
           if (doesPasswordMatch) {
-            _context.next = 15;
+            _context2.next = 15;
             break;
           }
-          return _context.abrupt("return", (0, _helpers.flashErrorsAndRedirect)(req, res, {
+          return _context2.abrupt("return", (0, _helpers.flashErrorsAndRedirect)(req, res, {
             errors: [{
               msg: 'Password is invalid',
               path: 'global'
@@ -110,18 +131,18 @@ var login = exports.login = /*#__PURE__*/function () {
         case 15:
           req.session.authenticated = true;
           req.session.user = user;
-          return _context.abrupt("return", res.redirect('/'));
+          return _context2.abrupt("return", res.redirect('/'));
         case 20:
-          _context.prev = 20;
-          _context.t0 = _context["catch"](4);
-          console.log(_context.t0);
+          _context2.prev = 20;
+          _context2.t0 = _context2["catch"](4);
+          console.log(_context2.t0);
         case 23:
         case "end":
-          return _context.stop();
+          return _context2.stop();
       }
-    }, _callee, null, [[4, 20]]);
+    }, _callee2, null, [[4, 20]]);
   }));
-  return function login(_x, _x2, _x3) {
-    return _ref.apply(this, arguments);
+  return function login(_x4, _x5, _x6) {
+    return _ref2.apply(this, arguments);
   };
 }();

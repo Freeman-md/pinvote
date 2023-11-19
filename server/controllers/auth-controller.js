@@ -29,7 +29,7 @@ export const showResetPasswordPage = (req, res, next) => {
     })
 }
 
-export const createAccount = (req, res, next) => {
+export const createAccount = async (req, res, next) => {
     const errors = validationResult(req)
 
     if (!errors.isEmpty()) {
@@ -43,9 +43,15 @@ export const createAccount = (req, res, next) => {
     const data = matchedData(req)
 
     // create user
-    User.create(data)
-        .then(result => res.redirect('/auth/login'))
-        .catch(err => console.log(err))
+    try {
+        await User.create(data)
+
+        req.flash('info', 'Account created successfully')
+
+        res.redirect('/auth/login')
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 export const login = async (req, res, next) => {

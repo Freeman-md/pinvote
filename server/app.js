@@ -41,6 +41,7 @@ app.use(flash())
 app.use((req, res, next) => {
   // setup shared data across pages
   const errors = req.flash('errors')
+  const info = req.flash('info')
   const formData = req.flash('formData')
 
   const errorObject = {};
@@ -50,6 +51,7 @@ app.use((req, res, next) => {
   });
 
   res.locals.errors = errorObject
+  res.locals.info = info.length > 0 ? info : null
   res.locals.formData = formData ? formData[0] : null
 
   next()

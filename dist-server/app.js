@@ -44,12 +44,14 @@ app.use((0, _connectFlash["default"])());
 app.use(function (req, res, next) {
   // setup shared data across pages
   var errors = req.flash('errors');
+  var info = req.flash('info');
   var formData = req.flash('formData');
   var errorObject = {};
   errors.forEach(function (item) {
     errorObject[item.path] = item.msg;
   });
   res.locals.errors = errorObject;
+  res.locals.info = info.length > 0 ? info : null;
   res.locals.formData = formData ? formData[0] : null;
   next();
 });
