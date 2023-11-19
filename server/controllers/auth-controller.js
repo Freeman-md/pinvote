@@ -26,10 +26,10 @@ export const showResetPasswordPage = (req, res, next) => {
 }
 
 export const createAccount = (req, res, next) => {
-    const result = validationResult(req)
+    const errors = validationResult(req)
 
-    if (!result.isEmpty()) {
-        req.flash('errors', result.array())
+    if (!errors.isEmpty()) {
+        req.flash('errors', errors.array())
         req.flash('formData', req.body)
 
         return res.redirect('back')
@@ -37,6 +37,8 @@ export const createAccount = (req, res, next) => {
 
     // get validated data
     const data = matchedData(req)
+
+    console.log(data)
 
     // create user
     User.create(data)

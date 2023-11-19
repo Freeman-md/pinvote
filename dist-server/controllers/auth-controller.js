@@ -28,15 +28,16 @@ var showResetPasswordPage = exports.showResetPasswordPage = function showResetPa
   });
 };
 var createAccount = exports.createAccount = function createAccount(req, res, next) {
-  var result = (0, _expressValidator.validationResult)(req);
-  if (!result.isEmpty()) {
-    req.flash('errors', result.array());
+  var errors = (0, _expressValidator.validationResult)(req);
+  if (!errors.isEmpty()) {
+    req.flash('errors', errors.array());
     req.flash('formData', req.body);
     return res.redirect('back');
   }
 
   // get validated data
   var data = (0, _expressValidator.matchedData)(req);
+  console.log(data);
 
   // create user
   _user["default"].create(data).then(function (result) {
