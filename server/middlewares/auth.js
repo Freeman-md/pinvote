@@ -3,5 +3,11 @@ export const isAuth = (req, res, next) => {
         return res.redirect('/auth/login')
     }
 
+    if (req.session.authenticated && req.originalUrl.includes('auth')) {
+        return res.redirect('/')
+    }
+
+    console.log(req)
+
     next()
 }

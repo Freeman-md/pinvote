@@ -55,7 +55,7 @@ app.use(function (req, res, next) {
   res.locals.user = req.session.user;
   next();
 });
-app.use('/auth', _auth["default"]);
+app.use('/auth', _auth2.isAuth, _auth["default"]);
 app.use('/', _auth2.isAuth, _index["default"]);
 app.use('/user', _auth2.isAuth, _user["default"]);
 
