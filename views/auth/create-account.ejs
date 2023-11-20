@@ -1,0 +1,75 @@
+<%- include('../includes/guest/header.ejs') %>
+
+<body class="h-screen w-full overflow-none flex">
+
+    <div class="w-1/2 bg-secondary h-full hidden md:flex flex-col space-y-10 items-center justify-center container py-10">
+        <img src="/images/signup.svg" alt="Sign Up" class="w-3/4">
+
+        <h6 class="text-2xl font-bold text-primary">PinVote - Instant Votes</h6>
+    </div>
+
+    <div class="block md:flex flex-col space-y-10 md:w-1/2 container py-4 md:py-10">
+        <div class="flex md:justify-end items-center w-full">
+            <img src="/images/logo.svg" alt="PinVote" class="w-60">
+        </div>
+
+        <div class="h-full flex pt-10 md:pt-0 md:items-center justify-center">
+            <div class="w-full md:w-5/6 lg:w-4/5 xl:w-3/5 mx-auto flex flex-col md:justify-center">
+                <h1 class="text-3xl font-bold text-primary">Create an account</h1>
+
+                <% if (errors?.global) { %>
+
+                    <div class="mt-4 px-4 py-2 bg-red-400 text-red-700"><%= errors.global %></div>
+
+                <% } %>
+
+
+                <form method="POST" action="/auth/create-account" class="w-full mt-6 space-y-4">
+                    
+                    <div class="form-control">
+                        <label for="firstName">First name</label>
+                        <input type="text" name="firstName" id="firstName" placeholder="Enter your first name" value="<%= formData?.firstName %>">
+                        <small class="text-red-500"><%= errors?.firstName %></small>
+                    </div>
+
+                    <div class="form-control">
+                        <label for="lastName">Last name</label>
+                        <input type="text" name="lastName" id="lastName" placeholder="Enter your last name" value="<%= formData?.lastName %>">
+                        <small class="text-red-500"><%= errors?.lastName %></small>
+                    </div>
+
+                    <div class="form-control">
+                        <label for="email">Email address</label>
+                        <input type="email" name="email" id="email" placeholder="Enter your email address" value="<%= formData?.email %>">
+                        <small class="text-red-500"><%= errors?.email %></small>
+                    </div>
+
+                    <div class="form-control">
+                        <label for="password">Password</label>
+                        <input type="password" name="password" id="password" placeholder="Enter your password">
+                        <small class="text-red-500"><%= errors?.password %></small>
+                    </div>
+
+                    <div class="form-control">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Re-enter your password">
+                        <small class="text-red-500"><%= errors?.confirmPassword %></small>
+                    </div>
+
+                    <div class="pt-2">
+                        <button type="submit" class="btn btn-primary w-full">Create account</button>
+                    </div>
+
+                </form>
+
+                <div class="pt-4">
+                    Already have an account? <a href="/auth/login" class="hover:underline text-secondary">Login</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+<%- include('../includes/guest/footer.ejs') %>
+
