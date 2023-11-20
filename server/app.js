@@ -12,6 +12,7 @@ import indexRouter from './routes/index';
 import authRouter from './routes/auth';
 import userRouter from './routes/user';
 import { isAuth } from './middlewares/auth';
+import { processValidationErrors } from './utils/helpers';
 
 dotenv.config()
 
@@ -45,14 +46,8 @@ app.use((req, res, next) => {
   const info = req.flash('info')
   const formData = req.flash('formData')
 
-  const errorObject = {};
-
-  errors.forEach(item => {
-    errorObject[item.path] = item.msg;
-  });
-
-  res.locals.errors = errorObject
-  res.locals.info = info.length > 0 ? info : null
+  res.locals.errors = processValidationErrors(errors)
+  res.locals.info = info.length > 0 ? info[0] : null
   res.locals.formData = formData ? formData[0] : null
   res.locals.authenticated = req.session.authenticated
   res.locals.user = req.session.user

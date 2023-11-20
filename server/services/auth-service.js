@@ -1,6 +1,11 @@
 import crypto from 'crypto'
+import bcrypt from 'bcryptjs'
+
 import { UserService } from './user-service'
 import Token from '../models/token'
+import User from '../models/user'
+
+const bcryptSalt = process.env.BCRYPT_SALT
 
 export class AuthService {
     static generatePasswordResetToken = () => {
@@ -28,4 +33,32 @@ export class AuthService {
 
         return passwordResetLink
     }
+
+    static resetPassword = async (email, token, password) => {
+        const user = await UserService.findUserByEmail(email)
+
+        const passwordResetToken = await Token.findOne({ userId: user._id });
+
+        if (!passwordResetToken) {
+          throw new Error("Invalid or expired password reset token");
+        }
+
+        const isValid = await bcrypt.compare(token, passwordResetToken.token);
+
+        if (!isValid) {
+          throw new Error("Invalid or expired password reset token");
+        }
+
+        const hash = await bcrypt.hash(password, Number(bcryptSalt));
+
+        await User.updateOne(
+          { _id: user._id },
+          { $set: { password: hash } },
+          { new: true }
+        );
+
+        await passwordResetToken.deleteOne();
+
+        return true;
+      };
 }

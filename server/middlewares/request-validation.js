@@ -1,6 +1,10 @@
-import { body } from "express-validator";
-import bcrypt from 'bcryptjs'
+import { body, query } from "express-validator";
 import { UserService } from "../services/user-service";
+
+export const validateResetPasswordQueryParams = [
+    query('token').trim().notEmpty().escape().withMessage('Invalid token'),
+    query('email').trim().notEmpty().escape().isEmail().withMessage('Invalid email')
+]
 
 export const validateCreateAccount = [
     body('firstName').trim().notEmpty().isLength({
@@ -41,4 +45,19 @@ export const validateForgotPassword = [
             throw new Error('User with email address does not exist');
         }
     }),
+]
+
+export const validateResetPassword = [
+    body('token').trim().notEmpty(),
+    body('email').trim().notEmpty().isEmail().custom(async value => {
+        const user = await UserService.findUserByEmail(value)
+
+        if (!user) {
+            throw new Error('User with email address does not exist');
+        }
+    }),
+    body('password').trim().notEmpty().isStrongPassword(),
+    body('confirmPassword').trim().custom((value, { req }) => {
+        return value === req.body.password
+    }).withMessage('Passwords do not match'),
 ]

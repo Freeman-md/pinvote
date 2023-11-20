@@ -17,6 +17,7 @@ var _index = _interopRequireDefault(require("./routes/index"));
 var _auth = _interopRequireDefault(require("./routes/auth"));
 var _user = _interopRequireDefault(require("./routes/user"));
 var _auth2 = require("./middlewares/auth");
+var _helpers = require("./utils/helpers");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 _dotenv["default"].config();
 var app = (0, _express["default"])();
@@ -47,12 +48,8 @@ app.use(function (req, res, next) {
   var errors = req.flash('errors');
   var info = req.flash('info');
   var formData = req.flash('formData');
-  var errorObject = {};
-  errors.forEach(function (item) {
-    errorObject[item.path] = item.msg;
-  });
-  res.locals.errors = errorObject;
-  res.locals.info = info.length > 0 ? info : null;
+  res.locals.errors = (0, _helpers.processValidationErrors)(errors);
+  res.locals.info = info.length > 0 ? info[0] : null;
   res.locals.formData = formData ? formData[0] : null;
   res.locals.authenticated = req.session.authenticated;
   res.locals.user = req.session.user;

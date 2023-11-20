@@ -1,7 +1,7 @@
 import { matchedData, validationResult } from "express-validator"
 import bcrypt from 'bcryptjs'
 
-import { flashErrorsAndRedirect } from "../utils/helpers"
+import { flashErrorsAndRedirect, formatValidationErrors, processValidationErrors } from "../utils/helpers"
 import { UserService } from "../services/user-service"
 import User from "../models/user"
 import { AuthService } from "../services/auth-service"
@@ -25,8 +25,21 @@ export const showForgotPasswordPage = (req, res, next) => {
 }
 
 export const showResetPasswordPage = (req, res, next) => {
+    const errors = validationResult(req)
+
+    let validatedData = { token: null, email: null }
+    let queryParamErrors
+
+    if (!errors.isEmpty()) {
+        queryParamErrors = processValidationErrors(errors.array())
+    } else {
+        validatedData = { ...matchedData(req) }
+    }
+
     res.render('auth/reset-password', {
-        title: 'Reset Password'
+        title: 'Reset Password',
+        queryData: validatedData,
+        queryParamErrors
     })
 }
 
@@ -51,7 +64,15 @@ export const createAccount = async (req, res, next) => {
 
         return res.redirect('/auth/login')
     } catch (error) {
-        console.log(error)
+        return flashErrorsAndRedirect(req, res, {
+            errors: [
+                {
+                    msg: error.message,
+                    path: 'global'
+                }
+            ],
+            formData: req.body
+        })
     }
 }
 
@@ -92,7 +113,15 @@ export const login = async (req, res, next) => {
 
         return res.redirect('/')
     } catch (error) {
-        console.log(error)
+        return flashErrorsAndRedirect(req, res, {
+            errors: [
+                {
+                    msg: error.message,
+                    path: 'global'
+                }
+            ],
+            formData: req.body
+        })
     }
 }
 
@@ -106,7 +135,6 @@ export const forgotPassword = async (req, res, next) => {
         })
     }
 
-    // user with email exists
     const { email } = matchedData(req)
 
     try {
@@ -114,9 +142,52 @@ export const forgotPassword = async (req, res, next) => {
 
         console.log(link)
 
-        res.redirect('/auth/reset-password')
+        req.flash('info', 'Password reset link sent. Check your email!')
+
+        res.redirect('back')
     } catch (error) {
-        console.log(error)
+        return flashErrorsAndRedirect(req, res, {
+            errors: [
+                {
+                    msg: error.message,
+                    path: 'global'
+                }
+            ],
+            formData: req.body
+        })
+    }
+}
+
+export const resetPassword = async (req, res, next) => {
+    const errors = validationResult(req)
+
+    if (!errors.isEmpty()) {
+        return flashErrorsAndRedirect(req, res, {
+            errors: errors.array(),
+            formData: req.body
+        })
+    }
+
+    const { email, token, password } = matchedData(req)
+
+    try {
+        const isResetPasswordComplete = await AuthService.resetPassword(email, token, password)
+
+        if (isResetPasswordComplete) {
+            req.flash('info', 'Password Reset Successfully')
+
+            res.redirect('/auth/login')
+        }
+    } catch (error) {
+        return flashErrorsAndRedirect(req, res, {
+            errors: [
+                {
+                    msg: error.message,
+                    path: 'global'
+                }
+            ],
+            formData: req.body
+        })
     }
 }
 
