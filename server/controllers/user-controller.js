@@ -1,5 +1,6 @@
 import { matchedData, validationResult } from "express-validator"
 import { flashErrorsAndRedirect } from "../utils/helpers"
+import PollService from "../services/poll-service"
 
 export const index = (req, res, next) => {
     res.render('user/polls', {
@@ -22,7 +23,7 @@ export const edit = (req, res, next) => {
     })
 }
 
-export const store = (req, res, next) => {
+export const store = async (req, res, next) => {
     const errors = validationResult(req)
 
     if (!errors.isEmpty()) {
@@ -35,6 +36,10 @@ export const store = (req, res, next) => {
     const data = matchedData(req)
 
     try {
+        await PollService.createPoll({ ...data, userId: req.session.user._id })
+
+        req.flash('info', 'Poll created successfully')
+
         res.redirect('/user/polls')
     } catch (error) {
         return flashErrorsAndRedirect(req, res, {

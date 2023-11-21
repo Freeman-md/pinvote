@@ -17,6 +17,10 @@ var pollSchema = Schema({
     type: String,
     required: true
   },
+  options: {
+    type: Schema.Types.Array,
+    required: true
+  },
   startDate: {
     type: Schema.Types.Date,
     required: true
@@ -27,6 +31,7 @@ var pollSchema = Schema({
   },
   visibility: {
     type: String,
+    "enum": ['public', 'private'],
     required: true
   }
 });
