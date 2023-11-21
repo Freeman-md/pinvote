@@ -17,8 +17,12 @@ class PollService {
         return await Poll.create(data)
     }
 
-    static updatePoll = async (pollId, poll) => {
-        return await Poll.findByIdAndUpdate(pollId, poll)
+    static updatePoll = async (id, poll) => {
+        return await Poll.findByIdAndUpdate(id, poll)
+    }
+
+    static deletePoll = async (id) => {
+        return await Poll.findByIdAndDelete(id)
     }
 }
 

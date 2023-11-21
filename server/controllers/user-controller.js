@@ -108,3 +108,25 @@ export const update = async (req, res, next) => {
         })
     }
 }
+
+export const deletePoll = async (req, res, next) => {
+    const { id } = matchedData(req)
+
+    try {
+        await PollService.deletePoll(id)
+
+        req.flash('info', `Poll deleted successfully`)
+
+        res.redirect('/user/polls')
+    } catch (error) {
+        return flashErrorsAndRedirect(req, res, {
+            errors: [
+                {
+                    msg: error.message,
+                    path: 'global'
+                }
+            ],
+            formData: req.body
+        })
+    }
+}

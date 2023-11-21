@@ -11,4 +11,5 @@ router.get('/polls/create', _userController.create);
 router.get('/polls/:id/edit', (0, _expressValidator.param)('id').trim().notEmpty().escape(), _userController.edit);
 router.post('/polls', _pollRequestValidation.validatePoll, _userController.store);
 router.post('/polls/:id/update', (0, _expressValidator.param)('id').trim().notEmpty().escape(), _pollRequestValidation.validatePoll, _userController.update);
+router.post('/polls/:id/delete', (0, _expressValidator.param)('id').trim().notEmpty().escape(), _userController.deletePoll);
 module.exports = router;

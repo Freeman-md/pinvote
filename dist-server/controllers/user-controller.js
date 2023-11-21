@@ -4,7 +4,7 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.update = exports.store = exports.index = exports.edit = exports.create = void 0;
+exports.update = exports.store = exports.index = exports.edit = exports.deletePoll = exports.create = void 0;
 var _expressValidator = require("express-validator");
 var _helpers = require("../utils/helpers");
 var _pollService = _interopRequireDefault(require("../services/poll-service"));
@@ -186,5 +186,40 @@ var update = exports.update = /*#__PURE__*/function () {
   }));
   return function update(_x10, _x11, _x12) {
     return _ref4.apply(this, arguments);
+  };
+}();
+var deletePoll = exports.deletePoll = /*#__PURE__*/function () {
+  var _ref5 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(req, res, next) {
+    var _matchedData2, id;
+    return _regeneratorRuntime().wrap(function _callee5$(_context5) {
+      while (1) switch (_context5.prev = _context5.next) {
+        case 0:
+          _matchedData2 = (0, _expressValidator.matchedData)(req), id = _matchedData2.id;
+          _context5.prev = 1;
+          _context5.next = 4;
+          return _pollService["default"].deletePoll(id);
+        case 4:
+          req.flash('info', "Poll deleted successfully");
+          res.redirect('/user/polls');
+          _context5.next = 11;
+          break;
+        case 8:
+          _context5.prev = 8;
+          _context5.t0 = _context5["catch"](1);
+          return _context5.abrupt("return", (0, _helpers.flashErrorsAndRedirect)(req, res, {
+            errors: [{
+              msg: _context5.t0.message,
+              path: 'global'
+            }],
+            formData: req.body
+          }));
+        case 11:
+        case "end":
+          return _context5.stop();
+      }
+    }, _callee5, null, [[1, 8]]);
+  }));
+  return function deletePoll(_x13, _x14, _x15) {
+    return _ref5.apply(this, arguments);
   };
 }();
