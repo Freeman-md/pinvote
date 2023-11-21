@@ -11,45 +11,95 @@
 
                     <%- include('../../includes/alert.ejs') %>
 
-                    <% if (polls.length===0) { %>
+                        <% if (polls.length===0) { %>
                             <div class="mx-auto max-w-4xl flex flex-col space-y-4 items-center justify-center">
                                 <img src="/images/empty.svg" alt="No Data" class="w-28">
                                 <p class="text-xl font-semibold">You have no polls</p>
                                 <a href="/user/polls/create" class="btn btn-primary">Create new poll</a>
                             </div>
-                        <% } else { %>
-                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                                <% for (let poll of polls) { %>
+                            <% } else { %>
+                                <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                                    <% for (let poll of polls) { %>
 
-                                    <div class="rounded-xl border border-gray-200">
-                                        <a href="/polls/<%= poll._id %>" class="block w-full h-48 rounded-xl overflow-hidden">
-                                            <img src="/images/poll-image.jpg" alt="Poll Image"
-                                                class="w-full h-full object-cover object-center">
-                                        </a>
+                                        <div class="rounded-xl border border-gray-200">
+                                            <a href="/polls/<%= poll._id %>"
+                                                class="block w-full h-48 rounded-xl overflow-hidden">
+                                                <img src="/images/poll-image.jpg" alt="Poll Image"
+                                                    class="w-full h-full object-cover object-center">
+                                            </a>
 
-                                        <div class="p-3 space-y-2">
-                                            <p class="text-lg font-semibold"><%= poll.question %>
-                                            </p>
-                                            <p class="text-sm font-light">Created <%= poll.createdAt.toDateString() %></p>
-                                            <p class="text-sm font-light">Ends <%= poll.endDate %></p>
+                                            <div class="p-3 space-y-2">
+                                                <p class="text-lg font-semibold">
+                                                    <%= poll.question %>
+                                                </p>
+                                                <p class="text-sm font-light">Created <%= poll.createdAt.toDateString()
+                                                        %>
+                                                </p>
+                                                <p class="text-sm font-light">Ends <%= poll.endDate %>
+                                                </p>
 
-                                            <div class="flex space-x-2 justify-end">
-                                                <a href="/user/polls/<%= poll._id %>/edit">
-                                                    <img src="/images/pencil-square.svg" alt="Edit"
-                                                        class="w-6 text-secondary">
-                                                </a>
-                                                <button>
-                                                    <img src="/images/trash.svg" alt="Delete" class="w-6">
-                                                </button>
+                                                <div class="flex space-x-2 justify-end">
+                                                    <a href="/user/polls/<%= poll._id %>/edit">
+                                                        <img src="/images/pencil-square.svg" alt="Edit"
+                                                            class="w-6 text-secondary">
+                                                    </a>
+                                                    <button onclick="showConfirmationModal('<%= poll._id %>')">
+                                                        <img src="/images/trash.svg" alt="Delete" class="w-6">
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <% } %>
+                                        <% } %>
 
+                                </div>
+                                <% } %>
+                </div>
+                </div>
+
+                <!-- Delete Confirmation Modal -->
+                <div id="deleteConfirmationModal"
+                    class="fixed inset-0 bg-black bg-opacity-50 hidden transition-opacity duration-300 ease-in-out">
+                    <div class="flex items-center justify-center h-screen">
+                        <div class="bg-white p-8 rounded-md">
+                            <form id="deletePollForm" method="POST" action="/user/polls/<%= id %>/delete">
+                                <input type="hidden" id="pollIdInput" name="pollId">
+                                <p class="text-xl font-semibold mb-4">Are you sure you want to delete this poll?</p>
+                                <button type="submit" class="btn hover:!bg-red-500/90 bg-red-500 text-white">Delete</button>
+                                <button type="button" onclick="hideConfirmationModal()" class="btn ml-4">Cancel</button>
+                            </form>
+                        </div>
                     </div>
-                    <% } %>
                 </div>
-                </div>
+
+                <script>
+                    const showConfirmationModal = (pollId) => {
+                        // Set the poll ID in the modal form and display it
+                        const modal = document.getElementById('deleteConfirmationModal');
+                        const form = modal.querySelector('#deletePollForm');
+                        form.querySelector('#pollIdInput').value = pollId;
+                        modal.classList.remove('hidden');
+                    }
+
+                    const hideConfirmationModal = () => {
+                        // Hide the confirmation modal
+                        const modal = document.getElementById('deleteConfirmationModal');
+                        modal.classList.add('hidden');
+                    }
+
+                    const deletePoll = () => {
+                        // Get the poll ID from the modal
+                        const modal = document.getElementById('deleteConfirmationModal');
+                        const pollId = modal.querySelector('.btn-danger').getAttribute('data-poll-id');
+
+                        // Perform the deletion logic here
+                        // You can use AJAX or any other method to send a request to delete the poll
+                        // For simplicity, let's just log the poll ID for now
+                        console.log(`Deleting poll with ID: ${pollId}`);
+
+                        // Hide the confirmation modal after deletion
+                        hideConfirmationModal();
+                    }
+                </script>
 
     </body>
 
