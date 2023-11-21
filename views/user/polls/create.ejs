@@ -91,8 +91,7 @@
                                 </div>
 
                                 <div class="pt-2">
-                                    <button type="submit" class="btn btn-primary w-full"
-                                        onclick="validateAndSubmit()">Create
+                                    <button type="submit" class="btn btn-primary w-full">Create
                                         Poll</button>
                                 </div>
 
@@ -111,16 +110,6 @@
                     nextDay.setDate(nextDay.getDate() + 1);
                     const nextDayString = nextDay.toISOString().split('T')[0];
                     document.getElementById('endDate').min = nextDayString;
-
-                    const showError = (element, message) => {
-                        element.textContent = message;
-                        element.style.display = 'block';
-                    };
-
-                    const hideError = (element) => {
-                        element.textContent = '';
-                        element.style.display = 'none';
-                    };
 
                     const addOption = () => {
                         const container = document.getElementById('options-container');

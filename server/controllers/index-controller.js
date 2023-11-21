@@ -1,3 +1,4 @@
+import { matchedData } from "express-validator";
 import PollService from "../services/poll-service";
 
 export const index = async (req, res, next) => {
@@ -7,7 +8,9 @@ export const index = async (req, res, next) => {
 }
 
 export const view = async (req, res, next) => {
-    const poll = await PollService.getPollDetails(req.params.id)
+    const { id } = matchedData(req)
+
+    const poll = await PollService.getPollDetails(id)
 
     res.render('polls/view', {
         title: 'PinVote • View',

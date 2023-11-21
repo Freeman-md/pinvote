@@ -1,6 +1,7 @@
 import { matchedData, validationResult } from "express-validator"
 import { flashErrorsAndRedirect } from "../utils/helpers"
 import PollService from "../services/poll-service"
+import moment from "moment"
 
 export const index = async (req, res, next) => {
     try {
@@ -25,8 +26,18 @@ export const create = (req, res, next) => {
     })
 }
 
-export const edit = (req, res, next) => {
-    let id = req.params.id;
+export const edit = async (req, res, next) => {
+    const { id } = matchedData(req)
+
+    if (!res.locals.formData) {
+        const poll = await PollService.getPollDetails(id)
+
+        res.locals.formData = {
+            ...poll._doc,
+            startDate: moment(poll._doc.startDate).format('YYYY-MM-DD'),
+            endDate: moment(poll._doc.endDate).format('YYYY-MM-DD')
+        }
+    }
 
     res.render('user/polls/edit', {
         title: 'My Polls • Edit',
@@ -50,6 +61,39 @@ export const store = async (req, res, next) => {
         await PollService.createPoll({ ...data, user: req.session.user._id })
 
         req.flash('info', 'Poll created successfully')
+
+        res.redirect('/user/polls')
+    } catch (error) {
+        return flashErrorsAndRedirect(req, res, {
+            errors: [
+                {
+                    msg: error.message,
+                    path: 'global'
+                }
+            ],
+            formData: req.body
+        })
+    }
+}
+
+export const update = async (req, res, next) => {
+    const errors = validationResult(req)
+
+    if (!errors.isEmpty()) {
+        return flashErrorsAndRedirect(req, res, {
+            errors: errors.array(),
+            formData: req.body
+        })
+    }
+
+    const data = matchedData(req)
+
+    const { id: pollId, ...poll } = data
+
+    try {
+        await PollService.updatePoll(pollId, poll)
+
+        req.flash('info', 'Poll updated successfully')
 
         res.redirect('/user/polls')
     } catch (error) {

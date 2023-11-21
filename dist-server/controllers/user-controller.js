@@ -4,11 +4,15 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.store = exports.index = exports.edit = exports.create = void 0;
+exports.update = exports.store = exports.index = exports.edit = exports.create = void 0;
 var _expressValidator = require("express-validator");
 var _helpers = require("../utils/helpers");
 var _pollService = _interopRequireDefault(require("../services/poll-service"));
+var _moment = _interopRequireDefault(require("moment"));
+var _excluded = ["id"];
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -57,57 +61,130 @@ var create = exports.create = function create(req, res, next) {
     title: 'My Polls • Create'
   });
 };
-var edit = exports.edit = function edit(req, res, next) {
-  var id = req.params.id;
-  res.render('user/polls/edit', {
-    title: 'My Polls • Edit',
-    id: id
-  });
-};
-var store = exports.store = /*#__PURE__*/function () {
+var edit = exports.edit = /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(req, res, next) {
-    var errors, data;
+    var _matchedData, id, poll;
     return _regeneratorRuntime().wrap(function _callee2$(_context2) {
       while (1) switch (_context2.prev = _context2.next) {
         case 0:
-          errors = (0, _expressValidator.validationResult)(req);
-          if (errors.isEmpty()) {
-            _context2.next = 3;
+          _matchedData = (0, _expressValidator.matchedData)(req), id = _matchedData.id;
+          if (res.locals.formData) {
+            _context2.next = 6;
             break;
           }
-          return _context2.abrupt("return", (0, _helpers.flashErrorsAndRedirect)(req, res, {
+          _context2.next = 4;
+          return _pollService["default"].getPollDetails(id);
+        case 4:
+          poll = _context2.sent;
+          res.locals.formData = _objectSpread(_objectSpread({}, poll._doc), {}, {
+            startDate: (0, _moment["default"])(poll._doc.startDate).format('YYYY-MM-DD'),
+            endDate: (0, _moment["default"])(poll._doc.endDate).format('YYYY-MM-DD')
+          });
+        case 6:
+          res.render('user/polls/edit', {
+            title: 'My Polls • Edit',
+            id: id
+          });
+        case 7:
+        case "end":
+          return _context2.stop();
+      }
+    }, _callee2);
+  }));
+  return function edit(_x4, _x5, _x6) {
+    return _ref2.apply(this, arguments);
+  };
+}();
+var store = exports.store = /*#__PURE__*/function () {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(req, res, next) {
+    var errors, data;
+    return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+      while (1) switch (_context3.prev = _context3.next) {
+        case 0:
+          errors = (0, _expressValidator.validationResult)(req);
+          if (errors.isEmpty()) {
+            _context3.next = 3;
+            break;
+          }
+          return _context3.abrupt("return", (0, _helpers.flashErrorsAndRedirect)(req, res, {
             errors: errors.array(),
             formData: req.body
           }));
         case 3:
           data = (0, _expressValidator.matchedData)(req);
-          _context2.prev = 4;
-          _context2.next = 7;
+          _context3.prev = 4;
+          _context3.next = 7;
           return _pollService["default"].createPoll(_objectSpread(_objectSpread({}, data), {}, {
             user: req.session.user._id
           }));
         case 7:
           req.flash('info', 'Poll created successfully');
           res.redirect('/user/polls');
-          _context2.next = 14;
+          _context3.next = 14;
           break;
         case 11:
-          _context2.prev = 11;
-          _context2.t0 = _context2["catch"](4);
-          return _context2.abrupt("return", (0, _helpers.flashErrorsAndRedirect)(req, res, {
+          _context3.prev = 11;
+          _context3.t0 = _context3["catch"](4);
+          return _context3.abrupt("return", (0, _helpers.flashErrorsAndRedirect)(req, res, {
             errors: [{
-              msg: _context2.t0.message,
+              msg: _context3.t0.message,
               path: 'global'
             }],
             formData: req.body
           }));
         case 14:
         case "end":
-          return _context2.stop();
+          return _context3.stop();
       }
-    }, _callee2, null, [[4, 11]]);
+    }, _callee3, null, [[4, 11]]);
   }));
-  return function store(_x4, _x5, _x6) {
-    return _ref2.apply(this, arguments);
+  return function store(_x7, _x8, _x9) {
+    return _ref3.apply(this, arguments);
+  };
+}();
+var update = exports.update = /*#__PURE__*/function () {
+  var _ref4 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(req, res, next) {
+    var errors, data, pollId, poll;
+    return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+      while (1) switch (_context4.prev = _context4.next) {
+        case 0:
+          errors = (0, _expressValidator.validationResult)(req);
+          if (errors.isEmpty()) {
+            _context4.next = 3;
+            break;
+          }
+          return _context4.abrupt("return", (0, _helpers.flashErrorsAndRedirect)(req, res, {
+            errors: errors.array(),
+            formData: req.body
+          }));
+        case 3:
+          data = (0, _expressValidator.matchedData)(req);
+          pollId = data.id, poll = _objectWithoutProperties(data, _excluded);
+          _context4.prev = 5;
+          _context4.next = 8;
+          return _pollService["default"].updatePoll(pollId, poll);
+        case 8:
+          req.flash('info', 'Poll updated successfully');
+          res.redirect('/user/polls');
+          _context4.next = 15;
+          break;
+        case 12:
+          _context4.prev = 12;
+          _context4.t0 = _context4["catch"](5);
+          return _context4.abrupt("return", (0, _helpers.flashErrorsAndRedirect)(req, res, {
+            errors: [{
+              msg: _context4.t0.message,
+              path: 'global'
+            }],
+            formData: req.body
+          }));
+        case 15:
+        case "end":
+          return _context4.stop();
+      }
+    }, _callee4, null, [[5, 12]]);
+  }));
+  return function update(_x10, _x11, _x12) {
+    return _ref4.apply(this, arguments);
   };
 }();

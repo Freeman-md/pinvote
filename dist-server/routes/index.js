@@ -8,6 +8,6 @@ var router = _express["default"].Router();
 
 /* GET home page. */
 router.get('/', _indexController.index);
-router.get('/polls/:id', (0, _expressValidator.query)('id').trim().notEmpty().escape(), _indexController.view);
+router.get('/polls/:id', (0, _expressValidator.param)('id').trim().notEmpty().escape(), _indexController.view);
 router.get('/polls/:id/voters', _indexController.viewVoters);
 module.exports = router;

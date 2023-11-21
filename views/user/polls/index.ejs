@@ -9,6 +9,8 @@
                 <div class="space-y-6">
                     <h3 class="text-xl font-semibold text-primary">My Polls</h3>
 
+                    <%- include('../../includes/alert.ejs') %>
+
                     <% if (polls.length===0) { %>
                             <div class="mx-auto max-w-4xl flex flex-col space-y-4 items-center justify-center">
                                 <img src="/images/empty.svg" alt="No Data" class="w-28">
