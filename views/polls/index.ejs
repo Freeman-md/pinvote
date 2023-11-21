@@ -1,0 +1,72 @@
+<%- include('../includes/guest/header.ejs') %>
+
+  <body>
+
+    <%- include('../includes/guest/navigation.ejs') %>
+
+      <div class="container py-4 space-y-6">
+
+        <form action="/" method="POST">
+          <div class="form-control">
+
+            <label for="search">Search for polls</label>
+            <input type="search" name="search" id="search" placeholder="Enter search keywords" class="bg-gray-100">
+
+          </div>
+        </form>
+
+        <div>
+
+          <% if (polls.length === 0) { %>
+            <div class="mx-auto max-w-4xl flex flex-col space-y-4 items-center justify-center">
+                <img src="/images/empty.svg" alt="No Data" class="w-28">
+                <p class="text-xl font-semibold">There are no polls currently available</p>
+                <a href="/user/polls/create" class="btn btn-primary">Create new poll</a>
+            </div>
+        <% } else { %>
+
+          <div class="grid lg:grid-cols-2 gap-6">
+
+            <% for (let poll of polls) { %>
+
+              <div class="w-full bg-gray-100 rounded-xl flex space-x-4 min-h-60 h-auto p-4">
+
+                <a href="/<%= poll._id %>" class="h-full w-1/2 sm:w-1/3 overflow-hidden rounded-xl">
+                  <img src="/images/poll-image.jpg" alt="Poll Image" class="w-full h-full object-cover object-center">
+                </a>
+
+                <div class="space-y-6 sm:space-y-4 w-1/2 sm:w-auto">
+                  <div class="flex flex-col space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0 sm:items-center sm:justify-between">
+                    <div>
+                      <a href="/<%= poll._id %>" class="text-lg font-semibold"><%= poll.question %></a>
+                      <p class="font-light">Created by <strong><%= poll.user.fullName %></strong></p>
+                    </div>
+                    <button class="btn btn-primary">Vote</button>
+                  </div>
+
+                  <p><i>Ends <%= poll.endDate %></i></p>
+
+                  <div class="flex flex-col space-y-2 sm:space-y-0 sm:flex-row sm:justify-between sm:items-end sm:space-x-4">
+                    <div class="sm:w-1/2">
+                      <span>#lifestyle, #news, #music, #survey,</span>
+                    </div>
+                    <div class="flex flex-col sm:items-end space-y-2">
+                      <p class="font-light">Total Votes: <strong>54</strong></p>
+                      <button class="btn btn-secondary">Share Poll</button>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <% } %>
+
+          </div>
+
+          <% } %>
+        </div>
+
+      </div>
+
+  </body>
+
+  <%- include('../includes/guest/footer.ejs') %>

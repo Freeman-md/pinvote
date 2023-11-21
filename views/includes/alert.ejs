@@ -1,0 +1,11 @@
+<% if (errors?.global) { %>
+
+    <div class="mt-4 px-4 py-2 bg-red-100 rounded-full border-red-500 text-red-700"><%= errors.global %></div>
+
+<% } %>
+
+<% if (info !== null) { %>
+
+    <div class="mt-4 px-4 py-2 bg-blue-100 rounded-full border-blue-500 text-blue-700"><%= info %></div>
+
+<% } %>

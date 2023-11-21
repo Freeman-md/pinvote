@@ -1,0 +1,14 @@
+<div class="container py-4">
+    <div class="flex space-x-4 items-center">
+        <img src="https://ui-avatars.com/api/?name=F+M&color=FFFFFF&background=590D82"
+            alt="User PFP" class="w-20 h-20 rounded-full">
+
+        <div>
+            <h2 class="text-xl font-semibold">Welcome Back, <%= user.name.first %>!</h2>
+        </div>
+    </div>
+
+    <div class="flex justify-end space-x-4">
+        <a href="/user/polls/create" class="btn btn-primary">Create Poll</a>
+        <a href="/" class="btn btn-secondary">View Polls</a>
+    </div>

@@ -1,0 +1,71 @@
+<%- include('../includes/guest/header.ejs') %>
+
+    <body>
+
+        <%- include('../includes/guest/navigation.ejs') %>
+
+            <!-- Voters/Results Page -->
+            <div class="container py-8">
+
+                <!-- Voters based on selected option/vote -->
+                <h2 class="text-2xl font-semibold mb-4">Voters based on selected option/vote</h2 <!-- Option 1 Voters
+                    -->
+                <div class="mb-8">
+                    <h2 class="text-2xl font-semibold mb-4 cursor-pointer">Option 1</h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+
+                        <% for (let i=1; i <=10; i++) { %>
+
+                            <div class="bg-white p-4 border rounded-lg flex items-center space-x-2">
+                                <img src="https://ui-avatars.com/api/?name=F+M&color=FFFFFF&background=590D82"
+                                    alt="User PFP" class="w-16 h-16 rounded-full">
+                                <div>
+                                    <p class="text-sm font-semibold">John Doe</p>
+                                    <p class="text-xs text-gray-500">Voted at 10:30 AM</p>
+                                </div>
+                            </div>
+
+                            <% } %>
+
+                    </div>
+                </div>
+
+                <!-- Option 2 Voters -->
+                <div class="mb-8">
+                    <h2 class="text-2xl font-semibold mb-4 cursor-pointer">Option 2</h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+
+                        <% for (let i=1; i <=10; i++) { %>
+
+                            <div class="bg-white p-4 border rounded-lg flex items-center space-x-2">
+                                <img src="https://ui-avatars.com/api/?name=F+M&color=FFFFFF&background=590D82"
+                                    alt="User PFP" class="w-16 h-16 rounded-full">
+                                <div>
+                                    <p class="text-sm font-semibold">John Doe</p>
+                                    <p class="text-xs text-gray-500">Voted at 10:30 AM</p>
+                                </div>
+                            </div>
+
+                            <% } %>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <script>
+
+                    document.querySelectorAll('.cursor-pointer').forEach((accordionHeader) => {
+                        accordionHeader.addEventListener('click', () => {
+                            const accordionContent = accordionHeader.nextElementSibling;
+                            accordionContent.classList.toggle('hidden');
+                        });
+                    });                
+
+            </script>
+
+    </body>
+
+    <%- include('../includes/guest/footer.ejs') %>
