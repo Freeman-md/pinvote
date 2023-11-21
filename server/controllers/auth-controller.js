@@ -93,9 +93,9 @@ export const login = async (req, res, next) => {
     const data = matchedData(req)
 
     try {
-        const loggedIn = await AuthService.loginUser(data)
+        const user = await AuthService.loginUser(data)
 
-        if (!loggedIn) {
+        if (!user) {
             throw new Error('User not logged in')
         }
 

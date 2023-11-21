@@ -105,7 +105,7 @@ var createAccount = exports.createAccount = /*#__PURE__*/function () {
 }();
 var login = exports.login = /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(req, res, next) {
-    var errors, data, loggedIn;
+    var errors, data, user;
     return _regeneratorRuntime().wrap(function _callee2$(_context2) {
       while (1) switch (_context2.prev = _context2.next) {
         case 0:
@@ -125,8 +125,8 @@ var login = exports.login = /*#__PURE__*/function () {
           _context2.next = 7;
           return _authService["default"].loginUser(data);
         case 7:
-          loggedIn = _context2.sent;
-          if (loggedIn) {
+          user = _context2.sent;
+          if (user) {
             _context2.next = 10;
             break;
           }

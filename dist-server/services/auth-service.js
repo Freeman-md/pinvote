@@ -49,7 +49,7 @@ _defineProperty(AuthService, "loginUser", /*#__PURE__*/function () {
           }
           throw new Error('Password is invalid');
         case 9:
-          return _context.abrupt("return", true);
+          return _context.abrupt("return", user);
         case 10:
         case "end":
           return _context.stop();

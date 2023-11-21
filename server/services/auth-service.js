@@ -20,7 +20,7 @@ class AuthService {
       throw new Error('Password is invalid')
     }
 
-    return true
+    return user
   }
 
   static createAccount = async (data) => {
