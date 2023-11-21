@@ -6,7 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 var _crypto = _interopRequireDefault(require("crypto"));
 var _bcryptjs = _interopRequireDefault(require("bcryptjs"));
-var _userService = _interopRequireDefault(require("./user-service"));
 var _token = _interopRequireDefault(require("../models/token"));
 var _user = _interopRequireDefault(require("../models/user"));
 var _class;
@@ -37,7 +36,7 @@ _defineProperty(AuthService, "loginUser", /*#__PURE__*/function () {
         case 0:
           email = _ref.email, password = _ref.password;
           _context.next = 3;
-          return _userService["default"].findUserByEmail(email);
+          return _user["default"].findOne().byEmail(email);
         case 3:
           user = _context.sent;
           _context.next = 6;
@@ -87,7 +86,7 @@ _defineProperty(AuthService, "requestPasswordReset", /*#__PURE__*/function () {
       while (1) switch (_context3.prev = _context3.next) {
         case 0:
           _context3.next = 2;
-          return _userService["default"].findUserByEmail(email);
+          return _user["default"].findOne().byEmail(email);
         case 2:
           user = _context3.sent;
           if (user) {
@@ -136,7 +135,7 @@ _defineProperty(AuthService, "resetPassword", /*#__PURE__*/function () {
       while (1) switch (_context4.prev = _context4.next) {
         case 0:
           _context4.next = 2;
-          return _userService["default"].findUserByEmail(email);
+          return _user["default"].findOne().byEmail(email);
         case 2:
           user = _context4.sent;
           _context4.next = 5;

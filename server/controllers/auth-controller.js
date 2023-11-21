@@ -4,7 +4,6 @@ import bcrypt from 'bcryptjs'
 import { flashErrorsAndRedirect, formatValidationErrors, processValidationErrors } from "../utils/helpers"
 import User from "../models/user"
 import AuthService from "../services/auth-service"
-import UserService from "../services/user-service"
 
 export const showCreateAccountPage = (req, res, next) => {
     res.render('auth/create-account', {

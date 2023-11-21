@@ -62,5 +62,10 @@ userSchema.pre('save', /*#__PURE__*/function () {
     return _ref.apply(this, arguments);
   };
 }());
+userSchema.query.byEmail = function (email) {
+  return this.findOne({
+    email: email
+  });
+};
 var User = _mongoose["default"].model('User', userSchema);
 var _default = exports["default"] = User;

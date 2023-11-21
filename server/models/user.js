@@ -33,6 +33,10 @@ userSchema.pre('save', async function (next) {
     next();
 })
 
+userSchema.query.byEmail = function (email) {
+    return this.findOne({ email })
+}
+
 const User = mongoose.model('User', userSchema)
 
 export default User

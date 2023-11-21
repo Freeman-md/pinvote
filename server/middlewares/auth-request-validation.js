@@ -1,16 +1,16 @@
 import { ExpressValidator, query } from "express-validator";
-import UserService from "../services/user-service";
+import User from "../models/user";
 
 const { body } = new ExpressValidator({
     isEmailNotInUse: async value => {
-        const user = await UserService.findUserByEmail(value)
+        const user = await User.findOne().byEmail(value)
 
         if (user) {
             throw new Error('E-mail already in use');
         }
     },
     isEmailExists: async value => {
-        const user = await UserService.findUserByEmail(value)
+        const user = await User.findOne().byEmail(value)
 
         if (!user) {
             throw new Error('User with email address does not exist');

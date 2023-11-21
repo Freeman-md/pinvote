@@ -1,7 +1,6 @@
 import crypto from 'crypto'
 import bcrypt from 'bcryptjs'
 
-import UserService from './user-service'
 import Token from '../models/token'
 import User from '../models/user'
 
@@ -13,7 +12,7 @@ class AuthService {
   }
 
   static loginUser = async ({ email, password }) => {
-    const user = await UserService.findUserByEmail(email)
+    const user = await User.findOne().byEmail(email)
 
     const doesPasswordMatch = await bcrypt.compare(password, user.password)
 
@@ -31,7 +30,7 @@ class AuthService {
   }
 
   static requestPasswordReset = async (email) => {
-    const user = await UserService.findUserByEmail(email)
+    const user = await User.findOne().byEmail(email)
 
     if (!user) throw new Error('User does not exist')
 
@@ -53,7 +52,7 @@ class AuthService {
   }
 
   static resetPassword = async (email, token, password) => {
-    const user = await UserService.findUserByEmail(email)
+    const user = await User.findOne().byEmail(email)
 
     const passwordResetToken = await Token.findOne({ userId: user._id });
 
