@@ -31,8 +31,8 @@ export const validateCreateAccount = [
         min: 3
     }),
     body('email').trim().notEmpty().escape().isEmail().isEmailNotInUse(),
-    body('password').trim().notEmpty().escape().isStrongPassword(),
-    body('confirmPassword').trim().escape().custom((value, { req }) => {
+    body('password').trim().notEmpty().isStrongPassword(),
+    body('confirmPassword').trim().custom((value, { req }) => {
         return value === req.body.password
     }).withMessage('Passwords do not match'),
 ]
@@ -49,8 +49,8 @@ export const validateForgotPassword = [
 export const validateResetPassword = [
     body('token').trim().notEmpty().escape(),
     body('email').trim().notEmpty().escape().isEmail().isEmailExists(),
-    body('password').trim().notEmpty().escape().isStrongPassword(),
-    body('confirmPassword').trim().escape().custom((value, { req }) => {
+    body('password').trim().notEmpty().isStrongPassword(),
+    body('confirmPassword').trim().custom((value, { req }) => {
         return value === req.body.password
     }).withMessage('Passwords do not match'),
 ]

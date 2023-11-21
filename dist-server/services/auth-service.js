@@ -106,7 +106,7 @@ _defineProperty(AuthService, "requestPasswordReset", /*#__PURE__*/function () {
         case 5:
           _context3.next = 7;
           return _token["default"].findOne({
-            userId: user._id
+            user: user._id
           });
         case 7:
           token = _context3.sent;
@@ -120,7 +120,7 @@ _defineProperty(AuthService, "requestPasswordReset", /*#__PURE__*/function () {
           resetToken = _class.generatePasswordResetToken();
           _context3.next = 14;
           return _token["default"].create({
-            userId: user._id,
+            user: user._id,
             token: resetToken,
             createdAt: Date.now()
           });
@@ -149,7 +149,7 @@ _defineProperty(AuthService, "resetPassword", /*#__PURE__*/function () {
           user = _context4.sent;
           _context4.next = 5;
           return _token["default"].findOne({
-            userId: user._id
+            user: user._id
           });
         case 5:
           passwordResetToken = _context4.sent;

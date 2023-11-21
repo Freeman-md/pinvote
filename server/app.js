@@ -51,6 +51,9 @@ app.use((req, res, next) => {
   res.locals.formData = formData ? formData[0] : null
   res.locals.authenticated = req.session.authenticated
   res.locals.user = req.session.user
+  res.locals.app = {
+    url: process.env.APP_URL
+  }
 
   next()
 })

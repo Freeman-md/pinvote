@@ -42,13 +42,13 @@ class AuthService {
     if (!user) throw new Error('User does not exist')
 
     // delete already existing token for user
-    let token = await Token.findOne({ userId: user._id });
+    let token = await Token.findOne({ user: user._id });
     if (token) await token.deleteOne();
 
     const resetToken = this.generatePasswordResetToken()
 
     await Token.create({
-      userId: user._id,
+      user: user._id,
       token: resetToken,
       createdAt: Date.now()
     })
@@ -61,7 +61,7 @@ class AuthService {
   static resetPassword = async (email, token, password) => {
     const user = await User.findOne().byEmail(email)
 
-    const passwordResetToken = await Token.findOne({ userId: user._id });
+    const passwordResetToken = await Token.findOne({ user: user._id });
 
     if (!passwordResetToken) {
       throw new Error("Invalid or expired password reset token");

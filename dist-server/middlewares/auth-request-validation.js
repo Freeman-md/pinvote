@@ -71,13 +71,13 @@ var validateCreateAccount = exports.validateCreateAccount = [body('firstName').t
   min: 3
 }), body('lastName').trim().notEmpty().escape().isLength({
   min: 3
-}), body('email').trim().notEmpty().escape().isEmail().isEmailNotInUse(), body('password').trim().notEmpty().escape().isStrongPassword(), body('confirmPassword').trim().escape().custom(function (value, _ref) {
+}), body('email').trim().notEmpty().escape().isEmail().isEmailNotInUse(), body('password').trim().notEmpty().isStrongPassword(), body('confirmPassword').trim().custom(function (value, _ref) {
   var req = _ref.req;
   return value === req.body.password;
 }).withMessage('Passwords do not match')];
 var validateLogin = exports.validateLogin = [body('email').trim().notEmpty().escape().isEmail().isEmailExists(), body('password').trim().notEmpty()];
 var validateForgotPassword = exports.validateForgotPassword = [body('email').trim().notEmpty().escape().isEmail().isEmailExists()];
-var validateResetPassword = exports.validateResetPassword = [body('token').trim().notEmpty().escape(), body('email').trim().notEmpty().escape().isEmail().isEmailExists(), body('password').trim().notEmpty().escape().isStrongPassword(), body('confirmPassword').trim().escape().custom(function (value, _ref2) {
+var validateResetPassword = exports.validateResetPassword = [body('token').trim().notEmpty().escape(), body('email').trim().notEmpty().escape().isEmail().isEmailExists(), body('password').trim().notEmpty().isStrongPassword(), body('confirmPassword').trim().custom(function (value, _ref2) {
   var req = _ref2.req;
   return value === req.body.password;
 }).withMessage('Passwords do not match')];
