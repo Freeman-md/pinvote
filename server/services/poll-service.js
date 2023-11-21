@@ -6,11 +6,15 @@ class PollService {
     }
 
     static getUserPolls = async (id) => {
-        return await Poll.find().where({ user: id })
+        return await Poll.find({ user: id })
     }
 
     static getAllPolls = async () => {
         return await Poll.find().populate('user')
+    }
+
+    static getPollDetails = async (id) => {
+        return await Poll.findById(id).populate('user')
     }
 }
 

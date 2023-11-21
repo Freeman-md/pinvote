@@ -1,24 +1,17 @@
 import PollService from "../services/poll-service";
-import { flashErrorsAndRedirect } from "../utils/helpers";
 
 export const index = async (req, res, next) => {
-    try {
-        const polls = await PollService.getAllPolls()
+    const polls = await PollService.getAllPolls()
 
-        res.render('polls/index', { title: 'PinVote', polls });
-    } catch (error) {
-        return flashErrorsAndRedirect(req, res, {
-            error: error.message,
-            path: 'global'
-        })
-    }
+    res.render('polls/index', { title: 'PinVote', polls });
 }
 
-export const view = (req, res, next) => {
-    let id = req.params.id;
+export const view = async (req, res, next) => {
+    const poll = await PollService.getPollDetails(req.params.id)
+
     res.render('polls/view', {
         title: 'PinVote • View',
-        id,
+        poll,
     })
 }
 

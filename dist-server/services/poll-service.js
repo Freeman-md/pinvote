@@ -42,7 +42,7 @@ _defineProperty(PollService, "getUserPolls", /*#__PURE__*/function () {
       while (1) switch (_context2.prev = _context2.next) {
         case 0:
           _context2.next = 2;
-          return _poll["default"].find().where({
+          return _poll["default"].find({
             user: id
           });
         case 2:
@@ -71,4 +71,23 @@ _defineProperty(PollService, "getAllPolls", /*#__PURE__*/_asyncToGenerator( /*#_
     }
   }, _callee3);
 })));
+_defineProperty(PollService, "getPollDetails", /*#__PURE__*/function () {
+  var _ref4 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(id) {
+    return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+      while (1) switch (_context4.prev = _context4.next) {
+        case 0:
+          _context4.next = 2;
+          return _poll["default"].findById(id).populate('user');
+        case 2:
+          return _context4.abrupt("return", _context4.sent);
+        case 3:
+        case "end":
+          return _context4.stop();
+      }
+    }, _callee4);
+  }));
+  return function (_x3) {
+    return _ref4.apply(this, arguments);
+  };
+}());
 var _default = exports["default"] = PollService;

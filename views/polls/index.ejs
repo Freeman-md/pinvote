@@ -31,14 +31,14 @@
 
               <div class="w-full bg-gray-100 rounded-xl flex space-x-4 min-h-60 h-auto p-4">
 
-                <a href="/<%= poll._id %>" class="h-full w-1/2 sm:w-1/3 overflow-hidden rounded-xl">
+                <a href="/polls/<%= poll._id %>" class="h-full w-1/2 sm:w-1/3 overflow-hidden rounded-xl">
                   <img src="/images/poll-image.jpg" alt="Poll Image" class="w-full h-full object-cover object-center">
                 </a>
 
                 <div class="space-y-6 sm:space-y-4 w-1/2 sm:w-auto">
                   <div class="flex flex-col space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0 sm:items-center sm:justify-between">
                     <div>
-                      <a href="/<%= poll._id %>" class="text-lg font-semibold"><%= poll.question %></a>
+                      <a href="/polls/<%= poll._id %>" class="text-lg font-semibold"><%= poll.question %></a>
                       <p class="font-light">Created by <strong><%= poll.user.fullName %></strong></p>
                     </div>
                     <button class="btn btn-primary">Vote</button>
