@@ -29,7 +29,7 @@ const pollSchema = Schema({
         enum: ['public', 'private'],
         required: true,
     }
-})
+}, { timestamps: true })
 
 const Poll = mongoose.model('Poll', pollSchema) 
 

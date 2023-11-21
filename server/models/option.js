@@ -12,7 +12,7 @@ const optionSchema = Schema({
         type: String,
         required: true,
     }
-})
+}, { timestamps: true })
 
 const Option = mongoose.model('Option', optionSchema)
 

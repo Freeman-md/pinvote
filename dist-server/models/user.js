@@ -31,6 +31,8 @@ var userSchema = new Schema({
     required: true
   },
   profilePicture: String
+}, {
+  timestamps: true
 });
 userSchema.pre('save', /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(next) {

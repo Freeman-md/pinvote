@@ -20,7 +20,7 @@ const tokenSchema = new Schema({
         default: Date.now,
         expires: 3600
     }
-})
+}, { timestamps: true })
 
 tokenSchema.pre('save', async function (next) {
     const hash = await bcrypt.hash(this.token, Number(bcryptSalt));

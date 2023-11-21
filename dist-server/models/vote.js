@@ -18,6 +18,8 @@ var voteSchema = Schema({
     ref: 'Option',
     required: true
   }
+}, {
+  timestamps: true
 });
 var Vote = _mongoose["default"].model('Vote', voteSchema);
 var _default = exports["default"] = Vote;

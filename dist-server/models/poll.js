@@ -34,6 +34,8 @@ var pollSchema = Schema({
     "enum": ['public', 'private'],
     required: true
   }
+}, {
+  timestamps: true
 });
 var Poll = _mongoose["default"].model('Poll', pollSchema);
 var _default = exports["default"] = Poll;

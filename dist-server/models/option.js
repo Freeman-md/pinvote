@@ -17,6 +17,8 @@ var optionSchema = Schema({
     type: String,
     required: true
   }
+}, {
+  timestamps: true
 });
 var Option = _mongoose["default"].model('Option', optionSchema);
 var _default = exports["default"] = Option;

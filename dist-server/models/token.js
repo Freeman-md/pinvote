@@ -28,6 +28,8 @@ var tokenSchema = new Schema({
     "default": Date.now,
     expires: 3600
   }
+}, {
+  timestamps: true
 });
 tokenSchema.pre('save', /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(next) {

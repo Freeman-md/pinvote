@@ -13,7 +13,7 @@ const voteSchema = Schema({
         ref: 'Option',
         required: true,
     },
-})
+}, { timestamps: true })
 
 const Vote = mongoose.model('Vote', voteSchema)
 
