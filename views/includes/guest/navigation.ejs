@@ -6,6 +6,7 @@
         <a href="/auth/create-account" class="btn btn-primary">Create account</a>
         <a href="/auth/login" class="btn">Login</a>
         <% } else { %>
+            <a href="/user/polls">My Dashboard</a>
             <form action="/auth/logout" method="POST">
                 <button class="btn btn-primary">Logout</button>
             </form>
