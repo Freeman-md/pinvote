@@ -1,0 +1,151 @@
+<%- include('../../includes/guest/header.ejs') %>
+
+    <body>
+
+        <%- include('../../includes/guest/navigation.ejs') %>
+
+            <%- include('../../includes/user/menu.ejs') %>
+
+                <div class="space-y-6">
+                    <div class="flex space-x-2 items-center text-xl">
+                        <a href="/user/polls" class="underline">My Polls</a> &nbsp; >
+                        <p class="text-primary font-semibold">Create</p>
+                    </div>
+
+                    <div class="max-w-xl">
+                        <h1 class="text-3xl font-bold text-primary">Create New Poll</h1>
+
+                        <%- include('../../includes/alert.ejs') %>
+
+                            <form id="pollForm" action="/user/polls" method="POST" class="w-full mt-6 space-y-4">
+
+                                <div class="form-control">
+                                    <label for="question">Question</label>
+                                    <input type="question" name="question" id="question"
+                                        placeholder="Enter the question" value="<%= formData?.question %>">
+                                    <small class="text-red-500 text-xs mt-1">
+                                        <%= errors?.question %>
+                                    </small>
+                                </div>
+
+                                <div id="options-container" class="form-control">
+                                    <label for="options">Options:</label>
+                                    <input type="text" class="option-input" name="options" placeholder="Enter Option"
+                                        required value="<%= formData?.options[0] %>">
+                                    <small class="text-red-500 text-xs mt-1">
+                                        <%= errors['options[0]'] %>
+                                    </small>
+                                    <input type="text" class="option-input" name="options" placeholder="Enter Option"
+                                        required value="<%= formData?.options[1] %>">
+                                    <small class="text-red-500 text-xs mt-1">
+                                        <%= errors['options[1]'] %>
+                                    </small>
+
+                                    <% if (formData?.options.length> 2) { %>
+                                        <% for (let i=2; i < formData.options.length; i++) { %>
+                                            <div class="flex space-x-2 items-center option-input">
+                                                <input type="text" class="option-input" name="options"
+                                                    placeholder="Enter Option" required
+                                                    value="<%= formData.options[i] %>">
+                                                <button type="button" class="text-red-500"
+                                                    onclick="removeOption(this)">Remove</button>
+                                            </div>
+                                            <small class="text-red-500 text-xs mt-1">
+                                                <%= errors[`options[${i}]`] %>
+                                            </small>
+                                            <% } %>
+                                                <% } %>
+                                </div>
+
+                                <button type="button" class="btn" onclick="addOption()">Add New Option</button>
+
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div class="form-control">
+                                        <label for="startDate">Start Date:</label>
+                                        <input type="date" id="startDate" name="startDate" required
+                                            value="<%= formData?.startDate %>">
+                                    </div>
+
+                                    <div class="form-control">
+                                        <label for="endDate">End Date:</label>
+                                        <input type="date" id="endDate" name="endDate" required
+                                            value="<%= formData?.endDate %>">
+                                    </div>
+                                </div>
+                                <small class="text-red-500 text-xs mt-1">
+                                    <%= errors?.startDate || errors?.endDate %>
+                                </small>
+
+                                <div class="form-control">
+                                    <label for="visibility">Visibility:</label>
+                                    <select id="visibility" name="visibility" required>
+                                        <option value="public" <% if (formData?.visibility==='public' ) { %> selected <%
+                                                } %>>Public - Results Visible Immediately</option>
+                                        <option value="private" <% if (formData?.visibility==='private' ) { %> selected
+                                            <% } %>>Private - Results Visible After Poll Ends
+                                        </option>
+                                    </select>
+                                    <small class="text-red-500 text-xs mt-1">
+                                        <%= errors?.visibility %>
+                                    </small>
+                                </div>
+
+                                <div class="pt-2">
+                                    <button type="submit" class="btn btn-primary w-full"
+                                        onclick="validateAndSubmit()">Create
+                                        Poll</button>
+                                </div>
+
+                            </form>
+                    </div>
+                </div>
+                </div>
+
+                <script>
+                    // Set the minimum value for the start date input to the current date
+                    const currentDate = new Date().toISOString().split('T')[0];
+                    document.getElementById('startDate').min = currentDate;
+
+                    // Set the minimum value for the end date input to one day ahead of the current date
+                    const nextDay = new Date(currentDate);
+                    nextDay.setDate(nextDay.getDate() + 1);
+                    const nextDayString = nextDay.toISOString().split('T')[0];
+                    document.getElementById('endDate').min = nextDayString;
+
+                    const showError = (element, message) => {
+                        element.textContent = message;
+                        element.style.display = 'block';
+                    };
+
+                    const hideError = (element) => {
+                        element.textContent = '';
+                        element.style.display = 'none';
+                    };
+
+                    const addOption = () => {
+                        const container = document.getElementById('options-container');
+                        const optionCount = container.querySelectorAll('.option-input').length + 1;
+
+                        if (optionCount >= 2) {
+                            const newInput = document.createElement('div');
+                            newInput.className = 'flex space-x-2 items-center option-input';
+                            newInput.innerHTML = `
+                          <input type="text" class="option-input" name="options" placeholder="Enter Option" required>
+                          <button type="button" class="text-red-500" onclick="removeOption(this)">Remove</button>
+                        `;
+
+                            container.appendChild(newInput);
+                        }
+                    };
+
+                    const removeOption = (button) => {
+                        const container = document.getElementById('options-container');
+                        const optionInputs = container.querySelectorAll('.option-input');
+
+                        container.removeChild(button.parentNode);
+                    };
+                </script>
+
+    </body>
+
+    <%- include('../../includes/guest/footer.ejs') %>

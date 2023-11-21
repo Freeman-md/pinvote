@@ -1,0 +1,68 @@
+<%- include('../includes/guest/header.ejs') %>
+
+    <body>
+
+        <%- include('../includes/guest/navigation.ejs') %>
+
+            <div class="container py-4 space-y-6">
+
+                <div class="space-y-2">
+                    <div class="rounded-xl w-full h-60 overflow-hidden">
+                        <img src="/images/poll-image.jpg" alt="Poll Image" class="w-full h-full object-cover object-center">
+                    </div>
+                    <p class="italic">Ends in 2 days</p>
+                </div>
+
+                <h1 class="text-3xl">How do you prefer to spend your weekends?</h1>
+
+                <div class="flex space-x-4 items-center justify-between">
+
+                        <div class="flex space-x-2 items-center">
+                            <img src="https://ui-avatars.com/api/?name=F+M&color=FFFFFF&background=590D82"
+                                alt="Freeman Madudili" class="w-14 h-14 rounded-full">
+
+                            <span class="font-light">Created by <strong>John Doe</strong></span>
+                        </div>
+
+                        <div class="flex flex-col items-end space-y-2">
+                            <p>Total Votes: <strong>50</strong></p>
+                                <a href="/<%= id %>/voters" class="btn">Voters / Results</a>
+                        </div>
+                </div>
+
+                
+<div class="mt-8">
+    <h2 class="text-xl font-semibold mb-4">Select an option to vote:</h2>
+  
+    <div class="flex flex-col space-y-4" id="pollOptions">
+      <div class="poll-option bg-white border rounded p-4 cursor-pointer transition duration-300 ease-in-out flex justify-between" onclick="selectOption(this)">
+        <span>Option 1</span>
+        <span>(13 votes)</span>
+      </div>
+      <div class="poll-option bg-white border rounded p-4 cursor-pointer transition duration-300 ease-in-out flex justify-between" onclick="selectOption(this)">
+        <span>Option 2</span>
+        <span>(37 votes)</span>
+      </div>
+      
+    </div>
+  </div>
+
+            </div>
+
+            <script>
+                
+                const selectOption = (option) => {
+                    // Remove highlight from all options
+                    const options = document.querySelectorAll('.poll-option');
+                    options.forEach((opt) => opt.classList.remove('bg-primary', 'text-white'));
+                  
+                    // Highlight the clicked option
+                    option.classList.add('bg-primary', 'text-white');
+                  };
+                  
+                  
+            </script>
+
+    </body>
+
+    <%- include('../includes/guest/footer.ejs') %>
