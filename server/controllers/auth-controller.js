@@ -2,9 +2,9 @@ import { matchedData, validationResult } from "express-validator"
 import bcrypt from 'bcryptjs'
 
 import { flashErrorsAndRedirect, formatValidationErrors, processValidationErrors } from "../utils/helpers"
-import { UserService } from "../services/user-service"
+import UserService from "../services/user-service"
 import User from "../models/user"
-import { AuthService } from "../services/auth-service"
+import AuthService from "../services/auth-service"
 
 export const showCreateAccountPage = (req, res, next) => {
     res.render('auth/create-account', {

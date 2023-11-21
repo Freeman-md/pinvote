@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.AuthService = void 0;
+exports["default"] = void 0;
 var _crypto = _interopRequireDefault(require("crypto"));
 var _bcryptjs = _interopRequireDefault(require("bcryptjs"));
 var _userService = require("./user-service");
@@ -22,7 +22,7 @@ function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key i
 function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 var bcryptSalt = process.env.BCRYPT_SALT;
-var AuthService = exports.AuthService = /*#__PURE__*/_createClass(function AuthService() {
+var AuthService = /*#__PURE__*/_createClass(function AuthService() {
   _classCallCheck(this, AuthService);
 });
 _class = AuthService;
@@ -139,3 +139,4 @@ _defineProperty(AuthService, "resetPassword", /*#__PURE__*/function () {
     return _ref2.apply(this, arguments);
   };
 }());
+var _default = exports["default"] = AuthService;

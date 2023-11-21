@@ -7,7 +7,7 @@ import User from '../models/user'
 
 const bcryptSalt = process.env.BCRYPT_SALT
 
-export class AuthService {
+class AuthService {
     static generatePasswordResetToken = () => {
         return crypto.randomBytes(20).toString("hex")
     }
@@ -62,3 +62,5 @@ export class AuthService {
         return true;
       };
 }
+
+export default AuthService

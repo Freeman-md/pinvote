@@ -1,6 +1,6 @@
 import User from "../models/user"
 
-export class UserService {
+class UserService {
     static findUserByEmail = async (email) => {
         const user = await User.findOne({
             email,
@@ -9,3 +9,5 @@ export class UserService {
         return user
     }
 }
+
+export default UserService
