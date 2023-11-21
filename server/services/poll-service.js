@@ -2,11 +2,11 @@ import Poll from "../models/poll"
 
 class PollService {
     static getUserPolls = async (id) => {
-        return await Poll.find({ user: id })
+        return await Poll.find({user: id}).sort({ createdAt: -1 })
     }
 
     static getAllPolls = async () => {
-        return await Poll.find().populate('user')
+        return await Poll.find().sort({ createdAt: -1 }).populate('user')
     }
 
     static getPollDetails = async (id) => {

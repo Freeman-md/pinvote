@@ -27,6 +27,8 @@ _defineProperty(PollService, "getUserPolls", /*#__PURE__*/function () {
           _context.next = 2;
           return _poll["default"].find({
             user: id
+          }).sort({
+            createdAt: -1
           });
         case 2:
           return _context.abrupt("return", _context.sent);
@@ -45,7 +47,9 @@ _defineProperty(PollService, "getAllPolls", /*#__PURE__*/_asyncToGenerator( /*#_
     while (1) switch (_context2.prev = _context2.next) {
       case 0:
         _context2.next = 2;
-        return _poll["default"].find().populate('user');
+        return _poll["default"].find().sort({
+          createdAt: -1
+        }).populate('user');
       case 2:
         return _context2.abrupt("return", _context2.sent);
       case 3:

@@ -93,7 +93,7 @@ export const update = async (req, res, next) => {
     try {
         await PollService.updatePoll(pollId, poll)
 
-        req.flash('info', 'Poll updated successfully')
+        req.flash('info', `Poll "${poll.question.substring(0, 10)}..." updated successfully`)
 
         res.redirect('/user/polls')
     } catch (error) {

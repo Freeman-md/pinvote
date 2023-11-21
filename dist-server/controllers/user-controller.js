@@ -164,7 +164,7 @@ var update = exports.update = /*#__PURE__*/function () {
           _context4.next = 8;
           return _pollService["default"].updatePoll(pollId, poll);
         case 8:
-          req.flash('info', 'Poll updated successfully');
+          req.flash('info', "Poll \"".concat(poll.question.substring(0, 10), "...\" updated successfully"));
           res.redirect('/user/polls');
           _context4.next = 15;
           break;
