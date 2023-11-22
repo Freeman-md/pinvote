@@ -12,5 +12,5 @@ var router = _express["default"].Router();
 router.get('/', _indexController.index);
 router.get('/polls/:id', (0, _queryParamValidation.validateParam)('id'), _indexController.view);
 router.post('/polls/:id/vote', (0, _queryParamValidation.validateParam)(['id']), _pollRequestValidation.validateOptionInPoll, _voteController.vote);
-router.get('/polls/:id/voters', _indexController.viewVoters);
+router.get('/polls/:id/voters', (0, _queryParamValidation.validateParam)('id'), _indexController.viewVoters);
 module.exports = router;

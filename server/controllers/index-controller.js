@@ -1,10 +1,12 @@
-import { matchedData } from "express-validator";
+import { matchedData, validationResult } from "express-validator";
+
+import { flashErrorsAndRedirect } from "../utils/helpers"
 import PollService from "../services/poll-service";
+import VoteService from "../services/vote-service";
 
 export const index = async (req, res, next) => {
     const polls = await PollService.getAllPollsWithVotes()
 
-    console.log(polls)
 
     res.render('polls/index', { title: 'PinVote', polls });
 }
@@ -22,11 +24,27 @@ export const view = async (req, res, next) => {
     })
 }
 
-export const viewVoters = (req, res, next) => {
-    let id = req.params.id
+export const viewVoters = async (req, res, next) => {
+    const errors = validationResult(req)
+    
 
-    res.render('polls/voters', {
-        title: 'PinVote • View Voters',
-        id,
-    })
+    if (!errors.isEmpty()) {
+        return flashErrorsAndRedirect(req, res, {
+            errors: errors.array(),
+            formData: {}
+        })
+    }
+
+    try {
+        const { id: pollId } = matchedData(req)
+
+        const votesByOption = await VoteService.getPollVotesWithUserData(pollId)
+
+        res.render('polls/voters', {
+            title: 'PinVote • View Voters',
+            votesByOption,
+        })
+    } catch (error) {
+        throw new Error(error.message)
+    }
 }

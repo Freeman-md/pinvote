@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+var _types = require("mongoose/lib/types");
 var _poll = _interopRequireDefault(require("../models/poll"));
 var _user = _interopRequireDefault(require("../models/user"));
 var _vote = _interopRequireDefault(require("../models/vote"));
@@ -46,61 +47,105 @@ _defineProperty(VoteService, "findVoteByPollAndUser", /*#__PURE__*/function () {
     return _ref.apply(this, arguments);
   };
 }());
-_defineProperty(VoteService, "recordVote", /*#__PURE__*/function () {
-  var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(userId, pollId, option) {
-    var _yield$Promise$all, _yield$Promise$all2, poll, user, existingVote, newVote;
+_defineProperty(VoteService, "getPollVotesWithUserData", /*#__PURE__*/function () {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(pollId) {
     return _regeneratorRuntime().wrap(function _callee2$(_context2) {
       while (1) switch (_context2.prev = _context2.next) {
         case 0:
           _context2.next = 2;
+          return _vote["default"].aggregate([{
+            $match: {
+              poll: new _types.ObjectId(pollId)
+            }
+          }, {
+            $lookup: {
+              from: 'users',
+              localField: 'user',
+              foreignField: '_id',
+              as: 'user'
+            }
+          }, {
+            $unwind: '$user'
+          }, {
+            $group: {
+              _id: '$option',
+              // Group by the option
+              votes: {
+                $push: {
+                  _id: '$_id',
+                  user: '$user',
+                  updatedAt: '$updatedAt'
+                }
+              }
+            }
+          }]);
+        case 2:
+          return _context2.abrupt("return", _context2.sent);
+        case 3:
+        case "end":
+          return _context2.stop();
+      }
+    }, _callee2);
+  }));
+  return function (_x3) {
+    return _ref2.apply(this, arguments);
+  };
+}());
+_defineProperty(VoteService, "recordVote", /*#__PURE__*/function () {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(userId, pollId, option) {
+    var _yield$Promise$all, _yield$Promise$all2, poll, user, existingVote, newVote;
+    return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+      while (1) switch (_context3.prev = _context3.next) {
+        case 0:
+          _context3.next = 2;
           return Promise.all([_poll["default"].findById(pollId), _user["default"].findById(userId), _vote["default"].findOneAndDelete({
             user: userId,
             poll: pollId
           })]);
         case 2:
-          _yield$Promise$all = _context2.sent;
+          _yield$Promise$all = _context3.sent;
           _yield$Promise$all2 = _slicedToArray(_yield$Promise$all, 3);
           poll = _yield$Promise$all2[0];
           user = _yield$Promise$all2[1];
           existingVote = _yield$Promise$all2[2];
           if (!(!poll || !user)) {
-            _context2.next = 9;
+            _context3.next = 9;
             break;
           }
           throw new Error('Poll or user not found');
         case 9:
           if (!existingVote) {
-            _context2.next = 14;
+            _context3.next = 14;
             break;
           }
           user.votes.pull(existingVote._id);
           poll.votes.pull(existingVote._id);
-          _context2.next = 14;
+          _context3.next = 14;
           return Promise.all([user.save(), poll.save()]);
         case 14:
-          _context2.next = 16;
+          _context3.next = 16;
           return _vote["default"].create({
             user: userId,
             poll: pollId,
             option: option
           });
         case 16:
-          newVote = _context2.sent;
+          newVote = _context3.sent;
           // Add the new vote to user and poll
           user.votes.push(newVote._id);
           poll.votes.push(newVote._id);
-          _context2.next = 21;
+          _context3.next = 21;
           return Promise.all([user.save(), poll.save()]);
         case 21:
-          return _context2.abrupt("return", true);
+          return _context3.abrupt("return", true);
         case 22:
         case "end":
-          return _context2.stop();
+          return _context3.stop();
       }
-    }, _callee2);
+    }, _callee3);
   }));
-  return function (_x3, _x4, _x5) {
-    return _ref2.apply(this, arguments);
+  return function (_x4, _x5, _x6) {
+    return _ref3.apply(this, arguments);
   };
 }());
 var _default = exports["default"] = VoteService;

@@ -1,3 +1,4 @@
+import { ObjectId } from "mongoose/lib/types";
 import Poll from "../models/poll"
 import User from "../models/user"
 import Vote from "../models/vote";
@@ -5,6 +6,26 @@ import Vote from "../models/vote";
 class VoteService {
     static findVoteByPollAndUser = async (pollId, userId) => {
         return await Vote.findOne().byPollAndUser(pollId, userId);
+    }
+
+    static getPollVotesWithUserData = async (pollId) => {
+        return await Vote.aggregate([
+            { $match: { poll: new ObjectId(pollId) } },
+            { $lookup: { from: 'users', localField: 'user', foreignField: '_id', as: 'user' } },
+            { $unwind: '$user' },
+            {
+              $group: {
+                _id: '$option', // Group by the option
+                votes: {
+                  $push: {
+                    _id: '$_id',
+                    user: '$user',
+                    updatedAt: '$updatedAt',
+                  },
+                },
+              },
+            },
+          ]);
     }
 
     static recordVote = async (userId, pollId, option) => {

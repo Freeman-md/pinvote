@@ -12,6 +12,6 @@ router.get('/polls/:id', validateParam('id'), view)
 
 router.post('/polls/:id/vote', validateParam(['id']), validateOptionInPoll, vote)
 
-router.get('/polls/:id/voters', viewVoters)
+router.get('/polls/:id/voters', validateParam('id'), viewVoters)
 
 module.exports = router;

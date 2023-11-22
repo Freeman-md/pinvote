@@ -8,50 +8,30 @@
             <div class="container py-8">
 
                 <!-- Voters based on selected option/vote -->
-                <h2 class="text-2xl font-semibold mb-4">Voters based on selected option/vote</h2 <!-- Option 1 Voters
-                    -->
+                <h2 class="text-xl font-medium mb-4">Voters based on selected option/vote</h2>
+                <% votesByOption.forEach((option) => { %>
                 <div class="mb-8">
-                    <h2 class="text-2xl font-semibold mb-4 cursor-pointer">Option 1</h2>
+                    <h2 class="text-2xl font-semibold mb-4 cursor-pointer"><%= option._id %> <strong>(<%= option.votes.length %> vote<% if (option.votes.length !== 1) { %>s<% } %>)</strong></h2>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 
-                        <% for (let i=1; i <=10; i++) { %>
+                        <% option.votes.forEach((vote) => { %>
 
                             <div class="bg-white p-4 border rounded-lg flex items-center space-x-2">
                                 <img src="https://ui-avatars.com/api/?name=F+M&color=FFFFFF&background=590D82"
-                                    alt="User PFP" class="w-16 h-16 rounded-full">
+                                    alt="<%= vote.user %>" class="w-16 h-16 rounded-full">
                                 <div>
-                                    <p class="text-sm font-semibold">John Doe</p>
-                                    <p class="text-xs text-gray-500">Voted at 10:30 AM</p>
+                                    <p class="text-sm font-semibold"><%= vote.user.fullName %></p>
+                                    <p class="text-xs text-gray-500">Voted at <%= vote.updatedAt %></p>
                                 </div>
                             </div>
 
-                            <% } %>
+                            <% }) %>
 
                     </div>
+
                 </div>
-
-                <!-- Option 2 Voters -->
-                <div class="mb-8">
-                    <h2 class="text-2xl font-semibold mb-4 cursor-pointer">Option 2</h2>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-
-                        <% for (let i=1; i <=10; i++) { %>
-
-                            <div class="bg-white p-4 border rounded-lg flex items-center space-x-2">
-                                <img src="https://ui-avatars.com/api/?name=F+M&color=FFFFFF&background=590D82"
-                                    alt="User PFP" class="w-16 h-16 rounded-full">
-                                <div>
-                                    <p class="text-sm font-semibold">John Doe</p>
-                                    <p class="text-xs text-gray-500">Voted at 10:30 AM</p>
-                                </div>
-                            </div>
-
-                            <% } %>
-
-                    </div>
-                </div>
+                <% }) %>
 
             </div>
 
