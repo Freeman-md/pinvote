@@ -35,8 +35,8 @@ export const edit = async (req, res, next) => {
 
         res.locals.formData = {
             ...poll._doc,
-            startDate: moment(poll._doc.startDate).format('YYYY-MM-DD'),
-            endDate: moment(poll._doc.endDate).format('YYYY-MM-DD')
+            startDate: moment(poll._doc.startDate).format('YYYY-MM-DDTHH:mm'),
+            endDate: moment(poll._doc.endDate).format('YYYY-MM-DDTHH:mm')
         }
     }
 

@@ -77,8 +77,8 @@ var edit = exports.edit = /*#__PURE__*/function () {
         case 4:
           poll = _context2.sent;
           res.locals.formData = _objectSpread(_objectSpread({}, poll._doc), {}, {
-            startDate: (0, _moment["default"])(poll._doc.startDate).format('YYYY-MM-DD'),
-            endDate: (0, _moment["default"])(poll._doc.endDate).format('YYYY-MM-DD')
+            startDate: (0, _moment["default"])(poll._doc.startDate).format('YYYY-MM-DDTHH:mm'),
+            endDate: (0, _moment["default"])(poll._doc.endDate).format('YYYY-MM-DDTHH:mm')
           });
         case 6:
           res.render('user/polls/edit', {
