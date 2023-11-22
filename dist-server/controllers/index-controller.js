@@ -37,20 +37,25 @@ var index = exports.index = /*#__PURE__*/function () {
 }();
 var view = exports.view = /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(req, res, next) {
-    var _matchedData, id, poll;
+    var _matchedData, pollId, _yield$PollService$ge, poll, userVote, optionVotes;
     return _regeneratorRuntime().wrap(function _callee2$(_context2) {
       while (1) switch (_context2.prev = _context2.next) {
         case 0:
-          _matchedData = (0, _expressValidator.matchedData)(req), id = _matchedData.id;
+          _matchedData = (0, _expressValidator.matchedData)(req), pollId = _matchedData.id;
           _context2.next = 3;
-          return _pollService["default"].getPollDetails(id);
+          return _pollService["default"].getPollDetailsWithVotesAndOptionVotes(pollId, req.session.user._id);
         case 3:
-          poll = _context2.sent;
+          _yield$PollService$ge = _context2.sent;
+          poll = _yield$PollService$ge.poll;
+          userVote = _yield$PollService$ge.userVote;
+          optionVotes = _yield$PollService$ge.optionVotes;
           res.render('polls/view', {
             title: 'PinVote • View',
-            poll: poll
+            poll: poll,
+            userVote: userVote,
+            optionVotes: optionVotes
           });
-        case 5:
+        case 8:
         case "end":
           return _context2.stop();
       }

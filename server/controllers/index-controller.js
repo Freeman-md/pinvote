@@ -8,13 +8,15 @@ export const index = async (req, res, next) => {
 }
 
 export const view = async (req, res, next) => {
-    const { id } = matchedData(req)
+    const { id: pollId } = matchedData(req)
 
-    const poll = await PollService.getPollDetails(id)
+    const { poll, userVote, optionVotes } = await PollService.getPollDetailsWithVotesAndOptionVotes(pollId, req.session.user._id)
 
     res.render('polls/view', {
         title: 'PinVote • View',
         poll,
+        userVote,
+        optionVotes
     })
 }
 

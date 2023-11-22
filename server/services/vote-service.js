@@ -3,6 +3,10 @@ import User from "../models/user"
 import Vote from "../models/vote";
 
 class VoteService {
+    static findVoteByPollAndUser = async (pollId, userId) => {
+        return await Vote.findOne().byPollAndUser(pollId, userId);
+    }
+
     static recordVote = async (userId, pollId, option) => {
         // Find the poll, user, and existing vote
         const [poll, user, existingVote] = await Promise.all([

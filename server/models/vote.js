@@ -17,7 +17,20 @@ const voteSchema = new Schema({
         type: String,
         required: true,
     }
-}, { timestamps: true })
+}, { 
+    timestamps: true,
+    query: {
+        byPoll(pollId) {
+            return this.where({ poll: pollId })
+        },
+        byUser(userId) {
+            return this.where({ user: userId })
+        },
+        byPollAndUser(pollId, userId) {
+            return this.where({ poll: pollId, user: userId })
+        }
+    },
+ })
 
 const Vote = mongoose.model('Vote', voteSchema)
 

@@ -33,7 +33,9 @@ const pollSchema = new Schema({
         required: true,
     },
     votes: [ { type: Schema.Types.ObjectId, ref: 'Vote' } ]
-}, { timestamps: true })
+}, { 
+    timestamps: true,  
+})
 
 const Poll = mongoose.model('Poll', pollSchema) 
 

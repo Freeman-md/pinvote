@@ -1,8 +1,9 @@
 import Poll from "../models/poll"
+import VoteService from "./vote-service"
 
 class PollService {
     static getUserPolls = async (id) => {
-        return await Poll.find({user: id}).sort({ createdAt: -1 })
+        return await Poll.find({ user: id }).sort({ createdAt: -1 })
     }
 
     static getAllPolls = async () => {
@@ -11,6 +12,37 @@ class PollService {
 
     static getPollDetails = async (id) => {
         return await Poll.findById(id).populate('user')
+    }
+
+    static getPollDetailsWithVotes = async (id) => {
+        return await Poll.findById(id).populate('user').populate({
+            path: 'votes',
+            populate: {
+                path: 'user'
+            }
+        })
+    }
+
+    static getPollDetailsWithVotesAndOptionVotes = async (pollId, userId) => {
+        const poll = await this.getPollDetailsWithVotes(pollId)
+
+        const userVote = await VoteService.findVoteByPollAndUser(pollId, userId)
+
+        // Count total votes for each option
+        const optionVotes = {};
+        poll.options.forEach((option) => {
+            const votesForOption = poll.votes.filter((vote) => vote.option == option);
+
+            optionVotes[option] = {
+                count: votesForOption.length
+            };
+        });
+
+        return {
+            poll,
+            userVote,
+            optionVotes
+        }
     }
 
     static createPoll = async (data) => {
