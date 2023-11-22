@@ -1,4 +1,3 @@
-import Option from "../models/option";
 import Poll from "../models/poll"
 import Vote from "../models/vote";
 

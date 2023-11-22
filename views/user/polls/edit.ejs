@@ -33,12 +33,12 @@
                             <div id="options-container" class="form-control">
                                 <label for="options">Options:</label>
                                 <input type="text" class="option-input" name="options" placeholder="Enter Option"
-                                    required value="<%= formData?.options[0]?.text %>">
+                                    required value="<%= formData?.options[0] %>">
                                 <small class="text-red-500 text-xs mt-1">
                                     <%= errors['options[0]'] %>
                                 </small>
                                 <input type="text" class="option-input" name="options" placeholder="Enter Option"
-                                    required value="<%= formData?.options[1]?.text %>">
+                                    required value="<%= formData?.options[1] %>">
                                 <small class="text-red-500 text-xs mt-1">
                                     <%= errors['options[1]'] %>
                                 </small>
@@ -48,7 +48,7 @@
                                         <div class="flex space-x-2 items-center option-input">
                                             <input type="text" class="option-input" name="options"
                                                 placeholder="Enter Option" required
-                                                value="<%= formData.options[i].text %>">
+                                                value="<%= formData.options[i] %>">
                                             <button type="button" class="text-red-500"
                                                 onclick="removeOption(this)">Remove</button>
                                         </div>

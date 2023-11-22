@@ -13,13 +13,10 @@ var voteSchema = new Schema({
     ref: 'User',
     required: true
   },
-  option: {
-    type: Schema.Types.ObjectId,
-    ref: 'Option',
-    required: true
-  },
   poll: {
-    type: Schema.Types.ObjectId
+    type: Schema.Types.ObjectId,
+    ref: 'Poll',
+    required: true
   }
 }, {
   timestamps: true

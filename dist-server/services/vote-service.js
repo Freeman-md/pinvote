@@ -4,7 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-var _option = _interopRequireDefault(require("../models/option"));
 var _poll = _interopRequireDefault(require("../models/poll"));
 var _vote = _interopRequireDefault(require("../models/vote"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }

@@ -18,6 +18,10 @@ var pollSchema = new Schema({
     type: String,
     required: true
   },
+  options: {
+    type: Schema.Types.Array,
+    required: true
+  },
   startDate: {
     type: Schema.Types.Date,
     required: true,
@@ -36,11 +40,7 @@ var pollSchema = new Schema({
     type: String,
     "enum": ['public', 'private'],
     required: true
-  },
-  options: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Option'
-  }]
+  }
 }, {
   timestamps: true
 });

@@ -13,6 +13,10 @@ const pollSchema = new Schema({
         type: String,
         required: true,
     },
+    options: {
+        type: Schema.Types.Array,
+        required: true,
+    },
     startDate: {
         type: Schema.Types.Date,
         required: true,
@@ -28,7 +32,6 @@ const pollSchema = new Schema({
         enum: ['public', 'private'],
         required: true,
     },
-    options: [ { type: Schema.Types.ObjectId, ref: 'Option' } ]
 }, { timestamps: true })
 
 const Poll = mongoose.model('Poll', pollSchema) 

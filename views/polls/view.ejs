@@ -77,15 +77,15 @@
                         <h2 class="text-xl font-semibold mb-4">Select an option to vote:</h2>
 
                         <div class="flex flex-col space-y-4" id="pollOptions">
-                            <% for (let option of poll.options) { %>
-                                <button id="option-<%= option._id %>" class="poll-option bg-white border rounded p-4 cursor-pointer transition duration-300 ease-in-out flex justify-between"
-                                    onclick="selectOption('<%= poll._id %>', '<%= option._id %>')">
+                            <% poll.options.forEach((option, index) => { %>
+                                <button id="option-<%= index %>" class="poll-option bg-white border rounded p-4 cursor-pointer transition duration-300 ease-in-out flex justify-between"
+                                    onclick="selectOption('<%= poll._id %>', '<%= option %>', '<%= index %>')">
                                     <span>
-                                        <%= option.text %>
+                                        <%= option %>
                                     </span>
                                     <span>(13 votes)</span>
                                 </button>
-                                <% } %>
+                                <% }) %>
 
                         </div>
                     </div>
@@ -95,9 +95,11 @@
                 <script src="/js/post-data.js"></script>
                 <script>
 
-                    const selectOption = async (pollId, optionId) => {
+                    const selectOption = async (pollId, optionText, optionId) => {
                         try {
-                            const response = await postData(`/polls/${pollId}/vote/${optionId}`) 
+                            const response = await postData(`/polls/${pollId}/vote`, {
+                                option: optionText
+                            }) 
                 
                             if (response.ok) {
                                 // Update the UI to reflect the selected option
