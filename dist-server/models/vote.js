@@ -17,6 +17,9 @@ var voteSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Option',
     required: true
+  },
+  poll: {
+    type: Schema.Types.ObjectId
   }
 }, {
   timestamps: true

@@ -78,13 +78,13 @@
 
                         <div class="flex flex-col space-y-4" id="pollOptions">
                             <% for (let option of poll.options) { %>
-                                <div id="option-<%= option._id %>" class="poll-option bg-white border rounded p-4 cursor-pointer transition duration-300 ease-in-out flex justify-between"
+                                <button id="option-<%= option._id %>" class="poll-option bg-white border rounded p-4 cursor-pointer transition duration-300 ease-in-out flex justify-between"
                                     onclick="selectOption('<%= poll._id %>', '<%= option._id %>')">
                                     <span>
                                         <%= option.text %>
                                     </span>
                                     <span>(13 votes)</span>
-                                </div>
+                                </button>
                                 <% } %>
 
                         </div>
