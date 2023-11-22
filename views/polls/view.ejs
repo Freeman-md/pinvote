@@ -78,8 +78,8 @@
 
                         <div class="flex flex-col space-y-4" id="pollOptions">
                             <% for (let option of poll.options) { %>
-                                <div class="poll-option bg-white border rounded p-4 cursor-pointer transition duration-300 ease-in-out flex justify-between"
-                                    onclick="selectOption(this)">
+                                <div id="option-<%= option._id %>" class="poll-option bg-white border rounded p-4 cursor-pointer transition duration-300 ease-in-out flex justify-between"
+                                    onclick="selectOption('<%= poll._id %>', '<%= option._id %>')">
                                     <span>
                                         <%= option.text %>
                                     </span>
@@ -92,16 +92,29 @@
 
                 </div>
 
+                <script src="/js/post-data.js"></script>
                 <script>
 
-                    const selectOption = (option) => {
-                        // Remove highlight from all options
-                        const options = document.querySelectorAll('.poll-option');
-                        options.forEach((opt) => opt.classList.remove('bg-primary', 'text-white'));
+                    const selectOption = async (pollId, optionId) => {
+                        try {
+                            const response = await postData(`/polls/${pollId}/vote/${optionId}`) 
+                
+                            if (response.ok) {
+                                // Update the UI to reflect the selected option
+                                const options = document.querySelectorAll('.poll-option');
+                                options.forEach((opt) => opt.classList.remove('bg-primary', 'text-white'));
+                
+                                const selectedOption = document.getElementById(`option-${optionId}`);
+                                selectedOption.classList.add('bg-primary', 'text-white');
+                            } else {
+                                console.error('Error recording vote:', response.statusText);
+                            }
+                        } catch (error) {
+                            console.error('Error recording vote:', error);
+                        }
+                    }
 
-                        // Highlight the clicked option
-                        option.classList.add('bg-primary', 'text-white');
-                    };
+                    
 
                     const shareLink = async (url) => {
                         if (navigator.share) {

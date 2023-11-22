@@ -64,6 +64,12 @@ app.use((req, res, next) => {
   next()
 })
 
+app.get('/csrf-token', (req, res, next) => {
+  res.json({
+    csrfToken: req.csrfToken()
+  })
+})
+
 app.use('/auth', isAuth, authRouter)
 app.use('/', isAuth, indexRouter);
 app.use('/user', isAuth, userRouter);

@@ -63,6 +63,11 @@ app.use(function (req, res, next) {
   res.locals.csrfToken = req.csrfToken();
   next();
 });
+app.get('/csrf-token', function (req, res, next) {
+  res.json({
+    csrfToken: req.csrfToken()
+  });
+});
 app.use('/auth', _auth2.isAuth, _auth["default"]);
 app.use('/', _auth2.isAuth, _index["default"]);
 app.use('/user', _auth2.isAuth, _user["default"]);
