@@ -9,7 +9,7 @@ var _expressValidator = require("express-validator");
 var _helpers = require("../utils/helpers");
 var _pollService = _interopRequireDefault(require("../services/poll-service"));
 var _moment = _interopRequireDefault(require("moment"));
-var _excluded = ["id"];
+var _excluded = ["id", "startDate"];
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
@@ -144,7 +144,7 @@ var store = exports.store = /*#__PURE__*/function () {
 }();
 var update = exports.update = /*#__PURE__*/function () {
   var _ref4 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(req, res, next) {
-    var errors, data, pollId, poll;
+    var errors, data, pollId, startDate, poll;
     return _regeneratorRuntime().wrap(function _callee4$(_context4) {
       while (1) switch (_context4.prev = _context4.next) {
         case 0:
@@ -159,7 +159,7 @@ var update = exports.update = /*#__PURE__*/function () {
           }));
         case 3:
           data = (0, _expressValidator.matchedData)(req);
-          pollId = data.id, poll = _objectWithoutProperties(data, _excluded);
+          pollId = data.id, startDate = data.startDate, poll = _objectWithoutProperties(data, _excluded);
           _context4.prev = 5;
           _context4.next = 8;
           return _pollService["default"].updatePoll(pollId, poll);

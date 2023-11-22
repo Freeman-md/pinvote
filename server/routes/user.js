@@ -1,6 +1,6 @@
 import express from 'express';
 import { create, deletePoll, edit, index, store, update } from '../controllers/user-controller';
-import { validatePoll } from '../middlewares/poll-request-validation';
+import { validatePoll, validatePollUpdate } from '../middlewares/poll-request-validation';
 import { param } from 'express-validator';
 const router = express.Router();
 
@@ -13,7 +13,7 @@ router.get('/polls/:id/edit', param('id').trim().notEmpty().escape(), edit)
 
 router.post('/polls', validatePoll, store)
 
-router.post('/polls/:id/update', param('id').trim().notEmpty().escape(), validatePoll, update)
+router.post('/polls/:id/update', param('id').trim().notEmpty().escape(), validatePollUpdate, update)
 
 router.post('/polls/:id/delete', param('id').trim().notEmpty().escape(), deletePoll)
 

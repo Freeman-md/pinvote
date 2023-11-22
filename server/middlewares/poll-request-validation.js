@@ -1,4 +1,6 @@
 import { body } from "express-validator";
+import PollService from "../services/poll-service";
+import moment from "moment";
 
 const validateStartDate = (startDate) => {
     const now = new Date();
@@ -30,7 +32,20 @@ export const validatePoll = [
     body('question').trim().notEmpty().escape().isLength({ min: 10 }).withMessage('Question must be more than 10 characters'),
     body('options').isArray({ min: 2 }),
     body('options.*').trim().notEmpty().isLength({ min: 3, max: 30 }),
-    body('startDate').escape().isDate().custom(validateStartDate),
+    body('startDate').escape().isDate({
+        format: 'YYYY-MM-DDTHH:mm'
+    }).withMessage('Start date is invalid'),
+    body('endDate').escape().isDate({
+        format: 'YYYY-MM-DDTHH:mm'
+    }).withMessage('End date is invalid'),
+    body('visibility').isIn(['public', 'private']),
+]
+
+export const validatePollUpdate = [
+    body('question').trim().notEmpty().escape().isLength({ min: 10 }).withMessage('Question must be more than 10 characters'),
+    body('options').isArray({ min: 2 }),
+    body('options.*').trim().notEmpty().isLength({ min: 3, max: 30 }),
+    body('startDate').escape().isDate(),
     body('endDate').escape().isDate().custom(validateEndDate),
     body('visibility').isIn(['public', 'private']),
 ]

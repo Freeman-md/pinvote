@@ -19,6 +19,8 @@
 
                         <form id="pollForm" action="/user/polls/<%= id %>/update" method="POST" class="w-full mt-6 space-y-4">
 
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
                             <div class="form-control">
                                 <label for="question">Question</label>
                                 <input type="question" name="question" id="question"
@@ -62,14 +64,14 @@
                             <div class="grid grid-cols-2 gap-4">
                                 <div class="form-control">
                                     <label for="startDate">Start Date:</label>
-                                    <input type="date" id="startDate" name="startDate" required
-                                        value="<%= formData?.startDate %>">
+                                    <input type="date" id="startDate" name="startDate"
+                                        value="<%= formData?.startDate %>" readonly>
                                 </div>
 
                                 <div class="form-control">
                                     <label for="endDate">End Date:</label>
                                     <input type="date" id="endDate" name="endDate" required
-                                        value="<%= formData?.endDate %>">
+                                        value="<%= formData?.endDate %>" min="<%= formData?.startDate %>">
                                 </div>
                             </div>
                             <small class="text-red-500 text-xs mt-1">
@@ -101,15 +103,7 @@
                 </div>
 
                 <script>
-                    // Set the minimum value for the start date input to the current date
-                    const currentDate = new Date().toISOString().split('T')[0];
-                    document.getElementById('startDate').min = currentDate;
-
-                    // Set the minimum value for the end date input to one day ahead of the current date
-                    const nextDay = new Date(currentDate);
-                    nextDay.setDate(nextDay.getDate() + 1);
-                    const nextDayString = nextDay.toISOString().split('T')[0];
-                    document.getElementById('endDate').min = nextDayString;
+                    
 
                     const addOption = () => {
                         const container = document.getElementById('options-container');

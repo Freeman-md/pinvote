@@ -7,6 +7,7 @@ import dotenv from 'dotenv'
 import session from 'express-session'
 import MongoDBStore from 'connect-mongodb-session'
 import flash from 'connect-flash'
+const csrf = require('csurf')
 
 import indexRouter from './routes/index';
 import authRouter from './routes/auth';
@@ -18,10 +19,13 @@ dotenv.config()
 
 const app = express();
 
+
 const sessionStore = new MongoDBStore(session)({
   uri: process.env.MONGODB_URI,
   collection: 'sessions'
 })
+
+const csrfProtection = csrf()
 
 // view engine setup
 app.set('views', path.join(__dirname, '../views'));
@@ -39,9 +43,10 @@ app.use(session({
   store: sessionStore,
 }))
 app.use(flash())
+app.use(csrfProtection)
 
+// setup shared data across pages
 app.use((req, res, next) => {
-  // setup shared data across pages
   const errors = req.flash('errors')
   const info = req.flash('info')
   const formData = req.flash('formData')
@@ -54,6 +59,7 @@ app.use((req, res, next) => {
   res.locals.app = {
     url: process.env.APP_URL
   }
+  res.locals.csrfToken = req.csrfToken()
 
   next()
 })

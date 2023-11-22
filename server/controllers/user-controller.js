@@ -21,6 +21,7 @@ export const index = async (req, res, next) => {
 }
 
 export const create = (req, res, next) => {
+
     res.render('user/polls/create', {
         title: 'My Polls • Create'
     })
@@ -88,7 +89,7 @@ export const update = async (req, res, next) => {
 
     const data = matchedData(req)
 
-    const { id: pollId, ...poll } = data
+    const { id: pollId, startDate, ...poll } = data
 
     try {
         await PollService.updatePoll(pollId, poll)

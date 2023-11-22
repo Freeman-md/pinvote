@@ -19,12 +19,14 @@ var _user = _interopRequireDefault(require("./routes/user"));
 var _auth2 = require("./middlewares/auth");
 var _helpers = require("./utils/helpers");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+var csrf = require('csurf');
 _dotenv["default"].config();
 var app = (0, _express["default"])();
 var sessionStore = new _connectMongodbSession["default"](_expressSession["default"])({
   uri: process.env.MONGODB_URI,
   collection: 'sessions'
 });
+var csrfProtection = csrf();
 
 // view engine setup
 app.set('views', _path["default"].join(__dirname, '../views'));
@@ -43,8 +45,10 @@ app.use((0, _expressSession["default"])({
   store: sessionStore
 }));
 app.use((0, _connectFlash["default"])());
+app.use(csrfProtection);
+
+// setup shared data across pages
 app.use(function (req, res, next) {
-  // setup shared data across pages
   var errors = req.flash('errors');
   var info = req.flash('info');
   var formData = req.flash('formData');
@@ -56,6 +60,7 @@ app.use(function (req, res, next) {
   res.locals.app = {
     url: process.env.APP_URL
   };
+  res.locals.csrfToken = req.csrfToken();
   next();
 });
 app.use('/auth', _auth2.isAuth, _auth["default"]);
