@@ -2,12 +2,18 @@ import Poll from "../models/poll"
 import VoteService from "./vote-service"
 
 class PollService {
+    static getSortedPollsQuery = () => Poll.find().sort({ createdAt: -1 });
+
     static getUserPolls = async (id) => {
-        return await Poll.find({ user: id }).sort({ createdAt: -1 })
+        return await Poll.find({ user: id }).sort({ createdAt: -1 });
     }
 
     static getAllPolls = async () => {
-        return await Poll.find().sort({ createdAt: -1 }).populate('user')
+        return await this.getSortedPollsQuery().populate('user');
+    }
+
+    static getAllPollsWithVotes = async () => {
+        return await this.getSortedPollsQuery().populate('user').populate('votes');
     }
 
     static getPollDetails = async (id) => {

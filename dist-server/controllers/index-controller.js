@@ -18,14 +18,15 @@ var index = exports.index = /*#__PURE__*/function () {
       while (1) switch (_context.prev = _context.next) {
         case 0:
           _context.next = 2;
-          return _pollService["default"].getAllPolls();
+          return _pollService["default"].getAllPollsWithVotes();
         case 2:
           polls = _context.sent;
+          console.log(polls);
           res.render('polls/index', {
             title: 'PinVote',
             polls: polls
           });
-        case 4:
+        case 5:
         case "end":
           return _context.stop();
       }
