@@ -40,7 +40,11 @@ var pollSchema = new Schema({
     type: String,
     "enum": ['public', 'private'],
     required: true
-  }
+  },
+  votes: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Vote'
+  }]
 }, {
   timestamps: true
 });

@@ -9,7 +9,6 @@ var _voteService = _interopRequireDefault(require("../services/vote-service"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 var vote = exports.vote = function vote(req, res, next) {
   var errors = (0, _expressValidator.validationResult)(req);
-  console.log('errors', errors);
   if (!errors.isEmpty()) {
     return res.status(500).json({
       message: 'Error recording vote'

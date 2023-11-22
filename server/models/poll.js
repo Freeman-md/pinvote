@@ -32,6 +32,7 @@ const pollSchema = new Schema({
         enum: ['public', 'private'],
         required: true,
     },
+    votes: [ { type: Schema.Types.ObjectId, ref: 'Vote' } ]
 }, { timestamps: true })
 
 const Poll = mongoose.model('Poll', pollSchema) 

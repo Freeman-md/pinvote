@@ -4,8 +4,6 @@ import VoteService from "../services/vote-service"
 export const vote = (req, res, next) => {
     const errors = validationResult(req)
 
-    console.log('errors', errors)
-
     if (!errors.isEmpty()) {
         return res.status(500).json({
             message: 'Error recording vote'
