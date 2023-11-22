@@ -122,15 +122,55 @@ _defineProperty(PollService, "createPoll", /*#__PURE__*/function () {
   };
 }());
 _defineProperty(PollService, "updatePoll", /*#__PURE__*/function () {
-  var _ref5 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(id, poll) {
+  var _ref5 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(id, pollData) {
+    var existingPoll, createdOptions, updatedPoll;
     return _regeneratorRuntime().wrap(function _callee5$(_context5) {
       while (1) switch (_context5.prev = _context5.next) {
         case 0:
           _context5.next = 2;
-          return _poll["default"].findByIdAndUpdate(id, poll);
+          return _poll["default"].findById(id);
         case 2:
-          return _context5.abrupt("return", _context5.sent);
-        case 3:
+          existingPoll = _context5.sent;
+          if (existingPoll) {
+            _context5.next = 5;
+            break;
+          }
+          throw new Error('Poll not found');
+        case 5:
+          // Update poll fields
+          Object.assign(existingPoll, pollData);
+
+          // Update options if provided
+          if (!(pollData.options && pollData.options.length > 0)) {
+            _context5.next = 13;
+            break;
+          }
+          _context5.next = 9;
+          return _option["default"].deleteMany({
+            _id: {
+              $in: existingPoll.options
+            }
+          });
+        case 9:
+          _context5.next = 11;
+          return _option["default"].insertMany(pollData.options.map(function (option) {
+            return {
+              text: option
+            };
+          }));
+        case 11:
+          createdOptions = _context5.sent;
+          // Update poll with new option IDs
+          existingPoll.options = createdOptions.map(function (option) {
+            return option._id;
+          });
+        case 13:
+          _context5.next = 15;
+          return existingPoll.save();
+        case 15:
+          updatedPoll = _context5.sent;
+          return _context5.abrupt("return", updatedPoll);
+        case 17:
         case "end":
           return _context5.stop();
       }

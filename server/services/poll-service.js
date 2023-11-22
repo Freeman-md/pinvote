@@ -33,8 +33,34 @@ class PollService {
         return createdPoll;
     }
 
-    static updatePoll = async (id, poll) => {
-        return await Poll.findByIdAndUpdate(id, poll)
+    static updatePoll = async (id, pollData) => {
+        const existingPoll = await Poll.findById(id);
+
+            if (!existingPoll) {
+                throw new Error('Poll not found');
+            }
+
+            // Update poll fields
+            Object.assign(existingPoll, pollData);
+
+            // Update options if provided
+            if (pollData.options && pollData.options.length > 0) {
+                // Remove existing options
+                await Option.deleteMany({ _id: { $in: existingPoll.options } });
+
+                // Create new options
+                const createdOptions = await Option.insertMany(
+                    pollData.options.map(option => ({ text: option }))
+                );
+
+                // Update poll with new option IDs
+                existingPoll.options = createdOptions.map(option => option._id);
+            }
+
+            // Save the updated poll
+            const updatedPoll = await existingPoll.save();
+
+            return updatedPoll;
     }
 
     static deletePoll = async (id) => {
