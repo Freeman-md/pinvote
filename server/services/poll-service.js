@@ -11,12 +11,12 @@ class PollService {
     }
 
     static getPollDetails = async (id) => {
-        return await Poll.findById(id).populate('user')
+        return await Poll.findById(id).populate('user').populate('options')
     }
 
     static createPoll = async (data) => {
         const { options, ...pollData } = data;
-        
+
         // Create options
         const optionDocuments = options.map(option => ({ text: option }));
         const createdOptions = await Option.insertMany(optionDocuments);

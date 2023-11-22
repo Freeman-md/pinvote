@@ -70,7 +70,7 @@ _defineProperty(PollService, "getPollDetails", /*#__PURE__*/function () {
       while (1) switch (_context3.prev = _context3.next) {
         case 0:
           _context3.next = 2;
-          return _poll["default"].findById(id).populate('user');
+          return _poll["default"].findById(id).populate('user').populate('options');
         case 2:
           return _context3.abrupt("return", _context3.sent);
         case 3:
