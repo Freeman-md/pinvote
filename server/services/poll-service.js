@@ -15,6 +15,10 @@ class PollService {
     }
 
     static getPollDetailsWithVotes = async (id) => {
+        return await Poll.findById(id).populate('user').populate('votes')
+    }
+
+    static getPollDetailsWithUserVotes = async (id) => {
         return await Poll.findById(id).populate('user').populate({
             path: 'votes',
             populate: {
@@ -24,7 +28,7 @@ class PollService {
     }
 
     static getPollDetailsWithVotesAndOptionVotes = async (pollId, userId) => {
-        const poll = await this.getPollDetailsWithVotes(pollId)
+        const poll = await this.getPollDetailsWithUserVotes(pollId)
 
         const userVote = await VoteService.findVoteByPollAndUser(pollId, userId)
 

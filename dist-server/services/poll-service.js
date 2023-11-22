@@ -86,12 +86,7 @@ _defineProperty(PollService, "getPollDetailsWithVotes", /*#__PURE__*/function ()
       while (1) switch (_context4.prev = _context4.next) {
         case 0:
           _context4.next = 2;
-          return _poll["default"].findById(id).populate('user').populate({
-            path: 'votes',
-            populate: {
-              path: 'user'
-            }
-          });
+          return _poll["default"].findById(id).populate('user').populate('votes');
         case 2:
           return _context4.abrupt("return", _context4.sent);
         case 3:
@@ -104,20 +99,44 @@ _defineProperty(PollService, "getPollDetailsWithVotes", /*#__PURE__*/function ()
     return _ref4.apply(this, arguments);
   };
 }());
-_defineProperty(PollService, "getPollDetailsWithVotesAndOptionVotes", /*#__PURE__*/function () {
-  var _ref5 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(pollId, userId) {
-    var poll, userVote, optionVotes;
+_defineProperty(PollService, "getPollDetailsWithUserVotes", /*#__PURE__*/function () {
+  var _ref5 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(id) {
     return _regeneratorRuntime().wrap(function _callee5$(_context5) {
       while (1) switch (_context5.prev = _context5.next) {
         case 0:
           _context5.next = 2;
-          return _class.getPollDetailsWithVotes(pollId);
+          return _poll["default"].findById(id).populate('user').populate({
+            path: 'votes',
+            populate: {
+              path: 'user'
+            }
+          });
         case 2:
-          poll = _context5.sent;
-          _context5.next = 5;
+          return _context5.abrupt("return", _context5.sent);
+        case 3:
+        case "end":
+          return _context5.stop();
+      }
+    }, _callee5);
+  }));
+  return function (_x4) {
+    return _ref5.apply(this, arguments);
+  };
+}());
+_defineProperty(PollService, "getPollDetailsWithVotesAndOptionVotes", /*#__PURE__*/function () {
+  var _ref6 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6(pollId, userId) {
+    var poll, userVote, optionVotes;
+    return _regeneratorRuntime().wrap(function _callee6$(_context6) {
+      while (1) switch (_context6.prev = _context6.next) {
+        case 0:
+          _context6.next = 2;
+          return _class.getPollDetailsWithUserVotes(pollId);
+        case 2:
+          poll = _context6.sent;
+          _context6.next = 5;
           return _voteService["default"].findVoteByPollAndUser(pollId, userId);
         case 5:
-          userVote = _context5.sent;
+          userVote = _context6.sent;
           // Count total votes for each option
           optionVotes = {};
           poll.options.forEach(function (option) {
@@ -128,47 +147,28 @@ _defineProperty(PollService, "getPollDetailsWithVotesAndOptionVotes", /*#__PURE_
               count: votesForOption.length
             };
           });
-          return _context5.abrupt("return", {
+          return _context6.abrupt("return", {
             poll: poll,
             userVote: userVote,
             optionVotes: optionVotes
           });
         case 9:
         case "end":
-          return _context5.stop();
-      }
-    }, _callee5);
-  }));
-  return function (_x4, _x5) {
-    return _ref5.apply(this, arguments);
-  };
-}());
-_defineProperty(PollService, "createPoll", /*#__PURE__*/function () {
-  var _ref6 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6(data) {
-    return _regeneratorRuntime().wrap(function _callee6$(_context6) {
-      while (1) switch (_context6.prev = _context6.next) {
-        case 0:
-          _context6.next = 2;
-          return _poll["default"].create(data);
-        case 2:
-          return _context6.abrupt("return", _context6.sent);
-        case 3:
-        case "end":
           return _context6.stop();
       }
     }, _callee6);
   }));
-  return function (_x6) {
+  return function (_x5, _x6) {
     return _ref6.apply(this, arguments);
   };
 }());
-_defineProperty(PollService, "updatePoll", /*#__PURE__*/function () {
-  var _ref7 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7(id, poll) {
+_defineProperty(PollService, "createPoll", /*#__PURE__*/function () {
+  var _ref7 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7(data) {
     return _regeneratorRuntime().wrap(function _callee7$(_context7) {
       while (1) switch (_context7.prev = _context7.next) {
         case 0:
           _context7.next = 2;
-          return _poll["default"].findByIdAndUpdate(id, poll);
+          return _poll["default"].create(data);
         case 2:
           return _context7.abrupt("return", _context7.sent);
         case 3:
@@ -177,17 +177,17 @@ _defineProperty(PollService, "updatePoll", /*#__PURE__*/function () {
       }
     }, _callee7);
   }));
-  return function (_x7, _x8) {
+  return function (_x7) {
     return _ref7.apply(this, arguments);
   };
 }());
-_defineProperty(PollService, "deletePoll", /*#__PURE__*/function () {
-  var _ref8 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8(id) {
+_defineProperty(PollService, "updatePoll", /*#__PURE__*/function () {
+  var _ref8 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8(id, poll) {
     return _regeneratorRuntime().wrap(function _callee8$(_context8) {
       while (1) switch (_context8.prev = _context8.next) {
         case 0:
           _context8.next = 2;
-          return _poll["default"].findByIdAndDelete(id);
+          return _poll["default"].findByIdAndUpdate(id, poll);
         case 2:
           return _context8.abrupt("return", _context8.sent);
         case 3:
@@ -196,8 +196,27 @@ _defineProperty(PollService, "deletePoll", /*#__PURE__*/function () {
       }
     }, _callee8);
   }));
-  return function (_x9) {
+  return function (_x8, _x9) {
     return _ref8.apply(this, arguments);
+  };
+}());
+_defineProperty(PollService, "deletePoll", /*#__PURE__*/function () {
+  var _ref9 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee9(id) {
+    return _regeneratorRuntime().wrap(function _callee9$(_context9) {
+      while (1) switch (_context9.prev = _context9.next) {
+        case 0:
+          _context9.next = 2;
+          return _poll["default"].findByIdAndDelete(id);
+        case 2:
+          return _context9.abrupt("return", _context9.sent);
+        case 3:
+        case "end":
+          return _context9.stop();
+      }
+    }, _callee9);
+  }));
+  return function (_x10) {
+    return _ref9.apply(this, arguments);
   };
 }());
 var _default = exports["default"] = PollService;
