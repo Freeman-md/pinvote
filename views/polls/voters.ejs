@@ -22,7 +22,7 @@
                                     alt="<%= vote.user %>" class="w-16 h-16 rounded-full">
                                 <div>
                                     <p class="text-sm font-semibold"><%= vote.user.fullName %></p>
-                                    <p class="text-xs text-gray-500">Voted at <%= vote.updatedAt %></p>
+                                    <p class="text-xs text-gray-500">Voted on <%= vote.updatedAt.toUTCString() %></p>
                                 </div>
                             </div>
 
