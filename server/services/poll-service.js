@@ -1,3 +1,4 @@
+import Option from "../models/option"
 import Poll from "../models/poll"
 
 class PollService {
@@ -14,7 +15,22 @@ class PollService {
     }
 
     static createPoll = async (data) => {
-        return await Poll.create(data)
+        const { options, ...pollData } = data;
+        
+        // Create options
+        const optionDocuments = options.map(option => ({ text: option }));
+        const createdOptions = await Option.insertMany(optionDocuments);
+
+        // Extract option IDs
+        const optionIds = createdOptions.map(option => option._id);
+
+        // Add option IDs to poll data
+        const pollDataWithOptions = { ...pollData, options: optionIds };
+
+        // Create poll
+        const createdPoll = await Poll.create(pollDataWithOptions);
+
+        return createdPoll;
     }
 
     static updatePoll = async (id, poll) => {

@@ -4,9 +4,8 @@ const Schema = mongoose.Schema
 
 const optionSchema = new Schema({
     poll: {
-        types: Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'Poll',
-        required: true,
     },
     text: {
         type: String,

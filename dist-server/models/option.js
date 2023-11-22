@@ -9,9 +9,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 var Schema = _mongoose["default"].Schema;
 var optionSchema = new Schema({
   poll: {
-    types: Schema.Types.ObjectId,
-    ref: 'Poll',
-    required: true
+    type: Schema.Types.ObjectId,
+    ref: 'Poll'
   },
   text: {
     type: String,
