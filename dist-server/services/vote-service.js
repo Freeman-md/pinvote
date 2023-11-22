@@ -21,34 +21,30 @@ var VoteService = /*#__PURE__*/_createClass(function VoteService() {
   _classCallCheck(this, VoteService);
 });
 _defineProperty(VoteService, "recordVote", /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(userId, pollId, optionId) {
-    var existingVote, newVote;
+  var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(userId, pollId, option) {
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
-          if (!(!poll || !option)) {
-            _context.next = 2;
-            break;
-          }
-          throw new Error('Poll or option not found');
-        case 2:
-          _context.next = 4;
-          return _vote["default"].findOneAndDelete({
-            user: userId,
-            option: optionId
-          });
-        case 4:
-          existingVote = _context.sent;
-          _context.next = 7;
-          return _vote["default"].create({
-            user: userId,
-            option: optionId
-          });
-        case 7:
-          newVote = _context.sent;
-          console.log(newVote);
+          console.log(userId, pollId, option);
+          // const poll = Poll.findById(pollId)
+          // const option = Option.findById(optionId)
+
+          // if (!poll || !option) {
+          //     throw new Error('Poll or option not found');
+          // }
+
+          // // Check if the user has already voted for this poll
+          // const existingVote = await Vote.findOneAndDelete({ user: userId, option: optionId });
+
+          // // Create a new vote document
+          // const newVote = await Vote.create({
+          //     user: userId,
+          //     option: optionId,
+          // });
+
+          // console.log(newVote)
           return _context.abrupt("return", true);
-        case 10:
+        case 2:
         case "end":
           return _context.stop();
       }

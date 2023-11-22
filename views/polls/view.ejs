@@ -72,6 +72,8 @@
                         </div>
                     </div>
 
+                    <div id="error-message"></div>
+
 
                     <div class="mt-8">
                         <h2 class="text-xl font-semibold mb-4">Select an option to vote:</h2>
@@ -96,7 +98,10 @@
                 <script>
 
                     const selectOption = async (pollId, optionText, optionId) => {
+                        const errorMessage = document.getElementById('error-message')
+
                         try {
+
                             const response = await postData(`/polls/${pollId}/vote`, {
                                 option: optionText
                             }) 
@@ -108,11 +113,21 @@
                 
                                 const selectedOption = document.getElementById(`option-${optionId}`);
                                 selectedOption.classList.add('bg-primary', 'text-white');
+
                             } else {
-                                console.error('Error recording vote:', response.statusText);
+                                errorMessage.setAttribute('class', 'mt-4 px-4 py-2 bg-red-100 rounded-full border-red-500 text-red-700')
+
+                                errorMessage.innerText = `Error recording vote: ${response.statusText}`                                
                             }
                         } catch (error) {
-                            console.error('Error recording vote:', error);
+                            errorMessage.setAttribute('class', 'mt-4 px-4 py-2 bg-red-100 rounded-full border-red-500 text-red-700')
+
+                            errorMessage.innerText = `Error recording vote: ${error}`
+                        } finally {
+                            setTimeout(() => {
+                                errorMessage.removeAttribute('class')
+                                errorMessage.innerText = ''
+                            }, 3000)
                         }
                     }
 

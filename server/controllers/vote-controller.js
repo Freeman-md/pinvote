@@ -4,23 +4,25 @@ import VoteService from "../services/vote-service"
 export const vote = (req, res, next) => {
     const errors = validationResult(req)
 
+    console.log('errors', errors)
+
     if (!errors.isEmpty()) {
-        res.json({
-            error: error.message
+        return res.status(500).json({
+            message: 'Error recording vote'
         })
     }
 
     try {
-        const { pollId, optionId } = matchedData(req)
+        const { id: pollId, option } = matchedData(req)
 
-        VoteService.recordVote(req.session.user._id, pollId, optionId)
+        VoteService.recordVote(req.session.user._id, pollId, option)
 
-        res.status(200).json({
+        return res.status(200).json({
             message: 'Vote recorded successfully'
         })
 
     } catch (error) {
-        res.status(500).json({
+        return res.status(500).json({
             message: error.message
         })
     }

@@ -57,3 +57,19 @@ export const validatePollUpdate = [
     body('endDate').escape().custom(validateDateTime).withMessage('End date is invalid').custom(validateEndDate),
     body('visibility').isIn(['public', 'private']),
 ]
+
+export const validateOptionInPoll = [
+    body('option').trim().notEmpty().custom(async (value, { req }) => {
+        const poll = await PollService.getPollDetails(req.params.id)
+
+        if (!poll) {
+            throw new Error('Poll not found')
+        }
+
+        if (!poll.options.includes(value)) {
+            throw new Error('Option does not exist in Poll')
+        }
+
+        return true
+    })
+]
