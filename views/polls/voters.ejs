@@ -9,6 +9,13 @@
 
                 <!-- Voters based on selected option/vote -->
                 <h2 class="text-xl font-medium mb-4">Voters based on selected option/vote</h2>
+                <% if (votesByOption.length <= 0) { %>
+                    <div class="mx-auto max-w-4xl flex flex-col space-y-4 items-center justify-center">
+                        <img src="/images/empty.svg" alt="No Data" class="w-28">
+                        <p class="text-xl font-semibold">There are no votes yet</p>
+                        <a href="/polls/<%= pollId %>" class="btn btn-primary">Vote now</a>
+                      </div>
+                <% } else { %>
                 <% votesByOption.forEach((option) => { %>
                 <div class="mb-8">
                     <h2 class="text-2xl font-semibold mb-4 cursor-pointer"><%= option._id %> <strong>(<%= option.votes.length %> vote<% if (option.votes.length !== 1) { %>s<% } %>)</strong></h2>
@@ -19,7 +26,7 @@
 
                             <div class="bg-white p-4 border rounded-lg flex items-center space-x-2">
                                 <img src="https://ui-avatars.com/api/?name=F+M&color=FFFFFF&background=590D82"
-                                    alt="<%= vote.user %>" class="w-16 h-16 rounded-full">
+                                    alt="<%= vote.user.fullName %>" class="w-16 h-16 rounded-full">
                                 <div>
                                     <p class="text-sm font-semibold"><%= vote.user.fullName %></p>
                                     <p class="text-xs text-gray-500">Voted on <%= vote.updatedAt.toUTCString() %></p>
@@ -32,6 +39,8 @@
 
                 </div>
                 <% }) %>
+
+                <% } %>
 
             </div>
 

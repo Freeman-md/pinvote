@@ -91,6 +91,7 @@ var viewVoters = exports.viewVoters = /*#__PURE__*/function () {
           votesByOption = _context3.sent;
           res.render('polls/voters', {
             title: 'PinVote • View Voters',
+            pollId: pollId,
             votesByOption: votesByOption
           });
           _context3.next = 14;

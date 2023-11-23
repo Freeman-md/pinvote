@@ -19,7 +19,10 @@ class VoteService {
                 votes: {
                   $push: {
                     _id: '$_id',
-                    user: '$user',
+                    user: {
+                      _id: '$user._id',
+                      fullName: '$user.fullName', // Include only the fullName attribute
+                    },
                     updatedAt: '$updatedAt',
                   },
                 },

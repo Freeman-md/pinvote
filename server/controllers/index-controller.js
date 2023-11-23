@@ -42,6 +42,7 @@ export const viewVoters = async (req, res, next) => {
 
         res.render('polls/voters', {
             title: 'PinVote • View Voters',
+            pollId,
             votesByOption,
         })
     } catch (error) {
