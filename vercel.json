@@ -2,14 +2,16 @@
     "version": 2,
     "builds": [
         {
-            "src": "app.js",
+            "src": "dist-server/app.js",
             "use": "@now/node"
         }
     ],
     "routes": [
         {
             "src": "/(.*)",
-            "dest": "app.js"
+            "dest": "dist-server/app.js"
         }
-    ]
+    ],
+    
+        "rewrites": [{ "source": "/(.*)", "destination": "/dist-server/app.js" }]
 }
