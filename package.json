@@ -6,8 +6,7 @@
     "exec": "npm run dev",
     "watch": [
       "server/*",
-      "public/*",
-      "views/*"
+      "public/*"
     ],
     "ignore": [
       "**/__tests__/**",

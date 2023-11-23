@@ -29,7 +29,7 @@ var sessionStore = new _connectMongodbSession["default"](_expressSession["defaul
 var csrfProtection = csrf();
 
 // view engine setup
-app.set('views', _path["default"].join(__dirname, '../views'));
+app.set('views', _path["default"].join(__dirname, '../public/views'));
 app.set('view engine', 'ejs');
 app.use((0, _morgan["default"])('dev'));
 app.use(_express["default"].json());
