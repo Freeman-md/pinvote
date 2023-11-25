@@ -58,11 +58,13 @@ export const createAccount = async (req, res, next) => {
 
     // create user
     try {
-        const userCreated = await AuthService.createAccount(data)
+        const user = await AuthService.createAccount(data)
 
-        if (!userCreated) {
+        if (!user) {
             throw new Error('Account not created')
         }
+
+        emitter.emit(Events.NEW_USER, user)
 
         req.flash('info', 'Account created successfully')
 
@@ -132,7 +134,7 @@ export const forgotPassword = async (req, res, next) => {
     try {
         const { username, link } = await AuthService.requestPasswordReset(email)
 
-        await emitter.emit(Events.SEND_PASSWORD_RESET_MAIL, { username, email, link })
+        emitter.emit(Events.PASSWORD_RESET, { username, email, link })
 
         req.flash('info', 'Password reset link sent. Check your email!')
 

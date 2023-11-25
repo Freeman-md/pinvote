@@ -18,7 +18,7 @@ var scheduler = {
         while (1) switch (_context.prev = _context.next) {
           case 0:
             _context.next = 2;
-            return _agenda["default"].now(_events["default"].SEND_PASSWORD_RESET_MAIL, data);
+            return _agenda["default"].now(_events["default"].PASSWORD_RESET, data);
           case 2:
           case "end":
             return _context.stop();
@@ -29,6 +29,24 @@ var scheduler = {
       return _sendPasswordResetMail.apply(this, arguments);
     }
     return sendPasswordResetMail;
+  }(),
+  sendWelcomeEmail: function () {
+    var _sendWelcomeEmail = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(data) {
+      return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+        while (1) switch (_context2.prev = _context2.next) {
+          case 0:
+            _context2.next = 2;
+            return _agenda["default"].now(_events["default"].NEW_USER, data);
+          case 2:
+          case "end":
+            return _context2.stop();
+        }
+      }, _callee2);
+    }));
+    function sendWelcomeEmail(_x2) {
+      return _sendWelcomeEmail.apply(this, arguments);
+    }
+    return sendWelcomeEmail;
   }()
 };
 var _default = exports["default"] = scheduler;

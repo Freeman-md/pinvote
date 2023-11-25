@@ -24,7 +24,7 @@ class AuthService {
   }
 
   static createAccount = async ({ firstName, lastName, email, password }) => {
-    await User.create({
+    const user = await User.create({
       name: {
         first: firstName,
         last: lastName,
@@ -33,7 +33,9 @@ class AuthService {
       password
     })
 
-    return true
+    return {
+      user,
+    }
   }
 
   static requestPasswordReset = async (email) => {

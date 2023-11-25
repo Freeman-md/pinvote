@@ -4,7 +4,6 @@ const JobHandlers = {
   sendPasswordResetEmail: async (job) => {
     const { username, email, link } = job.attrs.data;
 
-    // Utilize MailService to send mails
     try {
       await MailService.sendHtmlMail(
         {
@@ -19,7 +18,25 @@ const JobHandlers = {
       );
     } catch (error) {
       console.error('Error sending password reset email:', error);
-      // Handle the error as needed
+    }
+  },
+
+  sendWelcomeEmail: async (job) => {
+    const { user } = job.attrs.data;
+
+    try {
+      await MailService.sendHtmlMail(
+        {
+          to: user.email,
+          subject: 'Welcome To PinVote',
+          template: 'welcome',
+          context: {
+            username: user.name.first,
+          }
+        }
+      );
+    } catch (error) {
+      console.error('Error sending welcome email:', error);
     }
   },
 };

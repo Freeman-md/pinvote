@@ -5,6 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var Events = {
-  SEND_PASSWORD_RESET_MAIL: 'send-password-reset-mail'
+  PASSWORD_RESET: 'send-password-reset-mail',
+  NEW_USER: 'send-welcome-email'
 };
 var _default = exports["default"] = Events;

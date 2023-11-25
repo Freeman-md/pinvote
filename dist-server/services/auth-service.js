@@ -62,7 +62,7 @@ _defineProperty(AuthService, "loginUser", /*#__PURE__*/function () {
 }());
 _defineProperty(AuthService, "createAccount", /*#__PURE__*/function () {
   var _ref4 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(_ref3) {
-    var firstName, lastName, email, password;
+    var firstName, lastName, email, password, user;
     return _regeneratorRuntime().wrap(function _callee2$(_context2) {
       while (1) switch (_context2.prev = _context2.next) {
         case 0:
@@ -77,8 +77,11 @@ _defineProperty(AuthService, "createAccount", /*#__PURE__*/function () {
             password: password
           });
         case 3:
-          return _context2.abrupt("return", true);
-        case 4:
+          user = _context2.sent;
+          return _context2.abrupt("return", {
+            user: user
+          });
+        case 5:
         case "end":
           return _context2.stop();
       }

@@ -17,7 +17,7 @@ var JobHandlers = {
       return _regeneratorRuntime().wrap(function _callee$(_context) {
         while (1) switch (_context.prev = _context.next) {
           case 0:
-            _job$attrs$data = job.attrs.data, username = _job$attrs$data.username, email = _job$attrs$data.email, link = _job$attrs$data.link; // Utilize MailService to send mails
+            _job$attrs$data = job.attrs.data, username = _job$attrs$data.username, email = _job$attrs$data.email, link = _job$attrs$data.link;
             _context.prev = 1;
             _context.next = 4;
             return _mailService["default"].sendHtmlMail({
@@ -36,7 +36,6 @@ var JobHandlers = {
             _context.prev = 6;
             _context.t0 = _context["catch"](1);
             console.error('Error sending password reset email:', _context.t0);
-            // Handle the error as needed
           case 9:
           case "end":
             return _context.stop();
@@ -47,6 +46,41 @@ var JobHandlers = {
       return _sendPasswordResetEmail.apply(this, arguments);
     }
     return sendPasswordResetEmail;
+  }(),
+  sendWelcomeEmail: function () {
+    var _sendWelcomeEmail = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(job) {
+      var user;
+      return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+        while (1) switch (_context2.prev = _context2.next) {
+          case 0:
+            user = job.attrs.data.user;
+            _context2.prev = 1;
+            _context2.next = 4;
+            return _mailService["default"].sendHtmlMail({
+              to: user.email,
+              subject: 'Welcome To PinVote',
+              template: 'welcome',
+              context: {
+                username: user.name.first
+              }
+            });
+          case 4:
+            _context2.next = 9;
+            break;
+          case 6:
+            _context2.prev = 6;
+            _context2.t0 = _context2["catch"](1);
+            console.error('Error sending welcome email:', _context2.t0);
+          case 9:
+          case "end":
+            return _context2.stop();
+        }
+      }, _callee2, null, [[1, 6]]);
+    }));
+    function sendWelcomeEmail(_x2) {
+      return _sendWelcomeEmail.apply(this, arguments);
+    }
+    return sendWelcomeEmail;
   }()
 };
 var _default = exports["default"] = JobHandlers;

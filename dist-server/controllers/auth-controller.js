@@ -55,7 +55,7 @@ var showResetPasswordPage = exports.showResetPasswordPage = function showResetPa
 };
 var createAccount = exports.createAccount = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(req, res, next) {
-    var errors, data, userCreated;
+    var errors, data, user;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
@@ -75,17 +75,18 @@ var createAccount = exports.createAccount = /*#__PURE__*/function () {
           _context.next = 7;
           return _authService["default"].createAccount(data);
         case 7:
-          userCreated = _context.sent;
-          if (userCreated) {
+          user = _context.sent;
+          if (user) {
             _context.next = 10;
             break;
           }
           throw new Error('Account not created');
         case 10:
+          _emitter["default"].emit(_events["default"].NEW_USER, user);
           req.flash('info', 'Account created successfully');
           return _context.abrupt("return", res.redirect('/auth/login'));
-        case 14:
-          _context.prev = 14;
+        case 15:
+          _context.prev = 15;
           _context.t0 = _context["catch"](4);
           return _context.abrupt("return", (0, _helpers.flashErrorsAndRedirect)(req, res, {
             errors: [{
@@ -94,11 +95,11 @@ var createAccount = exports.createAccount = /*#__PURE__*/function () {
             }],
             formData: req.body
           }));
-        case 17:
+        case 18:
         case "end":
           return _context.stop();
       }
-    }, _callee, null, [[4, 14]]);
+    }, _callee, null, [[4, 15]]);
   }));
   return function createAccount(_x, _x2, _x3) {
     return _ref.apply(this, arguments);
@@ -180,19 +181,17 @@ var forgotPassword = exports.forgotPassword = /*#__PURE__*/function () {
           _yield$AuthService$re = _context3.sent;
           username = _yield$AuthService$re.username;
           link = _yield$AuthService$re.link;
-          _context3.next = 12;
-          return _emitter["default"].emit(_events["default"].SEND_PASSWORD_RESET_MAIL, {
+          _emitter["default"].emit(_events["default"].PASSWORD_RESET, {
             username: username,
             email: email,
             link: link
           });
-        case 12:
           req.flash('info', 'Password reset link sent. Check your email!');
           res.redirect('back');
-          _context3.next = 19;
+          _context3.next = 18;
           break;
-        case 16:
-          _context3.prev = 16;
+        case 15:
+          _context3.prev = 15;
           _context3.t0 = _context3["catch"](4);
           return _context3.abrupt("return", (0, _helpers.flashErrorsAndRedirect)(req, res, {
             errors: [{
@@ -201,11 +200,11 @@ var forgotPassword = exports.forgotPassword = /*#__PURE__*/function () {
             }],
             formData: req.body
           }));
-        case 19:
+        case 18:
         case "end":
           return _context3.stop();
       }
-    }, _callee3, null, [[4, 16]]);
+    }, _callee3, null, [[4, 15]]);
   }));
   return function forgotPassword(_x7, _x8, _x9) {
     return _ref3.apply(this, arguments);
