@@ -158,7 +158,7 @@ var login = exports.login = /*#__PURE__*/function () {
 }();
 var forgotPassword = exports.forgotPassword = /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(req, res, next) {
-    var errors, _matchedData, email, link;
+    var errors, _matchedData, email, _yield$AuthService$re, username, link;
     return _regeneratorRuntime().wrap(function _callee3$(_context3) {
       while (1) switch (_context3.prev = _context3.next) {
         case 0:
@@ -177,19 +177,22 @@ var forgotPassword = exports.forgotPassword = /*#__PURE__*/function () {
           _context3.next = 7;
           return _authService["default"].requestPasswordReset(email);
         case 7:
-          link = _context3.sent;
-          _context3.next = 10;
-          return _scheduler["default"].sendPasswordResetMail({
+          _yield$AuthService$re = _context3.sent;
+          username = _yield$AuthService$re.username;
+          link = _yield$AuthService$re.link;
+          _context3.next = 12;
+          return _emitter["default"].emit(_events["default"].SEND_PASSWORD_RESET_MAIL, {
+            username: username,
             email: email,
             link: link
           });
-        case 10:
+        case 12:
           req.flash('info', 'Password reset link sent. Check your email!');
           res.redirect('back');
-          _context3.next = 17;
+          _context3.next = 19;
           break;
-        case 14:
-          _context3.prev = 14;
+        case 16:
+          _context3.prev = 16;
           _context3.t0 = _context3["catch"](4);
           return _context3.abrupt("return", (0, _helpers.flashErrorsAndRedirect)(req, res, {
             errors: [{
@@ -198,11 +201,11 @@ var forgotPassword = exports.forgotPassword = /*#__PURE__*/function () {
             }],
             formData: req.body
           }));
-        case 17:
+        case 19:
         case "end":
           return _context3.stop();
       }
-    }, _callee3, null, [[4, 14]]);
+    }, _callee3, null, [[4, 16]]);
   }));
   return function forgotPassword(_x7, _x8, _x9) {
     return _ref3.apply(this, arguments);

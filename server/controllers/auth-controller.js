@@ -130,9 +130,9 @@ export const forgotPassword = async (req, res, next) => {
     const { email } = matchedData(req)
 
     try {
-        const link = await AuthService.requestPasswordReset(email)
+        const { username, link } = await AuthService.requestPasswordReset(email)
 
-        await scheduler.sendPasswordResetMail({ email, link })
+        await emitter.emit(Events.SEND_PASSWORD_RESET_MAIL, { username, email, link })
 
         req.flash('info', 'Password reset link sent. Check your email!')
 

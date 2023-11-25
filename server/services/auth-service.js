@@ -55,7 +55,10 @@ class AuthService {
 
     const passwordResetLink = `${process.env.APP_URL}/auth/reset-password?token=${resetToken}&email=${email}`
 
-    return passwordResetLink
+    return {
+      username: user.name.first,
+      link: passwordResetLink,
+    }
   }
 
   static resetPassword = async (email, token, password) => {

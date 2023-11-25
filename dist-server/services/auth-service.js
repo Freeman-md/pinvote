@@ -126,7 +126,10 @@ _defineProperty(AuthService, "requestPasswordReset", /*#__PURE__*/function () {
           });
         case 14:
           passwordResetLink = "".concat(process.env.APP_URL, "/auth/reset-password?token=").concat(resetToken, "&email=").concat(email);
-          return _context3.abrupt("return", passwordResetLink);
+          return _context3.abrupt("return", {
+            username: user.name.first,
+            link: passwordResetLink
+          });
         case 16:
         case "end":
           return _context3.stop();

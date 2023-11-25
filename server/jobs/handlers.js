@@ -2,7 +2,7 @@ import MailService from '../services/mail-service';
 
 const JobHandlers = {
   sendPasswordResetEmail: async (job) => {
-    const { email, link } = job.attrs.data;
+    const { username, email, link } = job.attrs.data;
 
     // Utilize MailService to send mails
     try {
@@ -12,6 +12,7 @@ const JobHandlers = {
           subject: 'Password Reset',
           template: 'password-reset',
           context: {
+            username,
             link,
           }
         }
