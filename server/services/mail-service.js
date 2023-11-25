@@ -1,4 +1,7 @@
+import path from 'path'
+
 import nodemailer from 'nodemailer';
+import nodemailerExpressHandlebars from 'nodemailer-express-handlebars';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -14,6 +17,16 @@ class MailService {
         pass: process.env.SMTP_MAIL_PASS,
       },
     });
+
+    // Set up nodemailer-express-handlebars
+    this.transporter.use('compile', nodemailerExpressHandlebars({
+      viewEngine: {
+        defaultLayout: 'main',
+        layoutsDir: path.resolve('./views/emails/layouts/'),
+        partialsDir: path.resolve('./views/emails/partials/'),
+      },
+      viewPath: path.resolve('./views/emails/'),
+    }));
   }
 
   async sendMail(options) {
@@ -25,18 +38,22 @@ class MailService {
     }
   }
 
-  async sendHtmlMail(to, subject, html, from = 'freeman@trutech.app') {
+  async sendHtmlMail({ to, subject, template, context, from = 'freeman@trutech.app' }) {
     const options = {
       to,
       subject,
-      html,
+      template,
       from,
+      context: {
+        ...context,
+        title: subject
+      }
     };
 
     await this.sendMail(options);
   }
 
-  async sendTextMail(to, subject, text, from = 'freeman@trutech.app') {
+  async sendTextMail({to, subject, text, from = 'freeman@trutech.app'}) {
     const options = {
       to,
       subject,
@@ -46,21 +63,6 @@ class MailService {
 
     await this.sendMail(options);
   }
-
-  // Example for sending template mails
-//   async sendTemplateMail(to, subject, template, context, from = 'freeman@trutech.app') {
-//     // Implement your template rendering logic here
-//     const renderedHtml = renderTemplate(template, context);
-
-//     const options = {
-//       to,
-//       subject,
-//       html: renderedHtml,
-//       from,
-//     };
-
-//     await this.sendMail(options);
-//   }
 }
 
 export default new MailService();

@@ -13,14 +13,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 var JobHandlers = {
   sendPasswordResetEmail: function () {
     var _sendPasswordResetEmail = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(job) {
-      var data;
+      var _job$attrs$data, email, link;
       return _regeneratorRuntime().wrap(function _callee$(_context) {
         while (1) switch (_context.prev = _context.next) {
           case 0:
-            data = job.attrs.data; // Utilize MailService to send mails
+            _job$attrs$data = job.attrs.data, email = _job$attrs$data.email, link = _job$attrs$data.link; // Utilize MailService to send mails
             _context.prev = 1;
             _context.next = 4;
-            return _mailService["default"].sendHtmlMail(data.email, 'Password Reset', "\n        <p>You requested a password reset</p>\n        <p>Click this <a href=\"".concat(data.link, "\">link</a> to set a new password</p>\n      "));
+            return _mailService["default"].sendHtmlMail({
+              to: email,
+              subject: 'Password Reset',
+              template: 'password-reset',
+              context: {
+                link: link
+              }
+            });
           case 4:
             _context.next = 9;
             break;

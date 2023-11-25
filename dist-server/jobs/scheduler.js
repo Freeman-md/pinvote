@@ -14,17 +14,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 var scheduler = {
   sendPasswordResetMail: function () {
     var _sendPasswordResetMail = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(data) {
-      var job;
       return _regeneratorRuntime().wrap(function _callee$(_context) {
         while (1) switch (_context.prev = _context.next) {
           case 0:
             _context.next = 2;
             return _agenda["default"].now(_events["default"].SEND_PASSWORD_RESET_MAIL, data);
           case 2:
-            job = _context.sent;
-            _context.next = 5;
-            return job.remove();
-          case 5:
           case "end":
             return _context.stop();
         }

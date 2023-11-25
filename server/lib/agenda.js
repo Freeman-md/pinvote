@@ -17,7 +17,7 @@ allDefinitions(agenda)
 
 agenda
     .on('ready', () => console.log("Agenda connected to DB!"))
-    .on('error', () => console.log("Agenda DB connection error!"));
+    .on('error', (err) => console.log("Agenda DB connection error!", err));
 
 // console.log({ jobs: agenda.definitions });
 
