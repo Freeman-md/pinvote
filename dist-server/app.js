@@ -13,24 +13,29 @@ var _dotenv = _interopRequireDefault(require("dotenv"));
 var _expressSession = _interopRequireDefault(require("express-session"));
 var _connectMongodbSession = _interopRequireDefault(require("connect-mongodb-session"));
 var _connectFlash = _interopRequireDefault(require("connect-flash"));
+var _csurf = _interopRequireDefault(require("csurf"));
+var _agendash = _interopRequireDefault(require("agendash"));
+require("./lib/agenda");
 var _index = _interopRequireDefault(require("./routes/index"));
 var _auth = _interopRequireDefault(require("./routes/auth"));
 var _user = _interopRequireDefault(require("./routes/user"));
 var _auth2 = require("./middlewares/auth");
 var _helpers = require("./utils/helpers");
+var _emitter = _interopRequireDefault(require("./lib/emitter"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-var csrf = require('csurf');
 _dotenv["default"].config();
 var app = (0, _express["default"])();
 var sessionStore = new _connectMongodbSession["default"](_expressSession["default"])({
   uri: process.env.MONGODB_URI,
   collection: 'sessions'
 });
-var csrfProtection = csrf();
+var csrfProtection = (0, _csurf["default"])();
 
 // view engine setup
 app.set('views', _path["default"].join(__dirname, '../views'));
 app.set('view engine', 'ejs');
+
+// app.use('/dash', Agendash(agenda))
 app.use((0, _morgan["default"])('dev'));
 app.use(_express["default"].json());
 app.use(_express["default"].urlencoded({

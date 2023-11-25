@@ -7,7 +7,7 @@
 import app from '../app';
 import debugLib from 'debug';
 import http from 'http';
-import dbConnection from '../utils/db';
+import dbConnection from '../lib/db';
 
 const debug = debugLib('pinvote:server');
 

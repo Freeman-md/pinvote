@@ -1,9 +1,10 @@
 import { matchedData, validationResult } from "express-validator"
-import bcrypt from 'bcryptjs'
 
-import { flashErrorsAndRedirect, formatValidationErrors, processValidationErrors } from "../utils/helpers"
-import User from "../models/user"
+import { flashErrorsAndRedirect, processValidationErrors } from "../utils/helpers"
 import AuthService from "../services/auth-service"
+import emitter from '../lib/emitter'
+import Events from "../lib/emitter/events"
+import scheduler from "../jobs/scheduler"
 
 export const showCreateAccountPage = (req, res, next) => {
     res.render('auth/create-account', {
@@ -131,7 +132,7 @@ export const forgotPassword = async (req, res, next) => {
     try {
         const link = await AuthService.requestPasswordReset(email)
 
-        console.log(link)
+        await scheduler.sendPasswordResetMail({ email, link })
 
         req.flash('info', 'Password reset link sent. Check your email!')
 

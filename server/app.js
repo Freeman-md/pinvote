@@ -7,18 +7,20 @@ import dotenv from 'dotenv'
 import session from 'express-session'
 import MongoDBStore from 'connect-mongodb-session'
 import flash from 'connect-flash'
-const csrf = require('csurf')
+import csrf from 'csurf'
+import Agendash from 'agendash'
 
+import './lib/agenda'
 import indexRouter from './routes/index';
 import authRouter from './routes/auth';
 import userRouter from './routes/user';
 import { isAuth } from './middlewares/auth';
 import { processValidationErrors } from './utils/helpers';
+import emitter from './lib/emitter'
 
 dotenv.config()
 
 const app = express();
-
 
 const sessionStore = new MongoDBStore(session)({
   uri: process.env.MONGODB_URI,
@@ -31,6 +33,7 @@ const csrfProtection = csrf()
 app.set('views', path.join(__dirname, '../views'));
 app.set('view engine', 'ejs');
 
+// app.use('/dash', Agendash(agenda))
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
