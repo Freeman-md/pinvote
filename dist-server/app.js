@@ -14,19 +14,17 @@ var _expressSession = _interopRequireDefault(require("express-session"));
 var _connectMongodbSession = _interopRequireDefault(require("connect-mongodb-session"));
 var _connectFlash = _interopRequireDefault(require("connect-flash"));
 var _csurf = _interopRequireDefault(require("csurf"));
-var _agendash = _interopRequireDefault(require("agendash"));
 require("./lib/agenda");
 var _index = _interopRequireDefault(require("./routes/index"));
 var _auth = _interopRequireDefault(require("./routes/auth"));
 var _user = _interopRequireDefault(require("./routes/user"));
 var _auth2 = require("./middlewares/auth");
 var _helpers = require("./utils/helpers");
-var _emitter = _interopRequireDefault(require("./lib/emitter"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 _dotenv["default"].config();
 var app = (0, _express["default"])();
 var sessionStore = new _connectMongodbSession["default"](_expressSession["default"])({
-  uri: process.env.MONGODB_URI,
+  uri: process.env.MONGO_DB_URI,
   collection: 'sessions'
 });
 var csrfProtection = (0, _csurf["default"])();
