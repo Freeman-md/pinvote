@@ -21,7 +21,9 @@ var _user = _interopRequireDefault(require("./routes/user"));
 var _auth2 = require("./middlewares/auth");
 var _helpers = require("./utils/helpers");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-_dotenv["default"].config();
+_dotenv["default"].config({
+  path: _path["default"].join(__dirname, '.env')
+});
 var app = (0, _express["default"])();
 var sessionStore = new _connectMongodbSession["default"](_expressSession["default"])({
   uri: process.env.MONGO_DB_URI,
