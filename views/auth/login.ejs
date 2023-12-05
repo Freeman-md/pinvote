@@ -1,57 +1,62 @@
 <%- include('../includes/guest/header.ejs') %>
 
-<body class="h-screen w-full overflow-hidden flex">
+    <body class="h-screen w-full overflow-hidden flex">
 
-    <div class="w-1/2 bg-secondary h-full hidden md:flex flex-col space-y-10 items-center justify-center container py-10">
-        <img src="/images/login.svg" alt="Login" class="w-3/4">
+        <div
+            class="w-1/2 bg-secondary h-full hidden md:flex flex-col space-y-10 items-center justify-center container py-10">
+            <img src="/images/login.svg" alt="Login" class="w-3/4">
 
-        <h6 class="text-2xl font-bold text-primary">PinVote - Instant Votes</h6>
-    </div>
-
-    <div class="block md:flex flex-col space-y-10 md:w-1/2 container py-4 md:py-10">
-        <div class="flex md:justify-end items-center w-full">
-            <img src="/images/logo.svg" alt="PinVote" class="w-60">
+            <h6 class="text-2xl font-bold text-primary">PinVote - Instant Votes</h6>
         </div>
 
-        <div class="h-full flex pt-10 md:pt-0 md:items-center justify-center">
-            <div class="w-full md:w-5/6 lg:w-4/5 xl:w-3/5 mx-auto flex flex-col items-stretch md:justify-center">
-                <h1 class="text-3xl font-bold text-primary">Login</h1>
+        <div class="block md:flex flex-col space-y-10 md:w-1/2 container py-4 md:py-10">
+            <div class="flex md:justify-end items-center w-full">
+                <img src="/images/logo.svg" alt="PinVote" class="w-60">
+            </div>
 
-                <%- include('../includes/alert.ejs') %>
+            <div class="h-full flex pt-10 md:pt-0 md:items-center justify-center">
+                <div class="w-full md:w-5/6 lg:w-4/5 xl:w-3/5 mx-auto flex flex-col items-stretch md:justify-center">
+                    <h1 class="text-3xl font-bold text-primary">Login</h1>
 
-                <form action="/auth/login" method="post" class="w-full mt-6 space-y-4">
-                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <%- include('../includes/alert.ejs') %>
 
-                    <div class="form-control">
-                        <label for="email">Email address</label>
-                        <input type="email" name="email" id="email" placeholder="Enter your email address" value="<%= formData?.email %>">
-                        <small class="text-red-500"><%= errors?.email %></small>
-                    </div>
+                        <form action="/auth/login" method="post" class="w-full mt-6 space-y-4">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
-                    <div class="form-control">
-                        <label for="password">Password</label>
-                        <input type="password" name="password" id="password" placeholder="Enter your password">
-                        <small class="text-red-500"><%= errors?.password %></small>
-                    </div>
+                            <div class="form-control">
+                                <label for="email">Email address</label>
+                                <input type="email" name="email" id="email" placeholder="Enter your email address"
+                                    value="<%= formData?.email %>">
+                                <small class="text-red-500">
+                                    <%= errors?.email %>
+                                </small>
+                            </div>
 
-                    <div class="pt-2">
-                        <button type="submit" class="btn btn-primary w-full">Login</button>
-                    </div>
+                            <div class="form-control">
+                                <label for="password">Password</label>
+                                <input type="password" name="password" id="password" placeholder="Enter your password">
+                                <small class="text-red-500">
+                                    <%= errors?.password %>
+                                </small>
+                            </div>
 
-                </form>
+                            <div class="pt-2">
+                                <button type="submit" class="btn btn-primary w-full">Login</button>
+                            </div>
 
-                <div class="pt-4">
-                    <a href="/auth/forgot-password" class="hover:underline text-secondary">Forgot Password?</a>
-                </div>
+                        </form>
 
-                <div class="pt-4 w-full">
-                    <a href="/auth/create-account" class="btn block w-full">Create an account</a>
+                        <div class="pt-4">
+                            <a href="/auth/forgot-password" class="hover:underline text-secondary">Forgot Password?</a>
+                        </div>
+
+                        <div class="pt-4 w-full">
+                            <a href="/auth/create-account" class="btn block w-full">Create an account</a>
+                        </div>
                 </div>
             </div>
         </div>
-    </div>
 
-</body>
+    </body>
 
-<%- include('../includes/guest/footer.ejs') %>
-
+    <%- include('../includes/guest/footer.ejs') %>
