@@ -7,72 +7,23 @@ exports["default"] = void 0;
 var _httpErrors = _interopRequireDefault(require("http-errors"));
 var _express = _interopRequireDefault(require("express"));
 var _path = _interopRequireDefault(require("path"));
-var _cookieParser = _interopRequireDefault(require("cookie-parser"));
-var _morgan = _interopRequireDefault(require("morgan"));
-var _dotenv = _interopRequireDefault(require("dotenv"));
-var _expressSession = _interopRequireDefault(require("express-session"));
-var _connectMongodbSession = _interopRequireDefault(require("connect-mongodb-session"));
-var _connectFlash = _interopRequireDefault(require("connect-flash"));
-var _csurf = _interopRequireDefault(require("csurf"));
 require("./lib/agenda");
 var _index = _interopRequireDefault(require("./routes/index"));
 var _auth = _interopRequireDefault(require("./routes/auth"));
 var _user = _interopRequireDefault(require("./routes/user"));
 var _auth2 = require("./middlewares/auth");
-var _helpers = require("./utils/helpers");
+var _app = _interopRequireDefault(require("./middlewares/app"));
+var _sharedData = _interopRequireDefault(require("./middlewares/shared-data"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-_dotenv["default"].config({
-  path: _path["default"].join(__dirname, '.env')
-});
 var app = (0, _express["default"])();
-var sessionStore = new _connectMongodbSession["default"](_expressSession["default"])({
-  uri: process.env.MONGO_DB_URI,
-  collection: 'sessions'
-});
-var csrfProtection = (0, _csurf["default"])();
 
 // view engine setup
 app.set('views', _path["default"].join(__dirname, '../views'));
 app.set('view engine', 'ejs');
-
-// app.use('/dash', Agendash(agenda))
-app.use((0, _morgan["default"])('dev'));
-app.use(_express["default"].json());
-app.use(_express["default"].urlencoded({
-  extended: false
-}));
-app.use((0, _cookieParser["default"])());
-app.use(_express["default"]["static"](_path["default"].join(__dirname, '../public')));
-app.use((0, _expressSession["default"])({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false,
-  store: sessionStore
-}));
-app.use((0, _connectFlash["default"])());
-app.use(csrfProtection);
+app.use(_app["default"]);
 
 // setup shared data across pages
-app.use(function (req, res, next) {
-  var errors = req.flash('errors');
-  var info = req.flash('info');
-  var formData = req.flash('formData');
-  res.locals.errors = (0, _helpers.processValidationErrors)(errors);
-  res.locals.info = info.length > 0 ? info[0] : null;
-  res.locals.formData = formData ? formData[0] : null;
-  res.locals.authenticated = req.session.authenticated;
-  res.locals.user = req.session.user;
-  res.locals.app = {
-    url: process.env.APP_URL
-  };
-  res.locals.csrfToken = req.csrfToken();
-  next();
-});
-app.get('/csrf-token', function (req, res, next) {
-  res.json({
-    csrfToken: req.csrfToken()
-  });
-});
+app.use(_sharedData["default"]);
 app.use('/auth', _auth2.isAuth, _auth["default"]);
 app.use('/', _auth2.isAuth, _index["default"]);
 app.use('/user', _auth2.isAuth, _user["default"]);

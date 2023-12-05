@@ -1,95 +1,77 @@
-import crypto from 'crypto'
-import bcrypt from 'bcryptjs'
-
+import appConfig from '../config/app';
 import Token from '../models/token'
 import User from '../models/user'
 
-const bcryptSalt = process.env.BCRYPT_SALT
-
 class AuthService {
-  static generatePasswordResetToken = () => {
-    return crypto.randomBytes(20).toString("hex")
-  }
+  static async loginUser({ email, password }) {
+    const user = await User.findOne().byEmail(email);
 
-  static loginUser = async ({ email, password }) => {
-    const user = await User.findOne().byEmail(email)
-
-    const doesPasswordMatch = await bcrypt.compare(password, user.password)
-
-    if (!doesPasswordMatch) {
-      throw new Error('Password is invalid')
+    if (!user) {
+      throw new Error('User does not exist');
     }
 
-    return user
+    const doesPasswordMatch = await PasswordService.comparePasswords(password, user.password);
+
+    if (!doesPasswordMatch) {
+      throw new Error('Password is invalid');
+    }
+
+    return user;
   }
 
-  static createAccount = async ({ firstName, lastName, email, password }) => {
+  static async createAccount({ firstName, lastName, email, password }) {
+    const hashedPassword = await PasswordService.hashPassword(password);
+
     const user = await User.create({
       name: {
         first: firstName,
         last: lastName,
       },
       email,
-      password
-    })
+      password: hashedPassword,
+    });
 
     return {
       user,
-    }
+    };
   }
 
-  static requestPasswordReset = async (email) => {
-    const user = await User.findOne().byEmail(email)
+  static async requestPasswordReset(email) {
+    const user = await User.findOne().byEmail(email);
 
-    if (!user) throw new Error('User does not exist')
+    if (!user) {
+      throw new Error('User does not exist');
+    }
 
-    // delete already existing token for user
-    let token = await Token.findOne({ user: user._id });
-    if (token) await token.deleteOne();
+    const resetToken = await PasswordService.generateAndSaveResetToken(user);
 
-    const resetToken = this.generatePasswordResetToken()
-
-    await Token.create({
-      user: user._id,
-      token: resetToken,
-      createdAt: Date.now()
-    })
-
-    const passwordResetLink = `${process.env.APP_URL}/auth/reset-password?token=${resetToken}&email=${email}`
+    const passwordResetLink = `${appConfig.env.appUrl}/auth/reset-password?token=${resetToken}&email=${email}`;
 
     return {
       username: user.name.first,
       link: passwordResetLink,
-    }
+    };
   }
 
-  static resetPassword = async (email, token, password) => {
-    const user = await User.findOne().byEmail(email)
+  static async resetPassword(email, token, newPassword) {
+    const user = await User.findOne().byEmail(email);
 
-    const passwordResetToken = await Token.findOne({ user: user._id });
-
-    if (!passwordResetToken) {
-      throw new Error("Invalid or expired password reset token");
+    if (!user) {
+      throw new Error('User does not exist');
     }
 
-    const isValid = await bcrypt.compare(token, passwordResetToken.token);
+    await PasswordService.validateAndDeleteResetToken(user, token);
 
-    if (!isValid) {
-      throw new Error("Invalid or expired password reset token");
-    }
-
-    const hash = await bcrypt.hash(password, Number(bcryptSalt));
+    const hashedPassword = await PasswordService.hashPassword(newPassword);
 
     await User.updateOne(
       { _id: user._id },
-      { $set: { password: hash } },
+      { $set: { password: hashedPassword } },
       { new: true }
     );
 
-    await passwordResetToken.deleteOne();
-
     return true;
-  };
+  }
 }
 
-export default AuthService
+export default AuthService;

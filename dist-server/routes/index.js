@@ -13,4 +13,9 @@ router.get('/', _indexController.index);
 router.get('/polls/:id', (0, _queryParamValidation.validateParam)('id'), _indexController.view);
 router.post('/polls/:id/vote', (0, _queryParamValidation.validateParam)(['id']), _pollRequestValidation.validateOptionInPoll, _voteController.vote);
 router.get('/polls/:id/voters', (0, _queryParamValidation.validateParam)('id'), _indexController.viewVoters);
+router.get('/csrf-token', function (req, res, next) {
+  res.json({
+    csrfToken: req.csrfToken()
+  });
+});
 module.exports = router;

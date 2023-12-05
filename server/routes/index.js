@@ -14,4 +14,10 @@ router.post('/polls/:id/vote', validateParam(['id']), validateOptionInPoll, vote
 
 router.get('/polls/:id/voters', validateParam('id'), viewVoters)
 
+router.get('/csrf-token', (req, res, next) => {
+    res.json({
+      csrfToken: req.csrfToken()
+    })
+  })
+
 module.exports = router;

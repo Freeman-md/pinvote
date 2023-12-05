@@ -9,9 +9,9 @@ router.get('/polls', index);
 
 router.get('/polls/create', create)
 
-router.get('/polls/:id/edit', param('id').trim().notEmpty().escape(), edit)
-
 router.post('/polls', validatePoll, store)
+
+router.get('/polls/:id/edit', param('id').trim().notEmpty().escape(), edit)
 
 router.post('/polls/:id/update', param('id').trim().notEmpty().escape(), validatePollUpdate, update)
 
