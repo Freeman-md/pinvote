@@ -97,6 +97,8 @@ class PollController {
 
             await PollService.deletePoll(id);
 
+            await UserService.removePollFromActiveUser(req, id)
+
             req.flash('info', `Poll deleted successfully`);
 
             res.redirect('/user/polls');

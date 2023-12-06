@@ -80,27 +80,29 @@ pollSchema.post('save', /*#__PURE__*/function () {
     return _ref.apply(this, arguments);
   };
 }());
-pollSchema.pre("remove", /*#__PURE__*/function () {
+pollSchema.pre("findOneAndDelete", /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(next) {
     return _regeneratorRuntime().wrap(function _callee2$(_context2) {
       while (1) switch (_context2.prev = _context2.next) {
         case 0:
-          _context2.prev = 0;
-          _context2.next = 3;
+          console.log('pre deleting one');
+          _context2.prev = 1;
+          console.log('removing poll');
+          _context2.next = 5;
           return _userService["default"].removePollFromUser(this.user, this._id);
-        case 3:
+        case 5:
           next();
-          _context2.next = 9;
+          _context2.next = 11;
           break;
-        case 6:
-          _context2.prev = 6;
-          _context2.t0 = _context2["catch"](0);
+        case 8:
+          _context2.prev = 8;
+          _context2.t0 = _context2["catch"](1);
           next(_context2.t0);
-        case 9:
+        case 11:
         case "end":
           return _context2.stop();
       }
-    }, _callee2, this, [[0, 6]]);
+    }, _callee2, this, [[1, 8]]);
   }));
   return function (_x3) {
     return _ref2.apply(this, arguments);

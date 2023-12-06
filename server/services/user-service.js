@@ -14,6 +14,10 @@ class UserService {
     static async addPollToActiveUser(req, pollId) {
         req.session.user.polls.push(new mongoose.Types.ObjectId(pollId))
     }
+
+    static async removePollFromActiveUser(req, pollId) {
+        req.session.user.polls = req.session.user.polls.filter(id => !id.equals(new mongoose.Types.ObjectId(pollId)))
+    }
 }
 
 export default UserService

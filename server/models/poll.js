@@ -48,8 +48,10 @@ pollSchema.post('save', async function (doc, next) {
     }
 });
 
-pollSchema.pre("remove", async function (next) {
+pollSchema.pre("findOneAndDelete", async function (next) {
+    console.log('pre deleting one')
     try {
+        console.log('removing poll')
         await UserService.removePollFromUser(this.user, this._id);
         next();
     } catch (error) {
