@@ -11,7 +11,22 @@ class BasePolicy {
 
         if (!isAuthorized) {
             const modelName = model.charAt(0).toUpperCase() + model.slice(1);
-            throw new Error(`You're not allowed to ${action} this ${modelName}`);
+            const specificErrorMessage = this.getSpecificErrorMessage(action, modelName);
+            throw new Error(specificErrorMessage);
+        }
+    }
+
+    getSpecificErrorMessage(action, modelName) {
+        switch (action) {
+            case 'view':
+            case 'edit':
+            case 'update':
+            case 'delete':
+                return `You're not allowed to ${action} this ${modelName}`;
+            case 'create':
+                return `You're not allowed to create a ${modelName}`;
+            default:
+                return `You're not allowed to perform this action on ${modelName}`;
         }
     }
 }

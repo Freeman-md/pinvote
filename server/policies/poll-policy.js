@@ -1,8 +1,12 @@
 import BasePolicy from "./base-policy";
 
 class PollPolicy extends BasePolicy {
-    view(user, poll) {
-        return user._id === poll.user._id;
+    isUserAuthorizedForPoll(user, pollId) {
+        return user.polls.some(userPollId => userPollId.equals(pollId));
+    }
+
+    view(user, pollId) {
+        return this.isUserAuthorizedForPoll(user, pollId);
     }
 
     create() {
@@ -10,15 +14,15 @@ class PollPolicy extends BasePolicy {
     }
 
     edit(user, pollId) {
-        return user.polls.some(userPollId => userPollId.equals(pollId))
+        return this.isUserAuthorizedForPoll(user, pollId);
     }
 
     update(user, pollId) {
-        return user.polls.some(userPollId => userPollId.equals(pollId))        
+        return this.isUserAuthorizedForPoll(user, pollId);
     }
 
     delete(user, pollId) {
-        return user.polls.some(userPollId => userPollId.equals(pollId))        
+        return this.isUserAuthorizedForPoll(user, pollId);
     }
 }
 
