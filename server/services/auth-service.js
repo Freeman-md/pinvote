@@ -1,6 +1,6 @@
 import appConfig from '../config/app';
-import Token from '../models/token'
 import User from '../models/user'
+import PasswordService from './password-service'
 
 class AuthService {
   static async loginUser({ email, password }) {

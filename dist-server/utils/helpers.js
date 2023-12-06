@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.processValidationErrors = exports.flashErrorsAndRedirect = void 0;
+exports.processValidationErrors = exports.handleGlobalError = exports.flashErrorsAndRedirect = void 0;
 var flashErrorsAndRedirect = exports.flashErrorsAndRedirect = function flashErrorsAndRedirect(req, res, validationResult) {
   req.flash('errors', validationResult.errors);
   req.flash('formData', validationResult.formData);
@@ -15,4 +15,14 @@ var processValidationErrors = exports.processValidationErrors = function process
     errorObject[item.path] = item.msg;
   });
   return errorObject;
+};
+var handleGlobalError = exports.handleGlobalError = function handleGlobalError(req, res, error) {
+  console.error(error);
+  return flashErrorsAndRedirect(req, res, {
+    errors: [{
+      msg: error.message,
+      path: 'global'
+    }],
+    formData: req.body
+  });
 };
