@@ -8,7 +8,6 @@ const scheduler = {
   sendWelcomeEmail: async (data) => {
     await agenda.now(Events.NEW_USER, data);
   }
-
 }
 
 export default scheduler

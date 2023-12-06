@@ -3,6 +3,9 @@ import { handleGlobalError } from '../utils/helpers';
 import PollService from '../services/poll-service';
 import moment from 'moment';
 import PollPolicy from '../policies/poll-policy';
+import Events from '../lib/emitter/events';
+import emitter from '../lib/emitter';
+import UserService from '../services/user-service';
 
 class PollController {
     async index(req, res, next) {
@@ -54,7 +57,11 @@ class PollController {
         const data = matchedData(req);
 
         try {
-            await PollService.createPoll({ ...data, user: req.session.user._id });
+            const userId = req.session.user._id
+
+            const poll = await PollService.createPoll({ ...data, user: userId });
+
+            await UserService.addPollToActiveUser(req, poll.id)
 
             req.flash('info', 'Poll created successfully');
 
