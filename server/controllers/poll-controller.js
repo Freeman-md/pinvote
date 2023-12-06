@@ -28,6 +28,8 @@ class PollController {
         const { id } = matchedData(req);
 
         try {
+            await PollPolicy.authorize('edit', req.session.user, id)
+
             if (!res.locals.formData) {
                 const poll = await PollService.getPollDetails(id);
 
@@ -84,6 +86,8 @@ class PollController {
         const { id } = matchedData(req);
 
         try {
+            await PollPolicy.authorize('delete', req.session.user, id)
+
             await PollService.deletePoll(id);
 
             req.flash('info', `Poll deleted successfully`);

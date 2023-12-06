@@ -9,12 +9,16 @@ class PollPolicy extends BasePolicy {
         return true;
     }
 
+    edit(user, pollId) {
+        return user.polls.some(userPollId => userPollId.equals(pollId))
+    }
+
     update(user, pollId) {
         return user.polls.some(userPollId => userPollId.equals(pollId))        
     }
 
-    delete(user) {
-        return user._id === poll.user._id;
+    delete(user, pollId) {
+        return user.polls.some(userPollId => userPollId.equals(pollId))        
     }
 }
 
