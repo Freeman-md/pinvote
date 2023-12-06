@@ -6,7 +6,6 @@ const voteSchema = new Schema({
     user: {
         type: Schema.Types.ObjectId,
         ref: 'User',
-        required: true,
     },
     poll: {
         type: Schema.Types.ObjectId,
