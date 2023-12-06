@@ -76,48 +76,5 @@ var IndexController = /*#__PURE__*/_createClass(function IndexController() {
       return _ref2.apply(this, arguments);
     };
   }());
-  _defineProperty(this, "viewVoters", /*#__PURE__*/function () {
-    var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(req, res, next) {
-      var errors, _matchedData2, pollId, votesByOption;
-      return _regeneratorRuntime().wrap(function _callee3$(_context3) {
-        while (1) switch (_context3.prev = _context3.next) {
-          case 0:
-            errors = (0, _expressValidator.validationResult)(req);
-            if (errors.isEmpty()) {
-              _context3.next = 3;
-              break;
-            }
-            return _context3.abrupt("return", (0, _helpers.flashErrorsAndRedirect)(req, res, {
-              errors: errors.array(),
-              formData: {}
-            }));
-          case 3:
-            _context3.prev = 3;
-            _matchedData2 = (0, _expressValidator.matchedData)(req), pollId = _matchedData2.id;
-            _context3.next = 7;
-            return _voteService["default"].getPollVotesWithUserData(pollId);
-          case 7:
-            votesByOption = _context3.sent;
-            res.render('polls/voters', {
-              title: 'PinVote • View Voters',
-              pollId: pollId,
-              votesByOption: votesByOption
-            });
-            _context3.next = 14;
-            break;
-          case 11:
-            _context3.prev = 11;
-            _context3.t0 = _context3["catch"](3);
-            throw new Error(_context3.t0.message);
-          case 14:
-          case "end":
-            return _context3.stop();
-        }
-      }, _callee3, null, [[3, 11]]);
-    }));
-    return function (_x7, _x8, _x9) {
-      return _ref3.apply(this, arguments);
-    };
-  }());
 });
 var _default = exports["default"] = new IndexController();

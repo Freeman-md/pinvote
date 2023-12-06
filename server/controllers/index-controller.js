@@ -24,32 +24,6 @@ class IndexController {
             optionVotes
         })
     }
-    
-    viewVoters = async (req, res, next) => {
-        const errors = validationResult(req)
-        
-    
-        if (!errors.isEmpty()) {
-            return flashErrorsAndRedirect(req, res, {
-                errors: errors.array(),
-                formData: {}
-            })
-        }
-    
-        try {
-            const { id: pollId } = matchedData(req)
-    
-            const votesByOption = await VoteService.getPollVotesWithUserData(pollId)
-    
-            res.render('polls/voters', {
-                title: 'PinVote • View Voters',
-                pollId,
-                votesByOption,
-            })
-        } catch (error) {
-            throw new Error(error.message)
-        }
-    }
 }
 
 export default new IndexController()

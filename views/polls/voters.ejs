@@ -28,7 +28,7 @@
                                 <img src="https://ui-avatars.com/api/?name=F+M&color=FFFFFF&background=590D82"
                                     alt="<%= vote.user.fullName %>" class="w-16 h-16 rounded-full">
                                 <div>
-                                    <p class="text-sm font-semibold"><%= vote.user.fullName %></p>
+                                    <p class="text-sm font-semibold"><%= vote.user.name ?? 'Anonymous' %></p>
                                     <p class="text-xs text-gray-500">Voted on <%= vote.updatedAt.toUTCString() %></p>
                                 </div>
                             </div>

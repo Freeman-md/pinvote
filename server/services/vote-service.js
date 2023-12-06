@@ -11,9 +11,15 @@ class VoteService {
 
   static getPollVotesWithUserData = async (pollId) => {
     return await Vote.aggregate([
-      { $match: { poll: new ObjectId(pollId) } },
-      { $lookup: { from: 'users', localField: 'user', foreignField: '_id', as: 'user' } },
-      { $unwind: '$user' },
+      {
+        $match: { poll: new ObjectId(pollId) }
+      },
+      {
+        $lookup: { from: 'users', localField: 'user', foreignField: '_id', as: 'user' }
+      },
+      {
+        $unwind: { path: '$user', preserveNullAndEmptyArrays: true }
+      },
       {
         $group: {
           _id: '$option', // Group by the option
@@ -21,8 +27,14 @@ class VoteService {
             $push: {
               _id: '$_id',
               user: {
-                _id: '$user._id',
-                fullName: '$user.fullName', // Include only the fullName attribute
+                $cond: {
+                  if: { $eq: ['$user', null] },
+                  then: null,
+                  else: {
+                    _id: '$user._id',
+                    name: '$user.name.first',
+                  },
+                },
               },
               updatedAt: '$updatedAt',
             },
@@ -30,7 +42,8 @@ class VoteService {
         },
       },
     ]);
-  }
+  };
+
 
   static recordVoteForUser = async (userId, pollId, option) => {
     // Find the poll, user, and existing vote
