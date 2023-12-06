@@ -24,7 +24,7 @@ app.use(sharedDataMiddleware)
 
 // setup routes
 app.use('/auth', isAuth, authRouter)
-app.use('/', isAuth, indexRouter);
+app.use('/', indexRouter);
 app.use('/user', isAuth, userRouter);
 
 // catch 404 and forward to error handler

@@ -29,7 +29,7 @@ app.use(_sharedData["default"]);
 
 // setup routes
 app.use('/auth', _auth2.isAuth, _auth["default"]);
-app.use('/', _auth2.isAuth, _index["default"]);
+app.use('/', _index["default"]);
 app.use('/user', _auth2.isAuth, _user["default"]);
 
 // catch 404 and forward to error handler

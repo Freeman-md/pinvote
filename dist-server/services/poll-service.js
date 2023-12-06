@@ -150,10 +150,20 @@ _defineProperty(PollService, "getPollDetailsWithVotesAndOptionVotes", /*#__PURE_
           return _class.getPollDetailsWithUserVotes(pollId);
         case 2:
           poll = _context7.sent;
-          _context7.next = 5;
+          if (!userId) {
+            _context7.next = 9;
+            break;
+          }
+          _context7.next = 6;
           return _voteService["default"].findVoteByPollAndUser(pollId, userId);
-        case 5:
-          userVote = _context7.sent;
+        case 6:
+          _context7.t0 = _context7.sent;
+          _context7.next = 10;
+          break;
+        case 9:
+          _context7.t0 = null;
+        case 10:
+          userVote = _context7.t0;
           // Count total votes for each option
           optionVotes = {};
           poll.options.forEach(function (option) {
@@ -169,7 +179,7 @@ _defineProperty(PollService, "getPollDetailsWithVotesAndOptionVotes", /*#__PURE_
             userVote: userVote,
             optionVotes: optionVotes
           });
-        case 9:
+        case 14:
         case "end":
           return _context7.stop();
       }

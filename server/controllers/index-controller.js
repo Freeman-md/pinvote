@@ -15,7 +15,7 @@ class IndexController {
     view = async (req, res, next) => {
         const { id: pollId } = matchedData(req)
     
-        const { poll, userVote, optionVotes } = await PollService.getPollDetailsWithVotesAndOptionVotes(pollId, req.session.user._id)
+        const { poll, userVote, optionVotes } = await PollService.getPollDetailsWithVotesAndOptionVotes(pollId, req.session?.user?._id)
     
         res.render('polls/view', {
             title: 'PinVote • View',

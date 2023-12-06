@@ -36,7 +36,7 @@ class PollService {
     static getPollDetailsWithVotesAndOptionVotes = async (pollId, userId) => {
         const poll = await this.getPollDetailsWithUserVotes(pollId)
 
-        const userVote = await VoteService.findVoteByPollAndUser(pollId, userId)
+        const userVote = userId ? await VoteService.findVoteByPollAndUser(pollId, userId) : null
 
         // Count total votes for each option
         const optionVotes = {};
