@@ -17,8 +17,6 @@ class VoteController {
             const { id: pollId } = matchedData(req)
     
             const votesByOption = await VoteService.getPollVotesWithUserData(pollId)
-
-            console.log(votesByOption[0].votes)
     
             res.render('polls/voters', {
                 title: 'PinVote • View Voters',

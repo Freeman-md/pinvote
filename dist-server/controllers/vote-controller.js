@@ -41,23 +41,22 @@ var VoteController = /*#__PURE__*/_createClass(function VoteController() {
             return _voteService["default"].getPollVotesWithUserData(pollId);
           case 7:
             votesByOption = _context.sent;
-            console.log(votesByOption[0].votes);
             res.render('polls/voters', {
               title: 'PinVote • View Voters',
               pollId: pollId,
               votesByOption: votesByOption
             });
-            _context.next = 15;
+            _context.next = 14;
             break;
-          case 12:
-            _context.prev = 12;
+          case 11:
+            _context.prev = 11;
             _context.t0 = _context["catch"](3);
             throw new Error(_context.t0.message);
-          case 15:
+          case 14:
           case "end":
             return _context.stop();
         }
-      }, _callee, null, [[3, 12]]);
+      }, _callee, null, [[3, 11]]);
     }));
     return function (_x, _x2, _x3) {
       return _ref.apply(this, arguments);
