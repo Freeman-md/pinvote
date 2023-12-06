@@ -1,6 +1,6 @@
 import express from 'express';
 import { index, view, viewVoters } from '../controllers/index-controller';
-import { validateParam } from '../middlewares/query-param-validation';
+import { validateParam } from '../requests/query-param-validator';
 import { vote } from '../controllers/vote-controller';
 import PollValidator from '../requests/poll-validator';
 const router = express.Router();
