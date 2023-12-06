@@ -8,6 +8,8 @@ var _types = require("mongoose/lib/types");
 var _poll = _interopRequireDefault(require("../models/poll"));
 var _user = _interopRequireDefault(require("../models/user"));
 var _vote = _interopRequireDefault(require("../models/vote"));
+var _pollService = _interopRequireDefault(require("./poll-service"));
+var _class;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -28,6 +30,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
 var VoteService = /*#__PURE__*/_createClass(function VoteService() {
   _classCallCheck(this, VoteService);
 });
+_class = VoteService;
 _defineProperty(VoteService, "findVoteByPollAndUser", /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(pollId, userId) {
     return _regeneratorRuntime().wrap(function _callee$(_context) {
@@ -95,7 +98,7 @@ _defineProperty(VoteService, "getPollVotesWithUserData", /*#__PURE__*/function (
     return _ref2.apply(this, arguments);
   };
 }());
-_defineProperty(VoteService, "recordVote", /*#__PURE__*/function () {
+_defineProperty(VoteService, "recordVoteForUser", /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(userId, pollId, option) {
     var _yield$Promise$all, _yield$Promise$all2, poll, user, existingVote, newVote;
     return _regeneratorRuntime().wrap(function _callee3$(_context3) {
@@ -112,37 +115,43 @@ _defineProperty(VoteService, "recordVote", /*#__PURE__*/function () {
           poll = _yield$Promise$all2[0];
           user = _yield$Promise$all2[1];
           existingVote = _yield$Promise$all2[2];
-          if (!(!poll || !user)) {
+          if (poll) {
             _context3.next = 9;
             break;
           }
-          throw new Error('Poll or user not found');
+          throw new Error('Poll not found');
         case 9:
+          if (user) {
+            _context3.next = 11;
+            break;
+          }
+          throw new Error('User not found');
+        case 11:
           if (!existingVote) {
-            _context3.next = 14;
+            _context3.next = 16;
             break;
           }
           user.votes.pull(existingVote._id);
           poll.votes.pull(existingVote._id);
-          _context3.next = 14;
-          return Promise.all([user.save(), poll.save()]);
-        case 14:
           _context3.next = 16;
+          return Promise.all([user.save(), poll.save()]);
+        case 16:
+          _context3.next = 18;
           return _vote["default"].create({
             user: userId,
             poll: pollId,
             option: option
           });
-        case 16:
+        case 18:
           newVote = _context3.sent;
           // Add the new vote to user and poll
           user.votes.push(newVote._id);
           poll.votes.push(newVote._id);
-          _context3.next = 21;
+          _context3.next = 23;
           return Promise.all([user.save(), poll.save()]);
-        case 21:
+        case 23:
           return _context3.abrupt("return", true);
-        case 22:
+        case 24:
         case "end":
           return _context3.stop();
       }
@@ -150,6 +159,66 @@ _defineProperty(VoteService, "recordVote", /*#__PURE__*/function () {
   }));
   return function (_x4, _x5, _x6) {
     return _ref3.apply(this, arguments);
+  };
+}());
+_defineProperty(VoteService, "recordAnonymousVote", /*#__PURE__*/function () {
+  var _ref4 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(pollId, option) {
+    var newVote;
+    return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+      while (1) switch (_context4.prev = _context4.next) {
+        case 0:
+          _context4.next = 2;
+          return _vote["default"].create({
+            poll: pollId,
+            option: option
+          });
+        case 2:
+          newVote = _context4.sent;
+          _context4.next = 5;
+          return _poll["default"].findByIdAndUpdate(pollId, {
+            $push: {
+              votes: newVote._id
+            }
+          });
+        case 5:
+          ;
+          return _context4.abrupt("return", true);
+        case 7:
+        case "end":
+          return _context4.stop();
+      }
+    }, _callee4);
+  }));
+  return function (_x7, _x8) {
+    return _ref4.apply(this, arguments);
+  };
+}());
+_defineProperty(VoteService, "recordVote", /*#__PURE__*/function () {
+  var _ref5 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(userId, pollId, option) {
+    return _regeneratorRuntime().wrap(function _callee5$(_context5) {
+      while (1) switch (_context5.prev = _context5.next) {
+        case 0:
+          if (!userId) {
+            _context5.next = 6;
+            break;
+          }
+          _context5.next = 3;
+          return _class.recordVoteForUser(userId, pollId, option);
+        case 3:
+          return _context5.abrupt("return", _context5.sent);
+        case 6:
+          _context5.next = 8;
+          return _class.recordAnonymousVote(pollId, option);
+        case 8:
+          return _context5.abrupt("return", _context5.sent);
+        case 9:
+        case "end":
+          return _context5.stop();
+      }
+    }, _callee5);
+  }));
+  return function (_x9, _x10, _x11) {
+    return _ref5.apply(this, arguments);
   };
 }());
 var _default = exports["default"] = VoteService;

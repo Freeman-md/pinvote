@@ -2,7 +2,7 @@ import { matchedData, validationResult } from "express-validator"
 import VoteService from "../services/vote-service"
 
 class VoteController {
-    vote = (req, res, next) => {
+    async vote(req, res, next) {
         const errors = validationResult(req)
 
         if (!errors.isEmpty()) {
@@ -14,9 +14,9 @@ class VoteController {
         try {
             const { id: pollId, option } = matchedData(req)
 
-            VoteService.recordVote(req.session.user._id, pollId, option)
+            await VoteService.recordVote(req.session?.user?._id, pollId, option)
 
-            return res.status(200).json({
+            return res.status(201).json({
                 message: 'Vote recorded successfully'
             })
 
