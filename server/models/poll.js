@@ -1,5 +1,6 @@
 import moment from "moment";
 import mongoose from "mongoose";
+import User from "./user";
 
 const Schema = mongoose.Schema
 
@@ -36,6 +37,16 @@ const pollSchema = new Schema({
 }, { 
     timestamps: true,  
 })
+
+pollSchema.post('save', async function (doc, next) {
+    try {
+        // Update user's polls array after saving the poll
+        await User.findByIdAndUpdate(doc.user, { $push: { polls: doc._id } });
+        next();
+    } catch (error) {
+        next(error);
+    }
+});
 
 const Poll = mongoose.model('Poll', pollSchema) 
 

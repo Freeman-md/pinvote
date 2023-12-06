@@ -2,6 +2,7 @@ import { matchedData, validationResult } from 'express-validator';
 import { handleGlobalError } from '../utils/helpers';
 import PollService from '../services/poll-service';
 import moment from 'moment';
+import PollPolicy from '../policies/poll-policy';
 
 class PollController {
     async index(req, res, next) {
@@ -67,6 +68,8 @@ class PollController {
         const { id: pollId, startDate, ...poll } = data;
 
         try {
+            await PollPolicy.authorize('update', req.session.user, pollId)
+
             await PollService.updatePoll(pollId, poll);
 
             req.flash('info', `Poll "${poll.question.substring(0, 10)}..." updated successfully`);

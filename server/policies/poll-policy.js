@@ -9,8 +9,8 @@ class PollPolicy extends BasePolicy {
         return true;
     }
 
-    update(user, poll) {
-        return user._id === poll.user._id;
+    update(user, pollId) {
+        return user.polls.some(userPollId => userPollId.equals(pollId))        
     }
 
     delete(user) {
@@ -18,4 +18,4 @@ class PollPolicy extends BasePolicy {
     }
 }
 
-export default PollPolicy
+export default new PollPolicy()
