@@ -90,22 +90,41 @@
 
 
                     <div class="mt-8">
-                        <h2 class="text-xl font-semibold mb-4">Select an option to vote:</h2>
-
-                        <div class="flex flex-col space-y-4" id="pollOptions">
+                        <% if (poll.status==='inactive' | poll.status==='ended' ) { %>
+                            <div class="flex flex-col space-y-4" id="pollOptions">
                             <% poll.options.forEach((option, index)=> { %>
-                                <button id="option-<%= index %>"
-                                    class="poll-option bg-white border rounded p-4 cursor-pointer transition duration-300 ease-in-out flex justify-between <% if (userVote?.option === option) { %> !bg-primary text-white <% } %>"
-                                    onclick="selectOption('<%= poll._id %>', '<%= option %>', '<%= index %>')">
+
+                                <div
+                                    class="poll-option bg-white border rounded p-4 transition duration-300 ease-in-out flex justify-between <% if (userVote?.option === option) { %> !bg-primary text-white <% } %>">
                                     <span>
                                         <%= option %>
                                     </span>
                                     <span>(<%= optionVotes[option].count %> vote<% if (optionVotes[option].count !==1) {
                                                 %>s<% } %>)</span>
-                                </button>
-                                <% }) %>
+                                </div>
 
-                        </div>
+                                <% }) %>
+                            </div>
+                                    <% } else { %>
+
+                                        <h2 class="text-xl font-semibold mb-4">Select an option to vote:</h2>
+
+                                        <div class="flex flex-col space-y-4" id="pollOptions">
+                                            <% poll.options.forEach((option, index)=> { %>
+                                                <button id="option-<%= index %>"
+                                                    class="poll-option bg-white border rounded p-4 cursor-pointer transition duration-300 ease-in-out flex justify-between <% if (userVote?.option === option) { %> !bg-primary text-white <% } %>"
+                                                    onclick="selectOption('<%= poll._id %>', '<%= option %>', '<%= index %>')">
+                                                    <span>
+                                                        <%= option %>
+                                                    </span>
+                                                    <span>(<%= optionVotes[option].count %> vote<% if
+                                                                (optionVotes[option].count !==1) { %>s<% } %>)</span>
+                                                </button>
+                                                <% }) %>
+
+                                        </div>
+
+                                        <% } %>
                     </div>
 
                 </div>
