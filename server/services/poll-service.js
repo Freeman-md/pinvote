@@ -1,11 +1,20 @@
+import moment from "moment";
 import Poll from "../models/poll"
 import VoteService from "./vote-service"
 
 class PollService {
-    static getSortedPollsQuery = () => Poll.find().sort({ createdAt: -1 });
+    static getSortedPollsQuery = () => Poll.find({
+        $or: [
+            { endDate: { $exists: false } },
+            { endDate: { $gt: moment().toDate() } }
+        ]
+    }).sort({ createdAt: -1 });
 
     static getUserPolls = async (id) => {
-        return await Poll.find({ user: id }).sort({ createdAt: -1 });
+        return await Poll.find({
+            user: id,
+            
+        }).sort({ createdAt: -1 });
     }
 
     static getAllPolls = async () => {

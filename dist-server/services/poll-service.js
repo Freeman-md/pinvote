@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+var _moment = _interopRequireDefault(require("moment"));
 var _poll = _interopRequireDefault(require("../models/poll"));
 var _voteService = _interopRequireDefault(require("./vote-service"));
 var _class;
@@ -23,7 +24,17 @@ var PollService = /*#__PURE__*/_createClass(function PollService() {
 });
 _class = PollService;
 _defineProperty(PollService, "getSortedPollsQuery", function () {
-  return _poll["default"].find().sort({
+  return _poll["default"].find({
+    $or: [{
+      endDate: {
+        $exists: false
+      }
+    }, {
+      endDate: {
+        $gt: (0, _moment["default"])().toDate()
+      }
+    }]
+  }).sort({
     createdAt: -1
   });
 });
