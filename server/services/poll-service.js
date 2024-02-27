@@ -33,28 +33,6 @@ class PollService {
         })
     }
 
-    static getPollDetailsWithVotesAndOptionVotes = async (pollId, userId) => {
-        const poll = await this.getPollDetailsWithUserVotes(pollId)
-
-        const userVote = userId ? await VoteService.findVoteByPollAndUser(pollId, userId) : null
-
-        // Count total votes for each option
-        const optionVotes = {};
-        poll.options.forEach((option) => {
-            const votesForOption = poll.votes.filter((vote) => vote.option == option);
-
-            optionVotes[option] = {
-                count: votesForOption.length
-            };
-        });
-
-        return {
-            poll,
-            userVote,
-            optionVotes
-        }
-    }
-
     static createPoll = async (data) => {
         return await Poll.create(data)
     }
