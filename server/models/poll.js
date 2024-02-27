@@ -22,12 +22,10 @@ const pollSchema = new Schema({
     startDate: {
         type: Schema.Types.Date,
         required: true,
-        get: v => moment(v).fromNow()
     },
     endDate: {
         type: Schema.Types.Date,
         required: false,
-        get: v => moment(v).fromNow()
     },
     visibility: {
         type: String,
@@ -37,7 +35,33 @@ const pollSchema = new Schema({
     votes: [{ type: Schema.Types.ObjectId, ref: 'Vote' }]
 }, {
     timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
 })
+
+pollSchema.virtual('startsAt').get(function() {
+    return moment(this.startDate).fromNow();
+});
+
+pollSchema.virtual('endsAt').get(function() {
+    return this.endDate ? moment(this.endDate).fromNow() : 'No end date';
+});
+
+pollSchema.virtual('status').get(function() {
+    const now = moment();
+    
+    const hasStarted = now.isSameOrAfter(this.startDate);
+    
+    const hasEnded = this.endDate && now.isSameOrAfter(this.endDate);
+
+    if (hasEnded) {
+        return 'ended';
+    } else if (hasStarted) {
+        return 'active';
+    } else {
+        return 'inactive';
+    }
+});
 
 pollSchema.post('save', async function (doc, next) {
     try {

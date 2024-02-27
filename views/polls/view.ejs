@@ -13,41 +13,53 @@
                     </div>
                     <div
                         class="flex flex-col space-y-2 sm:space-y-0 sm:flex-row sm:justify-between sm:space-x-4 items-center">
-                        <p class="italic">Ends <%= poll.endDate %>
-                        </p>
+                        <% if (poll.status==='inactive' ) { %>
+                            <p class="italic">Starts <%= poll.startsAt %>
+                            </p>
+                            <% } else if (poll.status==='active' ) { %>
+                                <p class="italic">Ends <%= poll.endsAt %>
+                                </p>
+                                <% } else { %>
+                                    <p class="badge badge-danger capitalize">
+                                        <%= poll.status %>
+                                    </p>
+                                    <% } %>
+                                        <div>
+                                            <!-- Social Media Sharing Buttons -->
+                                            <div class="flex space-x-4">
+                                                <!-- Twitter Share Button -->
+                                                <a href="https://twitter.com/intent/tweet?url=<%= encodeURI(`${app.url}/polls/${poll._id}`) %>&text=<%= encodeURI('Check out this poll: ' + poll.question) %>"
+                                                    target="_blank" rel="noopener noreferrer"
+                                                    class="rounded-full p-2 border">
+                                                    <img src="/images/twitter.svg" alt="Twitter"
+                                                        class="w-8 object-cover object-center" />
+                                                </a>
 
-                        <div>
-                            <!-- Social Media Sharing Buttons -->
-                            <div class="flex space-x-4">
-                                <!-- Twitter Share Button -->
-                                <a href="https://twitter.com/intent/tweet?url=<%= encodeURI(`${app.url}/polls/${poll._id}`) %>&text=<%= encodeURI('Check out this poll: ' + poll.question) %>"
-                                    target="_blank" rel="noopener noreferrer" class="rounded-full p-2 border">
-                                    <img src="/images/twitter.svg" alt="Twitter"
-                                        class="w-8 object-cover object-center" />
-                                </a>
+                                                <!-- Facebook Share Button -->
+                                                <a href="https://www.facebook.com/sharer/sharer.php?u=<%= encodeURI(`${app.url}/polls/${poll._id}`) %>"
+                                                    target="_blank" rel="noopener noreferrer"
+                                                    class="rounded-full p-2 border">
+                                                    <img src="/images/facebook.svg" alt="Facebook"
+                                                        class="w-8 object-cover object-center" />
+                                                </a>
 
-                                <!-- Facebook Share Button -->
-                                <a href="https://www.facebook.com/sharer/sharer.php?u=<%= encodeURI(`${app.url}/polls/${poll._id}`) %>"
-                                    target="_blank" rel="noopener noreferrer" class="rounded-full p-2 border">
-                                    <img src="/images/facebook.svg" alt="Facebook"
-                                        class="w-8 object-cover object-center" />
-                                </a>
+                                                <!-- WhatsApp Share Button -->
+                                                <a href="whatsapp://send?text=<%= encodeURI('Check out this poll: ' + poll.question + ' ' + `${app.url}/polls/${poll._id}`) %>"
+                                                    target="_blank" rel="noopener noreferrer"
+                                                    class="rounded-full p-2 border">
+                                                    <img src="/images/whatsapp.svg" alt="Whatsapp"
+                                                        class="w-8 object-cover object-center" />
+                                                </a>
 
-                                <!-- WhatsApp Share Button -->
-                                <a href="whatsapp://send?text=<%= encodeURI('Check out this poll: ' + poll.question + ' ' + `${app.url}/polls/${poll._id}`) %>"
-                                    target="_blank" rel="noopener noreferrer" class="rounded-full p-2 border">
-                                    <img src="/images/whatsapp.svg" alt="Whatsapp"
-                                        class="w-8 object-cover object-center" />
-                                </a>
+                                                <!-- Native Share Link Button -->
+                                                <button onclick="shareLink('<%= `${app.url}/polls/${poll._id}` %>')"
+                                                    class="rounded-full p-2 border">
+                                                    <img src="/images/share.svg" alt="Share"
+                                                        class="w-8 object-cover object-center" />
+                                                </button>
 
-                                <!-- Native Share Link Button -->
-                                <button onclick="shareLink('<%= `${app.url}/polls/${poll._id}` %>')"
-                                    class="rounded-full p-2 border">
-                                    <img src="/images/share.svg" alt="Share" class="w-8 object-cover object-center" />
-                                </button>
-
-                            </div>
-                        </div>
+                                            </div>
+                                        </div>
                     </div>
 
                     <h1 class="text-3xl">
@@ -67,7 +79,9 @@
                         </div>
 
                         <div class="flex flex-col sm:items-end space-y-2">
-                            <p>Total Votes: <strong><%= poll.votes.length %></strong></p>
+                            <p>Total Votes: <strong>
+                                    <%= poll.votes.length %>
+                                </strong></p>
                             <a href="/polls/<%= poll._id %>/voters" class="btn">Voters / Results</a>
                         </div>
                     </div>
@@ -79,13 +93,15 @@
                         <h2 class="text-xl font-semibold mb-4">Select an option to vote:</h2>
 
                         <div class="flex flex-col space-y-4" id="pollOptions">
-                            <% poll.options.forEach((option, index) => { %>
-                                <button id="option-<%= index %>" class="poll-option bg-white border rounded p-4 cursor-pointer transition duration-300 ease-in-out flex justify-between <% if (userVote?.option === option) { %> !bg-primary text-white <% } %>"
+                            <% poll.options.forEach((option, index)=> { %>
+                                <button id="option-<%= index %>"
+                                    class="poll-option bg-white border rounded p-4 cursor-pointer transition duration-300 ease-in-out flex justify-between <% if (userVote?.option === option) { %> !bg-primary text-white <% } %>"
                                     onclick="selectOption('<%= poll._id %>', '<%= option %>', '<%= index %>')">
                                     <span>
                                         <%= option %>
                                     </span>
-                                    <span>(<%= optionVotes[option].count %> vote<% if (optionVotes[option].count !== 1) { %>s<% } %>)</span>
+                                    <span>(<%= optionVotes[option].count %> vote<% if (optionVotes[option].count !==1) {
+                                                %>s<% } %>)</span>
                                 </button>
                                 <% }) %>
 
@@ -103,20 +119,20 @@
 
                             const response = await postData(`/polls/${pollId}/vote`, {
                                 option: optionText
-                            }) 
-                
+                            })
+
                             if (response.ok) {
                                 // Update the UI to reflect the selected option
                                 const options = document.querySelectorAll('.poll-option');
                                 options.forEach((opt) => opt.classList.remove('!bg-primary', 'text-white'));
-                
+
                                 const selectedOption = document.getElementById(`option-${optionId}`);
                                 selectedOption.classList.add('!bg-primary', 'text-white');
 
                             } else {
                                 errorMessage.setAttribute('class', 'mt-4 px-4 py-2 bg-red-100 rounded-full border-red-500 text-red-700')
 
-                                errorMessage.innerText = `Error recording vote: ${response.statusText}`                                
+                                errorMessage.innerText = `Error recording vote: ${response.statusText}`
                             }
                         } catch (error) {
                             errorMessage.setAttribute('class', 'mt-4 px-4 py-2 bg-red-100 rounded-full border-red-500 text-red-700')

@@ -51,7 +51,17 @@
                         <a href="/polls/<%= poll._id %>" class="btn btn-primary">Vote</a>
                       </div>
 
-                      <p><i>Ends <%= poll.endDate %></i></p>
+                      <% if (poll.status==='inactive' ) { %>
+                        <p class="italic">Starts <%= poll.startsAt %>
+                        </p>
+                        <% } else if (poll.status==='active' ) { %>
+                            <p class="italic">Ends <%= poll.endsAt %>
+                            </p>
+                            <% } else { %>
+                                <p class="badge badge-danger capitalize">
+                                    <%= poll.status %>
+                                </p>
+                                <% } %>
 
                       <div
                         class="flex flex-col space-y-2 sm:space-y-0 sm:flex-row sm:justify-between sm:items-end sm:space-x-4">

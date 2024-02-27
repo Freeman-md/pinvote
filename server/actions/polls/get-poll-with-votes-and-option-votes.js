@@ -1,3 +1,4 @@
+import moment from "moment";
 import PollService from "../../services/poll-service";
 import VoteService from "../../services/vote-service";
 
@@ -16,6 +17,8 @@ export default class GetPollDetailsWithVotesAndOptionVotesAction {
                 count: votesForOption.length
             };
         });
+
+        console.log(moment(poll.startDate).format())
     
         return {
             poll,

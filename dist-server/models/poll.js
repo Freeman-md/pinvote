@@ -30,17 +30,11 @@ var pollSchema = new Schema({
   },
   startDate: {
     type: Schema.Types.Date,
-    required: true,
-    get: function get(v) {
-      return (0, _moment["default"])(v).fromNow();
-    }
+    required: true
   },
   endDate: {
     type: Schema.Types.Date,
-    required: false,
-    get: function get(v) {
-      return (0, _moment["default"])(v).fromNow();
-    }
+    required: false
   },
   visibility: {
     type: String,
@@ -52,7 +46,31 @@ var pollSchema = new Schema({
     ref: 'Vote'
   }]
 }, {
-  timestamps: true
+  timestamps: true,
+  toJSON: {
+    virtuals: true
+  },
+  toObject: {
+    virtuals: true
+  }
+});
+pollSchema.virtual('startsAt').get(function () {
+  return (0, _moment["default"])(this.startDate).fromNow();
+});
+pollSchema.virtual('endsAt').get(function () {
+  return this.endDate ? (0, _moment["default"])(this.endDate).fromNow() : 'No end date';
+});
+pollSchema.virtual('status').get(function () {
+  var now = (0, _moment["default"])();
+  var hasStarted = now.isSameOrAfter(this.startDate);
+  var hasEnded = this.endDate && now.isSameOrAfter(this.endDate);
+  if (hasEnded) {
+    return 'ended';
+  } else if (hasStarted) {
+    return 'active';
+  } else {
+    return 'inactive';
+  }
 });
 pollSchema.post('save', /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(doc, next) {
