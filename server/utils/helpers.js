@@ -15,7 +15,7 @@ export const processValidationErrors = (errors) => {
 }
 
 export const handleGlobalError = (req, res, error) => {
-  console.error(error);
+  // console.error(error);
   return flashErrorsAndRedirect(req, res, {
     errors: [
       {

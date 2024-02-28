@@ -1,7 +1,8 @@
-import { body } from 'express-validator';
+import { body, param } from 'express-validator';
 import PollService from '../services/poll-service';
 import moment from 'moment';
 import BaseValidator from './validator';
+import EnsurePollIsActive from '../actions/polls/ensure-poll-is-active';
 
 class PollRequestValidator extends BaseValidator {
   constructor() {
@@ -41,6 +42,24 @@ class PollRequestValidator extends BaseValidator {
       return true;
     };
 
+    this.validateOptionInPoll = async (value, { req }) => {
+        const poll = await PollService.getPollDetails(req.params.id);
+
+        if (!poll) {
+          throw new Error('Poll not found');
+        }
+
+        if (!poll.options.includes(value)) {
+          throw new Error('Option does not exist in Poll');
+        }
+
+        return true;
+      }
+
+      this.ensurePollIsActive = async (value, { req }) => {
+        await EnsurePollIsActive.execute(value)
+      }
+
     this.validatePoll = [
       body('question').trim().notEmpty().escape().isLength({ min: 10 }).withMessage('Question must be more than 10 characters'),
       body('options').isArray({ min: 2 }),
@@ -59,21 +78,10 @@ class PollRequestValidator extends BaseValidator {
       body('visibility').isIn(['public', 'private']),
     ]
 
-    this.validateOptionInPoll = [
-      body('option').trim().notEmpty().custom(async (value, { req }) => {
-        const poll = await PollService.getPollDetails(req.params.id);
-
-        if (!poll) {
-          throw new Error('Poll not found');
-        }
-
-        if (!poll.options.includes(value)) {
-          throw new Error('Option does not exist in Poll');
-        }
-
-        return true;
-      }),
-    ];
+    this.validateOptionExistsAndPollIsActive = [
+      body('option').trim().notEmpty().custom(this.validateOptionInPoll),
+      param('id').custom(this.ensurePollIsActive)
+    ]
   }
 }
 

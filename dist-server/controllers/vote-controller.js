@@ -74,7 +74,7 @@ var VoteController = /*#__PURE__*/_createClass(function VoteController() {
               break;
             }
             return _context2.abrupt("return", res.status(500).json({
-              message: 'Error recording vote'
+              message: errors.errors.length > 0 ? errors.errors[0].msg : 'Error recording vote'
             }));
           case 3:
             _context2.prev = 3;

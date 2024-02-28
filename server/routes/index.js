@@ -11,7 +11,7 @@ router.get('/', IndexController.index);
 
 router.get('/polls/:id', validateParam('id'), IndexController.view)
 
-router.post('/polls/:id/vote', validateParam(['id']), PollValidator.validateOptionInPoll, VoteController.vote)
+router.post('/polls/:id/vote', validateParam(['id']), PollValidator.validateOptionExistsAndPollIsActive, VoteController.vote)
 
 router.get('/polls/:id/voters', validateParam('id'), VoteController.view)
 

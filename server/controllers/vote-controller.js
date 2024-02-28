@@ -33,7 +33,7 @@ class VoteController {
 
         if (!errors.isEmpty()) {
             return res.status(500).json({
-                message: 'Error recording vote'
+                message: errors.errors.length > 0 ? errors.errors[0].msg : 'Error recording vote'
             })
         }
 

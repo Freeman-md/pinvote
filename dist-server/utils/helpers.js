@@ -17,7 +17,7 @@ var processValidationErrors = exports.processValidationErrors = function process
   return errorObject;
 };
 var handleGlobalError = exports.handleGlobalError = function handleGlobalError(req, res, error) {
-  console.error(error);
+  // console.error(error);
   return flashErrorsAndRedirect(req, res, {
     errors: [{
       msg: error.message,

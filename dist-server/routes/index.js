@@ -12,7 +12,7 @@ var router = _express["default"].Router();
 /* GET home page. */
 router.get('/', _indexController["default"].index);
 router.get('/polls/:id', (0, _queryParamValidator.validateParam)('id'), _indexController["default"].view);
-router.post('/polls/:id/vote', (0, _queryParamValidator.validateParam)(['id']), _pollValidator["default"].validateOptionInPoll, _voteController["default"].vote);
+router.post('/polls/:id/vote', (0, _queryParamValidator.validateParam)(['id']), _pollValidator["default"].validateOptionExistsAndPollIsActive, _voteController["default"].vote);
 router.get('/polls/:id/voters', (0, _queryParamValidator.validateParam)('id'), _voteController["default"].view);
 router.get('/csrf-token', function (req, res, next) {
   res.json({

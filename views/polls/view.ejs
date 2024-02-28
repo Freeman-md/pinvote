@@ -90,7 +90,7 @@
 
 
                     <div class="mt-8">
-                        <% if (poll.status==='inactive' | poll.status==='ended' ) { %>
+                        <% if (poll.status === 'active' ) { %>
                             <div class="flex flex-col space-y-4" id="pollOptions">
                             <% poll.options.forEach((option, index)=> { %>
 
@@ -131,7 +131,7 @@
 
                 <script>
 
-                    const selectOption = async (pollId, optionText, optionId) => {
+                    const selectOption = async (pollId, optionText, optionIndex) => {
                         const errorMessage = document.getElementById('error-message')
 
                         try {
@@ -145,18 +145,19 @@
                                 const options = document.querySelectorAll('.poll-option');
                                 options.forEach((opt) => opt.classList.remove('!bg-primary', 'text-white'));
 
-                                const selectedOption = document.getElementById(`option-${optionId}`);
+                                const selectedOption = document.getElementById(`option-${optionIndex}`);
                                 selectedOption.classList.add('!bg-primary', 'text-white');
-
                             } else {
+                                const error = await response.json()
+
                                 errorMessage.setAttribute('class', 'mt-4 px-4 py-2 bg-red-100 rounded-full border-red-500 text-red-700')
 
-                                errorMessage.innerText = `Error recording vote: ${response.statusText}`
+                                errorMessage.innerText = error.message
                             }
                         } catch (error) {
                             errorMessage.setAttribute('class', 'mt-4 px-4 py-2 bg-red-100 rounded-full border-red-500 text-red-700')
 
-                            errorMessage.innerText = `Error recording vote: ${error}`
+                            errorMessage.innerText = error.message
                         } finally {
                             setTimeout(() => {
                                 errorMessage.removeAttribute('class')
