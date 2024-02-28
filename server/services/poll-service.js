@@ -3,7 +3,8 @@ import Poll from "../models/poll"
 import VoteService from "./vote-service"
 
 class PollService {
-    static getSortedPollsQuery = () => Poll.find({
+    static getSortedPollsQuery = (searchTerm = '') => Poll.find({
+        question: new RegExp(searchTerm, 'i'),
         $or: [
             { endDate: { $exists: false } },
             { endDate: { $gt: moment().toDate() } }
@@ -21,8 +22,8 @@ class PollService {
         return await this.getSortedPollsQuery().populate('user');
     }
 
-    static getAllPollsWithVotes = async () => {
-        return await this.getSortedPollsQuery().populate('user').populate('votes');
+    static getAllPollsWithVotes = async (searchTerm) => {
+        return await this.getSortedPollsQuery(searchTerm).populate('user').populate('votes');
     }
 
     static getPollDetails = async (id) => {

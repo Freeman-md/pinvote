@@ -24,7 +24,9 @@ var PollService = /*#__PURE__*/_createClass(function PollService() {
 });
 _class = PollService;
 _defineProperty(PollService, "getSortedPollsQuery", function () {
+  var searchTerm = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
   return _poll["default"].find({
+    question: new RegExp(searchTerm, 'i'),
     $or: [{
       endDate: {
         $exists: false
@@ -75,20 +77,25 @@ _defineProperty(PollService, "getAllPolls", /*#__PURE__*/_asyncToGenerator( /*#_
     }
   }, _callee2);
 })));
-_defineProperty(PollService, "getAllPollsWithVotes", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
-  return _regeneratorRuntime().wrap(function _callee3$(_context3) {
-    while (1) switch (_context3.prev = _context3.next) {
-      case 0:
-        _context3.next = 2;
-        return _class.getSortedPollsQuery().populate('user').populate('votes');
-      case 2:
-        return _context3.abrupt("return", _context3.sent);
-      case 3:
-      case "end":
-        return _context3.stop();
-    }
-  }, _callee3);
-})));
+_defineProperty(PollService, "getAllPollsWithVotes", /*#__PURE__*/function () {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(searchTerm) {
+    return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+      while (1) switch (_context3.prev = _context3.next) {
+        case 0:
+          _context3.next = 2;
+          return _class.getSortedPollsQuery(searchTerm).populate('user').populate('votes');
+        case 2:
+          return _context3.abrupt("return", _context3.sent);
+        case 3:
+        case "end":
+          return _context3.stop();
+      }
+    }, _callee3);
+  }));
+  return function (_x2) {
+    return _ref3.apply(this, arguments);
+  };
+}());
 _defineProperty(PollService, "getPollDetails", /*#__PURE__*/function () {
   var _ref4 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(id) {
     return _regeneratorRuntime().wrap(function _callee4$(_context4) {
@@ -104,7 +111,7 @@ _defineProperty(PollService, "getPollDetails", /*#__PURE__*/function () {
       }
     }, _callee4);
   }));
-  return function (_x2) {
+  return function (_x3) {
     return _ref4.apply(this, arguments);
   };
 }());
@@ -123,7 +130,7 @@ _defineProperty(PollService, "getPollDetailsWithVotes", /*#__PURE__*/function ()
       }
     }, _callee5);
   }));
-  return function (_x3) {
+  return function (_x4) {
     return _ref5.apply(this, arguments);
   };
 }());
@@ -147,7 +154,7 @@ _defineProperty(PollService, "getPollDetailsWithUserVotes", /*#__PURE__*/functio
       }
     }, _callee6);
   }));
-  return function (_x4) {
+  return function (_x5) {
     return _ref6.apply(this, arguments);
   };
 }());
@@ -166,7 +173,7 @@ _defineProperty(PollService, "createPoll", /*#__PURE__*/function () {
       }
     }, _callee7);
   }));
-  return function (_x5) {
+  return function (_x6) {
     return _ref7.apply(this, arguments);
   };
 }());
@@ -185,7 +192,7 @@ _defineProperty(PollService, "updatePoll", /*#__PURE__*/function () {
       }
     }, _callee8);
   }));
-  return function (_x6, _x7) {
+  return function (_x7, _x8) {
     return _ref8.apply(this, arguments);
   };
 }());
@@ -204,7 +211,7 @@ _defineProperty(PollService, "deletePoll", /*#__PURE__*/function () {
       }
     }, _callee9);
   }));
-  return function (_x8) {
+  return function (_x9) {
     return _ref9.apply(this, arguments);
   };
 }());

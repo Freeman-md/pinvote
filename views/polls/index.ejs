@@ -6,12 +6,18 @@
 
       <div class="container py-4 space-y-6">
 
-        <form action="/" method="POST">
+        <form action="/" method="get" id="searchForm">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           <div class="form-control">
 
             <label for="search">Search for polls</label>
-            <input type="search" name="search" id="search" placeholder="Enter search keywords" class="bg-gray-100">
+
+            <div class="form-group">
+              <input type="search" name="searchTerm" id="search" placeholder="Enter search keywords"
+                class="bg-gray-100" value="<%= searchTerm %>">
+
+              <button class="btn btn-primary">Search</button>
+            </div>
 
           </div>
         </form>
@@ -21,7 +27,7 @@
           <% if (polls.length===0) { %>
             <div class="mx-auto max-w-4xl flex flex-col space-y-4 items-center justify-center">
               <img src="/images/empty.svg" alt="No Data" class="w-28">
-              <p class="text-xl font-semibold">There are no polls currently available</p>
+              <p class="text-xl">There are no polls currently available <% if (searchTerm) { %> with search text: <strong><%= searchTerm %></strong> <% } %></p>
               <a href="/user/polls/create" class="btn btn-primary">Create new poll</a>
             </div>
             <% } else { %>
@@ -55,27 +61,27 @@
                         <p class="italic">Starts <%= poll.startsAt %>
                         </p>
                         <% } else if (poll.status==='active' ) { %>
-                            <p class="italic">Ends <%= poll.endsAt %>
+                          <p class="italic">Ends <%= poll.endsAt %>
+                          </p>
+                          <% } else { %>
+                            <p class="badge badge-danger capitalize">
+                              <%= poll.status %>
                             </p>
-                            <% } else { %>
-                                <p class="badge badge-danger capitalize">
-                                    <%= poll.status %>
-                                </p>
-                                <% } %>
+                            <% } %>
 
-                      <div
-                        class="flex flex-col space-y-2 sm:space-y-0 sm:flex-row sm:justify-between sm:items-end sm:space-x-4">
-                        <div class="sm:w-1/2">
-                          <span>#lifestyle, #news, #music, #survey,</span>
-                        </div>
-                        <div class="flex flex-col sm:items-end space-y-2">
-                          <p class="font-light">Total Votes: <strong>
-                              <%= poll.votes.length %>
-                            </strong></p>
-                          <button onclick="shareLink('<%= `${app.url}/polls/${poll._id}` %>')"
-                            class="btn btn-secondary">Share Poll</button>
-                        </div>
-                      </div>
+                              <div
+                                class="flex flex-col space-y-2 sm:space-y-0 sm:flex-row sm:justify-between sm:items-end sm:space-x-4">
+                                <div class="sm:w-1/2">
+                                  <span>#lifestyle, #news, #music, #survey,</span>
+                                </div>
+                                <div class="flex flex-col sm:items-end space-y-2">
+                                  <p class="font-light">Total Votes: <strong>
+                                      <%= poll.votes.length %>
+                                    </strong></p>
+                                  <button onclick="shareLink('<%= `${app.url}/polls/${poll._id}` %>')"
+                                    class="btn btn-secondary">Share Poll</button>
+                                </div>
+                              </div>
                     </div>
 
                   </div>
@@ -87,6 +93,19 @@
         </div>
 
       </div>
+
+      <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+          const searchForm = document.querySelector('form#searchForm');
+
+          searchForm.addEventListener('submit', function (e) {
+            e.preventDefault(); // Prevent default form submission
+            const searchTerm = document.querySelector('input[name="searchTerm"]').value;
+            window.location.href = `/?searchTerm=${encodeURIComponent(searchTerm)}`; // Redirect with searchTerm only
+          });
+        });
+
+      </script>
 
   </body>
 

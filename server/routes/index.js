@@ -1,13 +1,13 @@
 import express from 'express';
 import IndexController from '../controllers/index-controller';
-import { validateParam } from '../requests/query-param-validator';
+import { validateParam, validateQuery } from '../requests/query-param-validator';
 import VoteController from '../controllers/vote-controller';
 import PollValidator from '../requests/poll-validator';
 import BaseValidator from '../requests/validator';
 const router = express.Router();
 
 /* GET home page. */
-router.get('/', IndexController.index);
+router.get('/', validateQuery('searchTerm'), IndexController.index);
 
 router.get('/polls/:id', validateParam('id'), IndexController.view)
 

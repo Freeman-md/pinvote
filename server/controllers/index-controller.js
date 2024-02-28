@@ -7,10 +7,11 @@ import GetPollDetailsWithVotesAndOptionVotesAction from "../actions/polls/get-po
 
 class IndexController {
     index = async (req, res, next) => {
-        const polls = await PollService.getAllPollsWithVotes()
+        const { searchTerm } = matchedData(req);
+
+        const polls = await PollService.getAllPollsWithVotes(searchTerm)
     
-    
-        res.render('polls/index', { title: 'PinVote', polls });
+        res.render('polls/index', { title: 'PinVote', polls, searchTerm });
     }
     
     view = async (req, res, next) => {

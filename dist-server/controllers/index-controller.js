@@ -24,19 +24,21 @@ var IndexController = /*#__PURE__*/_createClass(function IndexController() {
   _classCallCheck(this, IndexController);
   _defineProperty(this, "index", /*#__PURE__*/function () {
     var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(req, res, next) {
-      var polls;
+      var _matchedData, searchTerm, polls;
       return _regeneratorRuntime().wrap(function _callee$(_context) {
         while (1) switch (_context.prev = _context.next) {
           case 0:
-            _context.next = 2;
-            return _pollService["default"].getAllPollsWithVotes();
-          case 2:
+            _matchedData = (0, _expressValidator.matchedData)(req), searchTerm = _matchedData.searchTerm;
+            _context.next = 3;
+            return _pollService["default"].getAllPollsWithVotes(searchTerm);
+          case 3:
             polls = _context.sent;
             res.render('polls/index', {
               title: 'PinVote',
-              polls: polls
+              polls: polls,
+              searchTerm: searchTerm
             });
-          case 4:
+          case 5:
           case "end":
             return _context.stop();
         }
@@ -49,11 +51,11 @@ var IndexController = /*#__PURE__*/_createClass(function IndexController() {
   _defineProperty(this, "view", /*#__PURE__*/function () {
     var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(req, res, next) {
       var _req$session;
-      var _matchedData, pollId, userId, _yield$GetPollDetails, poll, userVote, optionVotes;
+      var _matchedData2, pollId, userId, _yield$GetPollDetails, poll, userVote, optionVotes;
       return _regeneratorRuntime().wrap(function _callee2$(_context2) {
         while (1) switch (_context2.prev = _context2.next) {
           case 0:
-            _matchedData = (0, _expressValidator.matchedData)(req), pollId = _matchedData.id;
+            _matchedData2 = (0, _expressValidator.matchedData)(req), pollId = _matchedData2.id;
             userId = (_req$session = req.session) === null || _req$session === void 0 || (_req$session = _req$session.user) === null || _req$session === void 0 ? void 0 : _req$session._id;
             _context2.next = 4;
             return _getPollWithVotesAndOptionVotes["default"].execute(pollId, userId);
