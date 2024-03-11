@@ -63,11 +63,11 @@ class PollController {
 
             await UserService.addPollToActiveUser(req, poll.id)
 
-            emitter.emit(Events.POLL_CREATED, { 
+            emitter.emit(Events.POLL_CREATED, {
                 userId: req.session.user._id,
                 pollId: poll.id,
                 pollQuestion: poll.question
-             });
+            });
 
             req.flash('info', 'Poll created successfully');
 
@@ -86,6 +86,12 @@ class PollController {
             await PollPolicy.authorize('update', req.session.user, pollId)
 
             await PollService.updatePoll(pollId, poll);
+
+            emitter.emit(Events.POLL_UPDATED, { 
+                pollId,
+                userId: req.session.user._id,
+                pollQuestion: poll.question
+             });
 
             req.flash('info', `Poll "${poll.question.substring(0, 10)}..." updated successfully`);
 

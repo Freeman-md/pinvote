@@ -65,6 +65,24 @@ var scheduler = {
       return _dispatchPollCreatedJob.apply(this, arguments);
     }
     return dispatchPollCreatedJob;
+  }(),
+  dispatchPollUpdatedJob: function () {
+    var _dispatchPollUpdatedJob = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(data) {
+      return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+        while (1) switch (_context4.prev = _context4.next) {
+          case 0:
+            _context4.next = 2;
+            return _agenda["default"].now(_events["default"].POLL_UPDATED, data);
+          case 2:
+          case "end":
+            return _context4.stop();
+        }
+      }, _callee4);
+    }));
+    function dispatchPollUpdatedJob(_x4) {
+      return _dispatchPollUpdatedJob.apply(this, arguments);
+    }
+    return dispatchPollUpdatedJob;
   }()
 };
 var _default = exports["default"] = scheduler;
