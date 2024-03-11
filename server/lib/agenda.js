@@ -29,4 +29,6 @@ class AgendaConfig {
   }
 }
 
-export default AgendaConfig.configure();
+const agenda = AgendaConfig.configure()
+
+export default agenda;

@@ -1,4 +1,4 @@
-import agenda from "../config/agenda";
+import agenda from "../lib/agenda";
 import Events from "../lib/emitter/events";
 
 const scheduler = {
