@@ -7,7 +7,17 @@ const notificationSchema = new Schema({
         type: String,
         required: true,
     },
-    notifiable: {
+    data: {
+        title: {
+            type: String,
+            required: true,
+        },
+        message: {
+            type: String,
+            required: true,
+        }
+    },
+    entity: {
         id: {
             type: Schema.Types.ObjectId,
             required: true,
@@ -22,6 +32,7 @@ const notificationSchema = new Schema({
     read_at: {
         type: Schema.Types.Date,
         required: false,
+        default: null
     }
 }, {
     timestamps: true,

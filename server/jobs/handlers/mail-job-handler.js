@@ -1,4 +1,3 @@
-// jobs/handlers/mail-job-handler.js
 import MailService from '../../services/mail-service';
 
 class MailJobHandler {

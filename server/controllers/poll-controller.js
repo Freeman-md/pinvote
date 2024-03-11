@@ -63,6 +63,12 @@ class PollController {
 
             await UserService.addPollToActiveUser(req, poll.id)
 
+            emitter.emit(Events.POLL_CREATED, { 
+                userId: req.session.user._id,
+                pollId: poll.id,
+                pollQuestion: poll.question
+             });
+
             req.flash('info', 'Poll created successfully');
 
             res.redirect('/user/polls');

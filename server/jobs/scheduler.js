@@ -1,4 +1,4 @@
-import agenda from "../lib/agenda";
+import agenda from "../config/agenda";
 import Events from "../lib/emitter/events";
 
 const scheduler = {
@@ -7,6 +7,9 @@ const scheduler = {
   },
   sendWelcomeEmail: async (data) => {
     await agenda.now(Events.NEW_USER, data);
+  },
+  dispatchPollCreatedJob: async (data) => {
+    await agenda.now(Events.POLL_CREATED, data)
   }
 }
 

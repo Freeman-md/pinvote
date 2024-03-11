@@ -10,6 +10,10 @@ const configureEventListeners = (emitter) => {
   emitter.on(Events.NEW_USER, async (data) => {
     await scheduler.sendWelcomeEmail(data);
   });
+
+  emitter.on(Events.POLL_CREATED, async (data) => {
+    await scheduler.dispatchPollCreatedJob(data)
+  })
 };
 
 export { configureEventListeners };

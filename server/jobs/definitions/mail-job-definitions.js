@@ -1,4 +1,3 @@
-// jobs/definitions/mail-job-definitions.js
 import Events from '../../lib/emitter/events';
 import MailJobHandler from '../handlers/mail-job-handler';
 

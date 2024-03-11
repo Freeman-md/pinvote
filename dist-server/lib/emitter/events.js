@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 var Events = {
   PASSWORD_RESET: 'send-password-reset-mail',
-  NEW_USER: 'send-welcome-email'
+  NEW_USER: 'send-welcome-email',
+  POLL_CREATED: 'poll-created'
 };
 var _default = exports["default"] = Events;

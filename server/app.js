@@ -2,7 +2,7 @@ import createError from 'http-errors';
 import express from 'express';
 import path from 'path';
 
-import './lib/agenda'
+import './config/agenda'
 import indexRouter from './routes/index';
 import authRouter from './routes/auth';
 import userRouter from './routes/user';

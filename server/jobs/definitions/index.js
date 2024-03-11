@@ -1,7 +1,7 @@
-// jobs/definitions/index.js
 import MailJobDefinitions from './mail-job-definitions';
+import NotificationJobDefinitions from './notification-job-definitions';
 
-const jobDefinitions = [MailJobDefinitions];
+const jobDefinitions = [MailJobDefinitions, NotificationJobDefinitions];
 
 const allDefinitions = (agenda) => {
   jobDefinitions.forEach((definition) => definition.defineJobs(agenda));

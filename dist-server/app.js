@@ -7,7 +7,7 @@ exports["default"] = void 0;
 var _httpErrors = _interopRequireDefault(require("http-errors"));
 var _express = _interopRequireDefault(require("express"));
 var _path = _interopRequireDefault(require("path"));
-require("./lib/agenda");
+require("./config/agenda");
 var _index = _interopRequireDefault(require("./routes/index"));
 var _auth = _interopRequireDefault(require("./routes/auth"));
 var _user = _interopRequireDefault(require("./routes/user"));

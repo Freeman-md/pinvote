@@ -1,4 +1,3 @@
-// lib/agenda-config.js
 import dotenv from 'dotenv';
 import { Agenda } from '@hokify/agenda';
 import { allDefinitions } from '../jobs/definitions';
@@ -30,4 +29,4 @@ class AgendaConfig {
   }
 }
 
-export default AgendaConfig;
+export default AgendaConfig.configure();

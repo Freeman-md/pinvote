@@ -1,6 +1,14 @@
-// lib/emitter/index.js
-import EventConfig from '../../config/emitter';
+import { EventEmitter } from 'events';
+import { configureEventListeners } from './listeners';
 
-const emitter = EventConfig.configure();
+class Emitter {
+    static configure() {
+        const emitter = new EventEmitter();
+        configureEventListeners(emitter);
+        return emitter;
+    }
+}
+
+const emitter = Emitter.configure();
 
 export default emitter;

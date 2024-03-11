@@ -1,5 +1,4 @@
-// jobs/schedulers/mail-scheduler.js
-import agenda from '../../lib/agenda';
+import agenda from '../../config/agenda';
 import Events from '../../lib/emitter/events';
 
 class MailScheduler {
