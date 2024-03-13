@@ -18,6 +18,10 @@ const configureEventListeners = (emitter) => {
   emitter.on(Events.POLL_UPDATED, async (data) => {
     await scheduler.dispatchPollUpdatedJob(data)
   })
+
+  emitter.on(Events.VOTE_CASTED, async (data) => {
+    await scheduler.dispatchVoteCastedJob(data)
+  })
 };
 
 export { configureEventListeners };

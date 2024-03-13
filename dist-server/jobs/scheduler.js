@@ -83,6 +83,24 @@ var scheduler = {
       return _dispatchPollUpdatedJob.apply(this, arguments);
     }
     return dispatchPollUpdatedJob;
+  }(),
+  dispatchVoteCastedJob: function () {
+    var _dispatchVoteCastedJob = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(data) {
+      return _regeneratorRuntime().wrap(function _callee5$(_context5) {
+        while (1) switch (_context5.prev = _context5.next) {
+          case 0:
+            _context5.next = 2;
+            return _agenda["default"].now(_events["default"].VOTE_CASTED, data);
+          case 2:
+          case "end":
+            return _context5.stop();
+        }
+      }, _callee5);
+    }));
+    function dispatchVoteCastedJob(_x5) {
+      return _dispatchVoteCastedJob.apply(this, arguments);
+    }
+    return dispatchVoteCastedJob;
   }()
 };
 var _default = exports["default"] = scheduler;

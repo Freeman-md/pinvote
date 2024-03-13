@@ -80,4 +80,21 @@ var configureEventListeners = exports.configureEventListeners = function configu
       return _ref4.apply(this, arguments);
     };
   }());
+  emitter.on(_events["default"].VOTE_CASTED, /*#__PURE__*/function () {
+    var _ref5 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(data) {
+      return _regeneratorRuntime().wrap(function _callee5$(_context5) {
+        while (1) switch (_context5.prev = _context5.next) {
+          case 0:
+            _context5.next = 2;
+            return _scheduler["default"].dispatchVoteCastedJob(data);
+          case 2:
+          case "end":
+            return _context5.stop();
+        }
+      }, _callee5);
+    }));
+    return function (_x5) {
+      return _ref5.apply(this, arguments);
+    };
+  }());
 };

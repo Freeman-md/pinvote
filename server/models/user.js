@@ -34,15 +34,13 @@ const userSchema = new Schema({
             return this.where({ email })
         }
     },
-    virtuals: {
-        fullName: {
-            get() {
-                return this.name.first + ' ' + this.name.last;
-            }
-        }
-    },
-    
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
 })
+
+userSchema.virtual('fullName').get(function() {
+    return this.name.first + ' ' + this.name.last;
+});
 
 const User = mongoose.model('User', userSchema)
 

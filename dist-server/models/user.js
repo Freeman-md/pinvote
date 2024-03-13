@@ -46,13 +46,15 @@ var userSchema = new Schema({
       });
     }
   },
-  virtuals: {
-    fullName: {
-      get: function get() {
-        return this.name.first + ' ' + this.name.last;
-      }
-    }
+  toJSON: {
+    virtuals: true
+  },
+  toObject: {
+    virtuals: true
   }
+});
+userSchema.virtual('fullName').get(function () {
+  return this.name.first + ' ' + this.name.last;
 });
 var User = _mongoose["default"].model('User', userSchema);
 var _default = exports["default"] = User;

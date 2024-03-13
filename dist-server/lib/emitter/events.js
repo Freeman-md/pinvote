@@ -8,6 +8,7 @@ var Events = {
   PASSWORD_RESET: 'send-password-reset-mail',
   NEW_USER: 'send-welcome-email',
   POLL_CREATED: 'poll-created',
-  POLL_UPDATED: 'poll-updated'
+  POLL_UPDATED: 'poll-updated',
+  VOTE_CASTED: 'vote-casted'
 };
 var _default = exports["default"] = Events;

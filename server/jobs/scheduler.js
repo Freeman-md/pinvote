@@ -13,6 +13,9 @@ const scheduler = {
   },
   dispatchPollUpdatedJob: async (data) => {
     await agenda.now(Events.POLL_UPDATED, data)
+  },
+  dispatchVoteCastedJob: async (data) => {
+    await agenda.now(Events.VOTE_CASTED, data)
   }
 }
 

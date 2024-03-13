@@ -1,5 +1,8 @@
 import { matchedData, validationResult } from "express-validator"
 import VoteService from "../services/vote-service"
+import PollService from "../services/poll-service"
+import Events from "../lib/emitter/events"
+import emitter from '../lib/emitter';
 
 class VoteController {
     view = async (req, res, next) => {
@@ -40,7 +43,15 @@ class VoteController {
         try {
             const { id: pollId, option } = matchedData(req)
 
+            const poll = await PollService.getPollDetails(pollId)
+
             await VoteService.recordVote(req.session?.user?._id, pollId, option)
+
+            emitter.emit(Events.VOTE_CASTED, {
+                pollId: poll.id,
+                pollQuestion: poll.question,
+                voterName: req.session?.user?.name.first,
+            });
 
             return res.status(201).json({
                 message: 'Vote recorded successfully'
