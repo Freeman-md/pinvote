@@ -47,11 +47,9 @@ class PollService {
     }
 
     static getPollsAboutToStart = async () => {
-        // Calculate the current time and the upper limit time
         const currentTime = moment();
         const upperLimitTime = moment().add(this.POLL_START_THRESHOLD, 'minutes');
 
-        // Query for polls that are about to start within the threshold
         const pollsAboutToStart = await Poll.find({
             startDate: {
                 $gt: currentTime.toDate(), // Greater than current time
@@ -62,6 +60,48 @@ class PollService {
 
         return pollsAboutToStart;
     }
+
+    static getPollsAboutToEnd = async () => {
+        const currentTime = moment();
+        const upperLimitTime = moment().add(this.POLL_END_THRESHOLD, 'minutes');
+    
+        const pollsAboutToEnd = await Poll.find({
+            endDate: {
+                $gt: currentTime.toDate(), // Greater than current time
+                $lte: upperLimitTime.toDate() // And less than or equal to the upper limit time
+            },
+            visibility: 'public'
+        }).populate('user');
+    
+        return pollsAboutToEnd;
+    };
+
+    static getPollsStarted = async () => {
+        const currentTime = moment();
+    
+        const pollsStarted = await Poll.find({
+            startDate: { $lte: currentTime.toDate() }, // Less than or equal to current time
+            $or: [
+                { endDate: { $exists: false } }, // No end date specified
+                { endDate: { $gt: currentTime.toDate() } } // Or end date is still in the future
+            ],
+            visibility: 'public'
+        }).populate('user');
+    
+        return pollsStarted;
+    };
+    
+    static getPollsEnded = async () => {
+        const currentTime = moment();
+    
+        const pollsEnded = await Poll.find({
+            endDate: { $lte: currentTime.toDate() }, // Less than or equal to current time
+            visibility: 'public'
+        }).populate('user');
+    
+        return pollsEnded;
+    };
+    
 
     static createPoll = async (data) => {
         return await Poll.create(data)

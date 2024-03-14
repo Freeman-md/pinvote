@@ -20,8 +20,8 @@ class PollAboutToStartNotification {
                 }
             });
         } else {
-            console.log('Notification for this poll and type already exists.');
-            // Handle the case where the notification exists as needed, perhaps returning null or the existing notification
+            console.log(`Notification of type "${notificationType}" for poll ID "${pollId}" already exists.`);
+
             return null;
         }
     }
