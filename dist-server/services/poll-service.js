@@ -23,6 +23,10 @@ var PollService = /*#__PURE__*/_createClass(function PollService() {
   _classCallCheck(this, PollService);
 });
 _class = PollService;
+_defineProperty(PollService, "POLL_START_THRESHOLD", 60);
+// 60 minutes (1 hour) before the poll starts
+_defineProperty(PollService, "POLL_END_THRESHOLD", 60);
+// 60 minutes (1 hour) before the poll ends
 _defineProperty(PollService, "getSortedPollsQuery", function () {
   var searchTerm = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
   return _poll["default"].find({
@@ -215,4 +219,31 @@ _defineProperty(PollService, "deletePoll", /*#__PURE__*/function () {
     return _ref9.apply(this, arguments);
   };
 }());
+_defineProperty(PollService, "checkPollsAboutToStart", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee10() {
+  var currentTime, upperLimitTime, pollsAboutToStart;
+  return _regeneratorRuntime().wrap(function _callee10$(_context10) {
+    while (1) switch (_context10.prev = _context10.next) {
+      case 0:
+        // Calculate the current time and the upper limit time
+        currentTime = (0, _moment["default"])();
+        upperLimitTime = (0, _moment["default"])().add(_class.POLL_START_THRESHOLD, 'minutes'); // Query for polls that are about to start within the threshold
+        _context10.next = 4;
+        return _poll["default"].find({
+          startDate: {
+            $gt: currentTime.toDate(),
+            // Greater than current time
+            $lte: upperLimitTime.toDate() // And less than or equal to the upper limit time
+          },
+
+          visibility: 'public'
+        }).populate('user');
+      case 4:
+        pollsAboutToStart = _context10.sent;
+        return _context10.abrupt("return", pollsAboutToStart);
+      case 6:
+      case "end":
+        return _context10.stop();
+    }
+  }, _callee10);
+})));
 var _default = exports["default"] = PollService;

@@ -3,6 +3,9 @@ import Poll from "../models/poll"
 import VoteService from "./vote-service"
 
 class PollService {
+    static POLL_START_THRESHOLD = 60; // 60 minutes (1 hour) before the poll starts
+    static POLL_END_THRESHOLD = 60; // 60 minutes (1 hour) before the poll ends
+
     static getSortedPollsQuery = (searchTerm = '') => Poll.find({
         question: new RegExp(searchTerm, 'i'),
         $or: [
@@ -14,7 +17,7 @@ class PollService {
     static getUserPolls = async (id) => {
         return await Poll.find({
             user: id,
-            
+
         }).sort({ createdAt: -1 });
     }
 
@@ -53,6 +56,23 @@ class PollService {
 
     static deletePoll = async (id) => {
         return await Poll.findByIdAndDelete(id)
+    }
+
+    static checkPollsAboutToStart = async () => {
+        // Calculate the current time and the upper limit time
+        const currentTime = moment();
+        const upperLimitTime = moment().add(this.POLL_START_THRESHOLD, 'minutes');
+
+        // Query for polls that are about to start within the threshold
+        const pollsAboutToStart = await Poll.find({
+            startDate: {
+                $gt: currentTime.toDate(), // Greater than current time
+                $lte: upperLimitTime.toDate() // And less than or equal to the upper limit time
+            },
+            visibility: 'public'
+        }).populate('user');
+
+        return pollsAboutToStart;
     }
 }
 

@@ -16,7 +16,7 @@ const scheduler = {
   },
   dispatchVoteCastedJob: async (data) => {
     await agenda.now(Events.VOTE_CASTED, data)
-  }
+  },
 }
 
 export default scheduler
