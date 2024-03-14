@@ -1,7 +1,6 @@
 import dotenv from 'dotenv';
 import { Agenda } from '@hokify/agenda';
 import { allDefinitions } from '../jobs/definitions';
-import scheduler from '../jobs/scheduler';
 import PollJobDefinitions from '../jobs/definitions/poll-job-definitions';
 import Events from './emitter/events';
 
@@ -37,7 +36,7 @@ class AgendaConfig {
 
   static async unlockStuckJobs(agenda) {
     try {
-      // Unlocking all jobs that may be stuck in a locked state
+      // Unlocking all jobs that may be stuck in a locked state cause of server unexpected shutdown
       const result = await agenda.db.collection.updateMany(
         { lockedAt: { $exists: true }, name: { $in: [
           Events.POLL_ABOUT_TO_START,

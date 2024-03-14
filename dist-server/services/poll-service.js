@@ -162,72 +162,15 @@ _defineProperty(PollService, "getPollDetailsWithUserVotes", /*#__PURE__*/functio
     return _ref6.apply(this, arguments);
   };
 }());
-_defineProperty(PollService, "createPoll", /*#__PURE__*/function () {
-  var _ref7 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7(data) {
-    return _regeneratorRuntime().wrap(function _callee7$(_context7) {
-      while (1) switch (_context7.prev = _context7.next) {
-        case 0:
-          _context7.next = 2;
-          return _poll["default"].create(data);
-        case 2:
-          return _context7.abrupt("return", _context7.sent);
-        case 3:
-        case "end":
-          return _context7.stop();
-      }
-    }, _callee7);
-  }));
-  return function (_x6) {
-    return _ref7.apply(this, arguments);
-  };
-}());
-_defineProperty(PollService, "updatePoll", /*#__PURE__*/function () {
-  var _ref8 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8(id, poll) {
-    return _regeneratorRuntime().wrap(function _callee8$(_context8) {
-      while (1) switch (_context8.prev = _context8.next) {
-        case 0:
-          _context8.next = 2;
-          return _poll["default"].findByIdAndUpdate(id, poll);
-        case 2:
-          return _context8.abrupt("return", _context8.sent);
-        case 3:
-        case "end":
-          return _context8.stop();
-      }
-    }, _callee8);
-  }));
-  return function (_x7, _x8) {
-    return _ref8.apply(this, arguments);
-  };
-}());
-_defineProperty(PollService, "deletePoll", /*#__PURE__*/function () {
-  var _ref9 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee9(id) {
-    return _regeneratorRuntime().wrap(function _callee9$(_context9) {
-      while (1) switch (_context9.prev = _context9.next) {
-        case 0:
-          _context9.next = 2;
-          return _poll["default"].findByIdAndDelete(id);
-        case 2:
-          return _context9.abrupt("return", _context9.sent);
-        case 3:
-        case "end":
-          return _context9.stop();
-      }
-    }, _callee9);
-  }));
-  return function (_x9) {
-    return _ref9.apply(this, arguments);
-  };
-}());
-_defineProperty(PollService, "checkPollsAboutToStart", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee10() {
+_defineProperty(PollService, "getPollsAboutToStart", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7() {
   var currentTime, upperLimitTime, pollsAboutToStart;
-  return _regeneratorRuntime().wrap(function _callee10$(_context10) {
-    while (1) switch (_context10.prev = _context10.next) {
+  return _regeneratorRuntime().wrap(function _callee7$(_context7) {
+    while (1) switch (_context7.prev = _context7.next) {
       case 0:
         // Calculate the current time and the upper limit time
         currentTime = (0, _moment["default"])();
         upperLimitTime = (0, _moment["default"])().add(_class.POLL_START_THRESHOLD, 'minutes'); // Query for polls that are about to start within the threshold
-        _context10.next = 4;
+        _context7.next = 4;
         return _poll["default"].find({
           startDate: {
             $gt: currentTime.toDate(),
@@ -238,12 +181,69 @@ _defineProperty(PollService, "checkPollsAboutToStart", /*#__PURE__*/_asyncToGene
           visibility: 'public'
         }).populate('user');
       case 4:
-        pollsAboutToStart = _context10.sent;
-        return _context10.abrupt("return", pollsAboutToStart);
+        pollsAboutToStart = _context7.sent;
+        return _context7.abrupt("return", pollsAboutToStart);
       case 6:
       case "end":
-        return _context10.stop();
+        return _context7.stop();
     }
-  }, _callee10);
+  }, _callee7);
 })));
+_defineProperty(PollService, "createPoll", /*#__PURE__*/function () {
+  var _ref8 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8(data) {
+    return _regeneratorRuntime().wrap(function _callee8$(_context8) {
+      while (1) switch (_context8.prev = _context8.next) {
+        case 0:
+          _context8.next = 2;
+          return _poll["default"].create(data);
+        case 2:
+          return _context8.abrupt("return", _context8.sent);
+        case 3:
+        case "end":
+          return _context8.stop();
+      }
+    }, _callee8);
+  }));
+  return function (_x6) {
+    return _ref8.apply(this, arguments);
+  };
+}());
+_defineProperty(PollService, "updatePoll", /*#__PURE__*/function () {
+  var _ref9 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee9(id, poll) {
+    return _regeneratorRuntime().wrap(function _callee9$(_context9) {
+      while (1) switch (_context9.prev = _context9.next) {
+        case 0:
+          _context9.next = 2;
+          return _poll["default"].findByIdAndUpdate(id, poll);
+        case 2:
+          return _context9.abrupt("return", _context9.sent);
+        case 3:
+        case "end":
+          return _context9.stop();
+      }
+    }, _callee9);
+  }));
+  return function (_x7, _x8) {
+    return _ref9.apply(this, arguments);
+  };
+}());
+_defineProperty(PollService, "deletePoll", /*#__PURE__*/function () {
+  var _ref10 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee10(id) {
+    return _regeneratorRuntime().wrap(function _callee10$(_context10) {
+      while (1) switch (_context10.prev = _context10.next) {
+        case 0:
+          _context10.next = 2;
+          return _poll["default"].findByIdAndDelete(id);
+        case 2:
+          return _context10.abrupt("return", _context10.sent);
+        case 3:
+        case "end":
+          return _context10.stop();
+      }
+    }, _callee10);
+  }));
+  return function (_x9) {
+    return _ref10.apply(this, arguments);
+  };
+}());
 var _default = exports["default"] = PollService;

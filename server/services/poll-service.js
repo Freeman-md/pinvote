@@ -46,19 +46,7 @@ class PollService {
         })
     }
 
-    static createPoll = async (data) => {
-        return await Poll.create(data)
-    }
-
-    static updatePoll = async (id, poll) => {
-        return await Poll.findByIdAndUpdate(id, poll)
-    }
-
-    static deletePoll = async (id) => {
-        return await Poll.findByIdAndDelete(id)
-    }
-
-    static checkPollsAboutToStart = async () => {
+    static getPollsAboutToStart = async () => {
         // Calculate the current time and the upper limit time
         const currentTime = moment();
         const upperLimitTime = moment().add(this.POLL_START_THRESHOLD, 'minutes');
@@ -73,6 +61,18 @@ class PollService {
         }).populate('user');
 
         return pollsAboutToStart;
+    }
+
+    static createPoll = async (data) => {
+        return await Poll.create(data)
+    }
+
+    static updatePoll = async (id, poll) => {
+        return await Poll.findByIdAndUpdate(id, poll)
+    }
+
+    static deletePoll = async (id) => {
+        return await Poll.findByIdAndDelete(id)
     }
 }
 
