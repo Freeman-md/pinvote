@@ -19,6 +19,12 @@ class NotificationService {
     static createNotification = async (data) => {
         return await Notification.create(data)
     }
+
+    static markAsRead = async (notificationId) => {
+        return await Notification.findByIdAndUpdate(notificationId, {
+            readAt: Date.now()
+        })
+    }
 }
 
 export default NotificationService

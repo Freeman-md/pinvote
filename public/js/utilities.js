@@ -26,3 +26,12 @@ document.getElementById('notification-dropdown-button').addEventListener('click'
         notificationDropdown.classList.add('scale-100')
     }
 })
+
+const markNotificationAsReadButtons = document.querySelectorAll('.mark-notification-as-read')
+
+markNotificationAsReadButtons.forEach(button => {
+    const notificationId = button.getAttribute('data-id')
+    button.addEventListener('click', () => {
+        markNotificationAsRead(notificationId)
+    })
+})

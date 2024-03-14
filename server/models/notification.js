@@ -1,3 +1,4 @@
+import moment from "moment"
 import mongoose from "mongoose"
 
 const Schema = mongoose.Schema
@@ -29,11 +30,15 @@ const notificationSchema = new Schema({
             enum: ['Poll']
         }
     },
-    read_at: {
+    readAt: {
         type: Schema.Types.Date,
         required: false,
         default: null
-    }
+    },
+    createdAt: {
+        type: Schema.Types.Date,
+        get: (date) => moment(date).fromNow(),
+}
 }, {
     timestamps: true,
 })
