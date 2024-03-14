@@ -31,7 +31,16 @@ const markNotificationAsReadButtons = document.querySelectorAll('.mark-notificat
 
 markNotificationAsReadButtons.forEach(button => {
     const notificationId = button.getAttribute('data-id')
-    button.addEventListener('click', () => {
-        markNotificationAsRead(notificationId)
-    })
+    
+    const handleClick = () => {
+        const notificationMarkedAsRead = markNotificationAsRead(notificationId);
+
+        if (notificationMarkedAsRead) {
+            button.removeEventListener('click', handleClick);
+
+            button.parentElement.removeChild(button);
+        }
+    };
+
+    button.addEventListener('click', handleClick);
 })

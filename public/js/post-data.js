@@ -21,21 +21,20 @@ async function postData(url = '', data = {}) {
 
 const markNotificationAsRead = async (notificationId) => {
   try {
-
-    console.log('marking notification as read')
-
     const response = await postData(`/notifications/${notificationId}/mark-as-read`)
 
     if (response.ok) {
-      console.log('notification marked as read')
+      return true
     } else {
       const error = await response.json()
 
       console.log('Response is ok but there is an error: ', error.message)
+
+      return false
     }
   } catch (error) {
     console.log(error.message)
-  } finally {
-    
+
+    return false
   }
 }
