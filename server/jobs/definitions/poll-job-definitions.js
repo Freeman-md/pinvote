@@ -10,7 +10,7 @@ class PollJobDefinitions {
   }
 
   static async runJobs(agenda) {
-    await agenda.every("5 seconds", [
+    await agenda.every("1 minute", [
       Events.POLL_ABOUT_TO_START,
       Events.POLL_STARTED,
       Events.POLL_ABOUT_TO_END,

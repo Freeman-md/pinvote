@@ -95,7 +95,7 @@ class PollService {
         const currentTime = moment();
     
         const pollsEnded = await Poll.find({
-            endDate: { $lte: currentTime.toDate() }, // Less than or equal to current time
+            endDate: { $gte: currentTime.toDate() }, // Less than or equal to current time
             visibility: 'public'
         }).populate('user');
     

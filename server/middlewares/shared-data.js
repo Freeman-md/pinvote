@@ -8,6 +8,7 @@ export const sharedDataMiddleware = async (req, res, next) => {
     const formData = req.flash('formData');
     const user = req.session.user
     const notifications = await NotificationService.getUserNotifications(user)
+    const notificationsCount = await NotificationService.getUserUnreadNotificationsCount(user)
   
     res.locals.errors = processValidationErrors(errors);
     res.locals.info = info.length > 0 ? info[0] : null;
@@ -19,6 +20,7 @@ export const sharedDataMiddleware = async (req, res, next) => {
     };
     res.locals.csrfToken = req.csrfToken();
     res.locals.notifications = notifications
+    res.locals.notificationsCount = notificationsCount
   
     next();
   };

@@ -259,7 +259,7 @@ _defineProperty(PollService, "getPollsEnded", /*#__PURE__*/_asyncToGenerator( /*
         _context10.next = 3;
         return _poll["default"].find({
           endDate: {
-            $lte: currentTime.toDate()
+            $gte: currentTime.toDate()
           },
           // Less than or equal to current time
           visibility: 'public'
