@@ -261,7 +261,7 @@ _defineProperty(PollService, "getPollsEnded", /*#__PURE__*/_asyncToGenerator( /*
           endDate: {
             $gte: currentTime.toDate()
           },
-          // Less than or equal to current time
+          // greater than or equal to current time
           visibility: 'public'
         }).populate('user');
       case 3:
