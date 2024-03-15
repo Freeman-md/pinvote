@@ -8,6 +8,7 @@ import app from '../app';
 import debugLib from 'debug';
 import http from 'http';
 import dbConnection from '../lib/db';
+import initializeWebSocketServer from './websocket';
 
 const debug = debugLib('pinvote:server');
 
@@ -29,6 +30,7 @@ async function startServer() {
      * Create HTTP server.
      */
     server = http.createServer(app);
+    initializeWebSocketServer(server)
 
     /**
      * Listen on provided port, on all network interfaces.
@@ -38,6 +40,8 @@ async function startServer() {
 
     server.on('error', onError);
     server.on('listening', onListening);
+
+    return server
   } catch (error) {
     console.error('Error starting the server:', error);
     process.exit(1);
@@ -101,6 +105,8 @@ function onListening() {
   const addr = server.address();
   const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
   debug('Listening on ' + bind);
-  
+
   console.log('Listening on ' + bind)
 }
+
+export default server

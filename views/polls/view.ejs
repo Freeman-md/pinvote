@@ -147,6 +147,8 @@
 
                                 const selectedOption = document.getElementById(`option-${optionIndex}`);
                                 selectedOption.classList.add('!bg-primary', 'text-white');
+
+                                socket.emit('vote-casted', optionText);
                             } else {
                                 const error = await response.json()
 
