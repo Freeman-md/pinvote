@@ -34,10 +34,12 @@ async function startServer() {
      * Listen on provided port, on all network interfaces.
      */
     server.listen(port);
+    
+
     server.on('error', onError);
     server.on('listening', onListening);
   } catch (error) {
-    console.error('Error connecting to the database:', error);
+    console.error('Error starting the server:', error);
     process.exit(1);
   }
 }
@@ -99,4 +101,6 @@ function onListening() {
   const addr = server.address();
   const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
   debug('Listening on ' + bind);
+  
+  console.log('Listening on ' + bind)
 }
