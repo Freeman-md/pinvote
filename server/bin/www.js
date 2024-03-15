@@ -8,7 +8,7 @@ import app from '../app';
 import debugLib from 'debug';
 import http from 'http';
 import dbConnection from '../lib/db';
-import initializeWebSocketServer from './websocket';
+import { initializeWebSocketServer } from './websocket';
 
 const debug = debugLib('pinvote:server');
 

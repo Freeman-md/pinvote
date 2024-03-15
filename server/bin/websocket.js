@@ -1,6 +1,8 @@
 import { Server } from 'socket.io';
 
-const initializeWebSocketServer = (server) => {
+let io = null;
+
+export const initializeWebSocketServer = (server) => {
   const io = new Server(server);
 
   io.on('connection', (socket) => {
@@ -18,4 +20,9 @@ const initializeWebSocketServer = (server) => {
   });
 };
 
-export default initializeWebSocketServer;
+export const getWebSocketServer = () => {
+  if (!io) {
+    throw new Error("WebSocket server has not been initialized. Please call initializeWebSocketServer first.");
+  }
+  return io;
+}
