@@ -1,4 +1,5 @@
 import { Server } from 'socket.io';
+import registerListeners from '../lib/websocket/listeners';
 
 let io = null;
 
@@ -12,11 +13,7 @@ export const initializeWebSocketServer = (server) => {
       console.log('User disconnected');
     });
 
-    socket.on('vote-casted', (option) => {
-      console.log('Vote option: ' + option);
-    });
-
-    // Add more event listeners as needed
+    registerListeners(socket)
   });
 };
 
