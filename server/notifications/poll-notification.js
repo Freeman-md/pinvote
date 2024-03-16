@@ -1,3 +1,4 @@
+import { getWebSocketServer } from "../bin/websocket";
 import Events from "../lib/emitter/events"
 import NotificationService from "../services/notification-service"
 
@@ -8,7 +9,7 @@ class PollAboutToStartNotification {
         const exists = await NotificationService.notificationExists(notificationType, pollId, this.NOTIFICATION_ENTITY_TYPE);
 
         if (!exists) {
-            return NotificationService.createNotification({
+            const notification = NotificationService.createNotification({
                 type: notificationType,
                 entity: {
                     id: pollId,
@@ -19,6 +20,10 @@ class PollAboutToStartNotification {
                     message: notificationMessage
                 }
             });
+
+            this.send({ notificationType, notificationTitle, notificationMessage, pollId })
+
+            return notification
         } else {
             console.log(`Notification of type "${notificationType}" for poll ID "${pollId}" already exists.`);
 
@@ -27,8 +32,21 @@ class PollAboutToStartNotification {
     }
     
 
-    static async send() {
-        // TODO: send notification to users with websockets
+    static async send({ notificationType, notificationTitle, notificationMessage, pollId }) {
+        console.log('sending poll notification')
+        
+        const io = getWebSocketServer()
+
+        io.emit('notification', {
+            type: notificationType,
+            title: notificationTitle,
+            message: notificationMessage,
+            entity: {
+                id: pollId,
+                type: 'Poll'
+            },
+            actionText: 'View Poll'
+        })
     }
 }
 

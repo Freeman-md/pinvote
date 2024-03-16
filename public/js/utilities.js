@@ -15,7 +15,7 @@ const shareLink = async (url) => {
     }
 }
 
-document.getElementById('notification-dropdown-button').addEventListener('click', () => {
+document.getElementById('notification-dropdown-button')?.addEventListener('click', () => {
     const notificationDropdown = document.getElementById('notification-dropdown')
 
     if (notificationDropdown.classList.contains('scale-100')) {

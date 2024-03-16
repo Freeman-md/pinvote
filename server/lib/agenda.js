@@ -13,7 +13,7 @@ class AgendaConfig {
         address: process.env.MONGO_DB_URI,
         options: { useUnifiedTopology: true },
       },
-      processEvery: '1 minute',
+      processEvery: '5 seconds',
       maxConcurrency: 20,
     });
 
