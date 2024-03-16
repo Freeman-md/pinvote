@@ -6,4 +6,5 @@ socket.on('new-vote-casted', (msg) => {
 
 socket.on('notification', (data) => {
     console.log('new notification', data)
+    addNotification(data)
 })

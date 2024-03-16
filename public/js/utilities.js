@@ -15,6 +15,26 @@ const shareLink = async (url) => {
     }
 }
 
+const addNotification = (data) => {
+    const container = document.getElementById('notification-container');
+    const notificationDiv = document.createElement('div');
+    notificationDiv.classList.add('p-2', 'mt-4', 'bg-primary/20', 'rounded', 'shadow', 'fade-in');
+    notificationDiv.innerHTML = `
+      <strong class="text-lg">${data.title}</strong>
+      <p class="text-sm">${data.message}</p>
+      <button onclick="window.location.href='${data.action.link}'" class="mt-2 text-primary">${data.action.text}</button>
+    `;
+    
+    container.appendChild(notificationDiv);
+
+    // Remove the notification after 5 seconds
+    setTimeout(() => {
+      notificationDiv.classList.replace('fade-in', 'fade-out');
+      // Wait for animation to complete before removal
+      setTimeout(() => notificationDiv.remove(), 500);
+    }, 5000);
+  }
+
 document.getElementById('notification-dropdown-button')?.addEventListener('click', () => {
     const notificationDropdown = document.getElementById('notification-dropdown')
 

@@ -45,7 +45,10 @@ class PollAboutToStartNotification {
                 id: pollId,
                 type: 'Poll'
             },
-            actionText: 'View Poll'
+            action: {
+                text: 'View Poll',
+                link: `/polls/${pollId}`
+            }
         })
     }
 }
