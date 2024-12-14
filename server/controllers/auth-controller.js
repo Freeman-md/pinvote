@@ -43,7 +43,7 @@ class AuthController {
         throw new Error('Account not created');
       }
 
-      emitter.emit(Events.NEW_USER, user);
+      // emitter.emit(Events.NEW_USER, user);
 
       req.flash('info', 'Account created successfully');
 
@@ -94,7 +94,7 @@ class AuthController {
     try {
       const { username, link } = await AuthService.requestPasswordReset(email);
 
-      emitter.emit(Events.PASSWORD_RESET, { username, email, link });
+      // emitter.emit(Events.PASSWORD_RESET, { username, email, link });
 
       req.flash('info', 'Password reset link sent. Check your email!');
 
